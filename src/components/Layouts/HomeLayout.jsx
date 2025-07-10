@@ -5,9 +5,11 @@ import Footer from '../Shared/Footer/Footer';
 
 const HomeLayout = () => {
     return (
-        <div className='py-6 bg-accent'>
+        <div className='pt-4 md:pt-6 lg:pt-8 bg-accent'>
             <Navbar></Navbar>
-            <Outlet></Outlet>
+            <div className='min-h-[50vh]'>
+                <Outlet></Outlet>
+            </div>
             <Footer></Footer>
         </div>
     );

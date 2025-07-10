@@ -1,13 +1,6 @@
 import React from 'react';
 import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuIndicator,
     NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-    NavigationMenuViewport,
 } from '@radix-ui/react-navigation-menu';
 
 
@@ -21,21 +14,16 @@ const NavbarLinks = () => {
         { name: "Donation Campaigns", path: "/donation-campaign" },
     ]
 
-    const linkClass = "text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
     return (
-        <NavigationMenu>
-            <NavigationMenuList className="flex gap-6">
-
-                {
-                    links.map((link, index) =>
-                        <NavigationMenuItem key={index}>
-                            <NavLink to={link.path} className={linkClass}>{link.name}</NavLink>
-                        </NavigationMenuItem>
-                    )
-                }
-
-            </NavigationMenuList>
-        </NavigationMenu>
+        <>
+            {
+                links.map((link, index) =>
+                    <NavigationMenuItem key={index} className=''>
+                        <NavLink to={link.path} className={`rounded-2xl p-2 font-medium text-secondary hover:text-primary transition-colors`}>{link.name}</NavLink>
+                    </NavigationMenuItem>
+                )
+            }
+        </>
     );
 };
 

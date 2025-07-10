@@ -5,9 +5,11 @@ import { Link } from 'react-router';
 const PetConnectLogo = () => {
     return (
         <Link to='/' >
-            <div className='w-14 flex items-center gap-2 border'>
-                <img src={logo} alt="pet connect logo" />
-                <h1 className='text-2xl font-extrabold'>PetConnect</h1>
+            <div className='flex items-center gap-2'>
+                <div className='w-8 md:w-12 lg:w-14'>
+                    <img src={logo} alt="pet connect logo" />
+                </div>
+                <h1 className='md:text-2xl font-extrabold font-delius-regular'>PetConnect</h1>
             </div>
         </Link>
     );

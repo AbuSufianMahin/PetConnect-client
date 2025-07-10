@@ -6,7 +6,7 @@ import {
 import { DrawerClose } from "../../ui/drawer"
 import { NavLink } from 'react-router';
 
-const NavbarLinks = () => {
+const NavbarLinks = ({setShouldCloseDrawer}) => {
 
     const links = [
         { name: "Home", path: "/" },
@@ -19,11 +19,12 @@ const NavbarLinks = () => {
             {
                 links.map((link, index) =>
                     <NavigationMenuItem key={index}>
-                        {/* <DrawerClose asChild> */}
-                            <NavLink
-                                to={link.path}
-                                className={({ isActive }) =>
-                                    `
+
+                        <NavLink
+                            onClick={() => setShouldCloseDrawer(true)}
+                            to={link.path}
+                            className={({ isActive }) =>
+                                `
                                     shadow w-full lg:w-fit lg:shadow-none
                                     relative inline-flex items-center justify-center
                                     rounded-xl px-5 py-2 text-sm font-semibold
@@ -33,12 +34,12 @@ const NavbarLinks = () => {
                                     ${isActive ? "text-white bg-primary hover" : ""}
                                     
                                 `
-                                }
-                            >
-                                <span className="relative z-10">{link.name}</span>
+                            }
+                        >
+                            <span className="relative z-10">{link.name}</span>
 
-                            </NavLink>
-                        {/* </DrawerClose> */}
+                        </NavLink>
+
                     </NavigationMenuItem>
                 )
             }

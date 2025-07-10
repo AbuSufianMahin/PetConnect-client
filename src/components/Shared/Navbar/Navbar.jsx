@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { Button } from '../../ui/button';
 import PetConnectLogo from '../PetConnectLogo/PetConnectLogo';
@@ -6,18 +6,26 @@ import NavbarLinks from './NavbarLinks';
 
 import {
     Drawer,
-    DrawerClose,
     DrawerContent,
     DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { NavigationMenu, NavigationMenuList } from '@radix-ui/react-navigation-menu';
+import { DrawerClose } from '../../ui/drawer';
 
 const Navbar = () => {
+    const [shouldCloseDrawer, setShouldCloseDrawer] = useState(false)
+    const drawerCloseRef = useRef(false);
+
+    useEffect(() => {
+        if (shouldCloseDrawer) {
+            drawerCloseRef.current.click();
+            setShouldCloseDrawer(false);
+        }
+    }, [shouldCloseDrawer])
+
     return (
         <nav className="bg-background w-11/12 md:w-10/12 mx-auto shadow-md rounded-2xl flex items-center justify-between py-2 px-6">
             <div className='flex items-center gap-2'>
@@ -35,7 +43,7 @@ const Navbar = () => {
 
                             <NavigationMenu className='flex flex-col justify-between h-full border-t-2 p-5'>
                                 <NavigationMenuList className='space-y-5'>
-                                    <NavbarLinks></NavbarLinks>
+                                    <NavbarLinks setShouldCloseDrawer={setShouldCloseDrawer}></NavbarLinks>
                                 </NavigationMenuList>
 
                                 <div className='md:hidden pt-6 border-t-2'>
@@ -45,8 +53,11 @@ const Navbar = () => {
                                     </div>
                                 </div>
                             </NavigationMenu>
-                        </DrawerContent>
 
+                            <DrawerClose asChild>
+                                <button ref={drawerCloseRef} className="hidden" />
+                            </DrawerClose>
+                        </DrawerContent>
                     </Drawer>
                 </div>
                 <PetConnectLogo></PetConnectLogo>

@@ -1,20 +1,21 @@
 import React from 'react';
-import {
-    NavigationMenuItem,
-} from '@radix-ui/react-navigation-menu';
 
-import { DrawerClose } from "../../ui/drawer"
-import { NavLink } from 'react-router';
+const NavbarLinksForSmallerDevice = () => {
 
-const NavbarLinks = ({ navbarlinks }) => {
+    const links = [
+        { name: "Home", path: "/" },
+        { name: "Pet Listing", path: "/pet-listing" },
+        { name: "Donation Campaigns", path: "/donation-campaign" },
+    ]
 
     return (
         <>
             {
-                navbarlinks.map((link, index) =>
+                links.map((link, index) =>
                     <NavigationMenuItem key={index}>
 
                         <NavLink
+                            // onClick={() => setShouldCloseDrawer(true)}
                             to={link.path}
                             className={({ isActive }) =>
                                 `
@@ -40,7 +41,4 @@ const NavbarLinks = ({ navbarlinks }) => {
     );
 };
 
-export default NavbarLinks;
-
-
-
+export default NavbarLinksForSmallerDevice;

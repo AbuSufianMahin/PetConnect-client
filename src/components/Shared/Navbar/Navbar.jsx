@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import { Button } from '../../ui/button';
 import PetConnectLogo from '../PetConnectLogo/PetConnectLogo';
 import NavbarLinks from './NavbarLinks';
@@ -11,12 +11,13 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
+
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { NavigationMenu, NavigationMenuList } from '@radix-ui/react-navigation-menu';
+import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '@radix-ui/react-navigation-menu';
 import { DrawerClose } from '../../ui/drawer';
 
 const Navbar = () => {
-    const [shouldCloseDrawer, setShouldCloseDrawer] = useState(false)
+    const [shouldCloseDrawer, setShouldCloseDrawer] = useState(false);
     const drawerCloseRef = useRef(false);
 
     useEffect(() => {
@@ -24,7 +25,13 @@ const Navbar = () => {
             drawerCloseRef.current.click();
             setShouldCloseDrawer(false);
         }
-    }, [shouldCloseDrawer])
+    }, [shouldCloseDrawer]);
+
+    const navbarlinks = [
+        { name: "Home", path: "/" },
+        { name: "Pet Listing", path: "/pet-listing" },
+        { name: "Donation Campaigns", path: "/donation-campaign" },
+    ]
 
     return (
         <nav className="bg-background w-11/12 md:w-10/12 mx-auto shadow-md rounded-2xl flex items-center justify-between py-2 px-6">
@@ -43,7 +50,33 @@ const Navbar = () => {
 
                             <NavigationMenu className='flex flex-col justify-between h-full border-t-2 p-5'>
                                 <NavigationMenuList className='space-y-5'>
-                                    <NavbarLinks setShouldCloseDrawer={setShouldCloseDrawer}></NavbarLinks>
+                                    {
+                                        navbarlinks.map((link, index) =>
+                                            <NavigationMenuItem key={index}>
+
+                                                <NavLink
+                                                    onClick={() => setShouldCloseDrawer(true)}
+                                                    to={link.path}
+                                                    className={({ isActive }) =>
+                                                        `
+                                    shadow w-full lg:w-fit lg:shadow-none
+                                    relative inline-flex items-center justify-center
+                                    rounded-xl px-5 py-2 text-sm font-semibold
+                                    transition-all duration-300 ease-in-out
+                                    backdrop-blur-md
+                                    ${!isActive ? "hover:text-primary hover:bg-primary/10" : ""}
+                                    ${isActive ? "text-white bg-primary hover" : ""}
+                                    
+                                `
+                                                    }
+                                                >
+                                                    <span className="relative z-10">{link.name}</span>
+                                                </NavLink>
+
+                                            </NavigationMenuItem>
+                                        )
+                                    }
+
                                 </NavigationMenuList>
 
                                 <div className='md:hidden pt-6 border-t-2'>
@@ -61,14 +94,16 @@ const Navbar = () => {
                     </Drawer>
                 </div>
                 <PetConnectLogo></PetConnectLogo>
-
             </div>
 
 
             <div className='hidden lg:flex'>
                 <NavigationMenu>
                     <NavigationMenuList className='flex gap-4'>
-                        <NavbarLinks></NavbarLinks>
+
+                        {/* navigation bar for large */}
+                        <NavbarLinks navbarlinks={navbarlinks}></NavbarLinks>
+
                     </NavigationMenuList>
                 </NavigationMenu>
             </div>

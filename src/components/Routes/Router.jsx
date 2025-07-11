@@ -7,13 +7,14 @@ import PetListing from "../Pages/HomeLayoutPages/PetListing/PetListing";
 import DonationCampaigns from "../Pages/HomeLayoutPages/DonationCampaings/DonationCampaigns";
 import AuthLayout from "../Layouts/AuthLayout";
 import LoginPage from "../Pages/AuthLayoutPages/LoginPage/LoginPage";
+import RegisterPage from "../Pages/AuthLayoutPages/RegisterPage/RegisterPage";
 
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: HomeLayout,
-    children : [
+    children: [
       {
         index: true,
         Component: Home
@@ -34,7 +35,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "login",
-        Component : LoginPage
+        Component: LoginPage
+      },
+      {
+        path: "register",
+        Component: RegisterPage
       }
     ]
   }

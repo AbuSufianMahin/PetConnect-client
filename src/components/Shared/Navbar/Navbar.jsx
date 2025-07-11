@@ -99,7 +99,7 @@ const Navbar = () => {
 
             <div className='hidden lg:flex'>
                 <NavigationMenu>
-                    <NavigationMenuList className='flex gap-4'>
+                    <NavigationMenuList className='flex gap-2'>
 
                         {/* navigation bar for large */}
                         <NavbarLinks navbarlinks={navbarlinks}></NavbarLinks>

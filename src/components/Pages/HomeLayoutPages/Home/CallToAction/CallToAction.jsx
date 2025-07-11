@@ -1,9 +1,10 @@
 import React from 'react';
 import { Button } from '../../../../ui/button';
 import adoptPetImg from "../../../../../assets/images/adopt-pet.jpg"
+import { NavLink } from 'react-router';
 const CallToAction = () => {
     return (
-        <section className="bg-white py-10 md:py-20 mt-5">
+        <section className="bg-white py-10 md:py-20">
             <div className="w-11/12 md:w-7/12 lg:w-9/12 mx-auto flex flex-col-reverse lg:flex-row items-center gap-6 md:gap-12">
                 {/* Text content */}
                 <div className="flex-1 text-center lg:text-left">
@@ -16,9 +17,11 @@ const CallToAction = () => {
                         Thousands of pets are waiting for a second chance. Adopt today and make a lifelong friend.
                         Your compassion could change a life — theirs and yours.
                     </p>
-                    <Button className="px-6 py-3 lg:text-lg text-white transition duration-300">
-                        Browse Pets
-                    </Button>
+                    <NavLink to="/pet-listing">
+                        <Button className="px-6 py-3 lg:text-lg text-white transition duration-300">
+                            Browse Pets
+                        </Button>
+                    </NavLink>
                 </div>
 
                 {/* Inspirational image */}

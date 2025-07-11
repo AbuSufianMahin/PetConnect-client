@@ -12,7 +12,7 @@ const AboutUs = () => {
                 "Every pet deserves kindness and a second chance at life. We encourage responsible adoption.",
         },
         {
-            icon: <FaHeart className="text-pink-600 dark:text-pink-400" size={48} />,
+            icon: <FaHeart className="text-red-500 dark:text-red-400" size={48} />,
             title: "Community Driven",
             description:
                 "Join a vibrant community passionate about making a difference for animals everywhere.",

@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAq8IwoFAWEjj4C-A8d4jzJGGvrJiiLUpU",
-  authDomain: "petconnect-adoption-platform.firebaseapp.com",
-  projectId: "petconnect-adoption-platform",
-  storageBucket: "petconnect-adoption-platform.firebasestorage.app",
-  messagingSenderId: "558003549606",
-  appId: "1:558003549606:web:4870fba301f40021d50b67"
+  apiKey: import.meta.enve.VITE_apiKey,
+  authDomain: import.meta.enve.VITE_authDomain,
+  projectId: import.meta.enve.VITE_projectId,
+  storageBucket: import.meta.enve.VITE_storageBucket,
+  messagingSenderId: import.meta.enve.VITE_messagingSenderId,
+  appId: import.meta.enve.VITE_appId
 };
 
 // Initialize Firebase

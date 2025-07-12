@@ -15,10 +15,17 @@ import {
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from '@radix-ui/react-navigation-menu';
 import { DrawerClose } from '../../ui/drawer';
+import useAuth from '../../../hooks/useAuth';
+import { Avatar, AvatarImage } from '../../ui/avatar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../ui/dropdown-menu';
 
 const Navbar = () => {
+    const { user, logOutUser } = useAuth();
+    console.log(user);
+
     const [shouldCloseDrawer, setShouldCloseDrawer] = useState(false);
     const drawerCloseRef = useRef(false);
+
 
     useEffect(() => {
         if (shouldCloseDrawer) {
@@ -32,6 +39,16 @@ const Navbar = () => {
         { name: "Pet Listing", path: "/pet-listing" },
         { name: "Donation Campaigns", path: "/donation-campaign" },
     ]
+
+    const handleLogout = () => {
+        logOutUser()
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
 
     return (
         <nav className="bg-background w-11/12 md:w-10/12 mx-auto shadow-md rounded-2xl flex items-center justify-between py-2 px-6">
@@ -108,13 +125,38 @@ const Navbar = () => {
                 </NavigationMenu>
             </div>
 
-            <div className="hidden md:flex gap-2">
-                <Link to="/login"><Button variant={"outline"} className="rounded-xl text-secondary border-primary hover:border-accent">Login</Button></Link>
-                <Link to="/register"><Button className="rounded-xl">Register</Button></Link>
+            <div className="hidden md:flex gap-2 min-w-20">
+                {
+                    user ?
+                        <div className='flex mx-auto'>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    <Avatar className="w-full h-12">
+                                        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+
+                                <DropdownMenuContent className="w-36">
+                                    <DropdownMenuItem className="text-black focus:text-secondary">
+                                        <NavLink to="/dashboard">
+                                            Dashboard
+                                        </NavLink>
+                                    </DropdownMenuItem>
+                                    <div className='text-center mt-2'>
+                                        <Button onClick={handleLogout}>
+                                            Logout
+                                        </Button>
+                                    </div>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+                        :
+                        <div className='flex gap-2 justify-center'>
+                            <Link to="/login"><Button variant={"outline"} className="rounded-xl text-secondary border-primary hover:border-accent">Login</Button></Link>
+                            <Link to="/register"><Button className="rounded-xl">Register</Button></Link>
+                        </div>
+                }
             </div>
-
-
-
         </nav>
 
     );

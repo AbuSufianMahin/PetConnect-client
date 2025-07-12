@@ -1,13 +1,13 @@
 import {
   createBrowserRouter,
 } from "react-router";
-import HomeLayout from "../Layouts/HomeLayout";
-import Home from "../Pages/HomeLayoutPages/Home/Home";
-import PetListing from "../Pages/HomeLayoutPages/PetListing/PetListing";
-import DonationCampaigns from "../Pages/HomeLayoutPages/DonationCampaings/DonationCampaigns";
-import AuthLayout from "../Layouts/AuthLayout";
-import LoginPage from "../Pages/AuthLayoutPages/LoginPage/LoginPage";
-import RegisterPage from "../Pages/AuthLayoutPages/RegisterPage/RegisterPage";
+import HomeLayout from "../components/Layouts/HomeLayout";
+import Home from "../components/Pages/HomeLayoutPages/Home/Home";
+import PetListing from "../components/Pages/HomeLayoutPages/PetListing/PetListing";
+import DonationCampaigns from "../components/Pages/HomeLayoutPages/DonationCampaings/DonationCampaigns";
+import AuthLayout from "../components/Layouts/AuthLayout";
+import LoginPage from "../components/Pages/AuthLayoutPages/LoginPage/LoginPage";
+import RegisterPage from "../components/Pages/AuthLayoutPages/RegisterPage/RegisterPage";
 
 
 export const router = createBrowserRouter([

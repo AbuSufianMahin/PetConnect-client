@@ -6,9 +6,26 @@ import { Button } from '../../../ui/button';
 
 import facebookIcon from "../../../../assets/icons/facebook.png"
 import googleIcon from "../../../../assets/icons/google.png"
+import useAuth from '../../../../hooks/useAuth';
 
 
 const LoginPage = () => {
+
+    const {user, googleLogin } = useAuth();
+
+
+    const handleGoogleSignIn = () => {
+        googleLogin()
+            .then((result) => {
+                console.log(result)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+    console.log(user);
+
+
     return (
         <div className="w-4/5 xl:w-7/10 mx-auto md:mt-8">
             <div className='space-y-2 my-5 md:w-2/3 lg:w-8/10 mx-auto text-center font-delius-regular'>
@@ -24,16 +41,12 @@ const LoginPage = () => {
                     type="email"
                     name="email"
                     placeholder="Email"
-                    // value={form.email}
-                    // onChange={handleChange}
                     required
                 />
                 <Input
                     type="password"
                     name="password"
                     placeholder="Password"
-                    // value={form.password}
-                    // onChange={handleChange}
                     required
                 />
 
@@ -56,7 +69,7 @@ const LoginPage = () => {
 
                 {/* Social buttons */}
                 <div className="flex flex-col gap-4">
-                    <Button variant="outline" className="w-full" type="button"><img src={googleIcon} className='w-4' /> Google</Button>
+                    <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn}><img src={googleIcon} className='w-4' /> Google</Button>
                     <Button variant="outline" className="w-full" type="button"><img src={facebookIcon} className='w-4' />Facebook</Button>
                 </div>
             </form>

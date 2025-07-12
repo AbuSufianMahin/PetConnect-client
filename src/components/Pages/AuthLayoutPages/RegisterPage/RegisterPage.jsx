@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Input } from '../../../ui/input';
 import { Button } from '../../../ui/button';
 
@@ -7,11 +7,11 @@ import googleIcon from "../../../../assets/icons/google.png"
 import { Link } from 'react-router';
 
 const RegisterPage = () => {
-    const fileRef = useRef(null);
-
-    const handleClick = () => {
-        fileRef.current?.click();
-    };
+    const handleRegister = (e) => {
+        e.preventDefault();
+        const CLOUDINARY_URL="cloudinary://<your_api_key>:<your_api_secret>@dlrzwaoga"
+        // console.log(e.target.);
+    }
     return (
         <div className="w-4/5 xl:w-7/10 mx-auto md:mt-8">
             <div className='space-y-2 my-5 md:w-2/3 lg:w-8/10 mx-auto text-center font-delius-regular'>
@@ -22,16 +22,14 @@ const RegisterPage = () => {
             </div>
 
             {/* Form */}
-            <form className="space-y-4 flex-1">
+            <form onSubmit={handleRegister} className="space-y-4 flex-1">
                 <Input
                     type="text"
                     name="name"
                     placeholder="Your Name"
-                    // value={form.email}
-                    // onChange={handleChange}
                     required
                 />
-                <div className="flex items-center gap-4">
+                {/* <div className="flex items-center gap-4">
                     <input
                         type="file"
                         accept="image/*"
@@ -40,34 +38,28 @@ const RegisterPage = () => {
                         className="hidden"
                     />
 
-                    <Button type="button" variant="outline" onClick={handleClick}>
+                    <Button type="button" variant="outline" onClick={handleClick} className="text-muted-foreground">
                         Upload photo
                     </Button>
 
                     <span className="text-sm text-muted-foreground">No file selected</span>
-                </div>
+                </div> */}
                 <Input
                     type="email"
                     name="email"
                     placeholder="Your Email"
-                    // value={form.email}
-                    // onChange={handleChange}
                     required
                 />
                 <Input
                     type="email"
                     name="email"
                     placeholder="Password"
-                    // value={form.email}
-                    // onChange={handleChange}
                     required
                 />
                 <Input
                     type="password"
                     name="password"
                     placeholder="Confirm Password"
-                    // value={form.password}
-                    // onChange={handleChange}
                     required
                 />
 

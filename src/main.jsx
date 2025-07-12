@@ -6,13 +6,17 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 AOS.init();
 
-import { router } from './components/Routes/Router'
 import { RouterProvider } from 'react-router'
+import AuthProvider from './contexts/AuthContext/AuthProvider';
+import { router } from './Router/Router';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <div className='font-inter'>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+
     </div>
-  </StrictMode>,
+  </StrictMode>
 )

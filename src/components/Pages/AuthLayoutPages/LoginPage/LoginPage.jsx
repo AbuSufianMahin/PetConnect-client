@@ -3,8 +3,7 @@ import PetConnectLogo from '../../../Shared/PetConnectLogo/PetConnectLogo';
 import { Input } from '../../../ui/input';
 import { Button } from '../../../ui/button';
 
-
-import facebookIcon from "../../../../assets/icons/facebook.png"
+import githubIcon from "../../../../assets/icons/github.png"
 import googleIcon from "../../../../assets/icons/google.png"
 import useAuth from '../../../../hooks/useAuth';
 
@@ -70,7 +69,7 @@ const LoginPage = () => {
                 {/* Social buttons */}
                 <div className="flex flex-col gap-4">
                     <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn}><img src={googleIcon} className='w-4' /> Google</Button>
-                    <Button variant="outline" className="w-full" type="button"><img src={facebookIcon} className='w-4' />Facebook</Button>
+                    <Button variant="outline" className="w-full" type="button"><img src={githubIcon} className='w-5' />Github</Button>
                 </div>
             </form>
 

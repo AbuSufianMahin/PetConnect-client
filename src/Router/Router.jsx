@@ -8,6 +8,7 @@ import DonationCampaigns from "../components/Pages/HomeLayoutPages/DonationCampa
 import AuthLayout from "../components/Layouts/AuthLayout";
 import LoginPage from "../components/Pages/AuthLayoutPages/LoginPage/LoginPage";
 import RegisterPage from "../components/Pages/AuthLayoutPages/RegisterPage/RegisterPage";
+import DashboardLayout from "../components/Layouts/DashboardLayout";
 
 
 export const router = createBrowserRouter([
@@ -42,5 +43,9 @@ export const router = createBrowserRouter([
         Component: RegisterPage
       }
     ]
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout></DashboardLayout>
   }
 ]);

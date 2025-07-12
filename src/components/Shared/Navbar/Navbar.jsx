@@ -18,6 +18,7 @@ import { DrawerClose } from '../../ui/drawer';
 import useAuth from '../../../hooks/useAuth';
 import { Avatar, AvatarImage } from '../../ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../ui/dropdown-menu';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip';
 
 const Navbar = () => {
     const { user, logOutUser } = useAuth();
@@ -96,11 +97,36 @@ const Navbar = () => {
 
                                 </NavigationMenuList>
 
-                                <div className='md:hidden pt-6 border-t-2'>
-                                    <div className='grid grid-cols-2 gap-2 '>
-                                        <Link to="/login"><Button className="w-full">Login</Button></Link>
-                                        <Link to="/register"><Button className="w-full">Register</Button></Link>
-                                    </div>
+                                <div className='md:hidden pt-4 border-t-2'>
+                                    {
+                                        user ?
+                                            <div className='flex items-center justify-between px-2'>
+                                                <div>
+                                                    <DropdownMenu>
+                                                        <DropdownMenuTrigger>
+                                                            <Avatar className="w-10 h-10">
+                                                                <AvatarImage src={user.photoURL} alt="@shadcn" />
+                                                            </Avatar>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent className="w-36">
+                                                            <DropdownMenuItem className="text-black focus:text-secondary">
+                                                                <NavLink to="/dashboard">
+                                                                    Dashboard
+                                                                </NavLink>
+                                                            </DropdownMenuItem>
+                                                        </DropdownMenuContent>
+                                                    </DropdownMenu>
+                                                </div>
+                                                <div>
+                                                    <Button className="text-xs" onClick={handleLogout}>Logout</Button>
+                                                </div>
+                                            </div>
+                                            :
+                                            <div className='grid grid-cols-2 gap-2 '>
+                                                <Link to="/login"><Button className="w-full">Login</Button></Link>
+                                                <Link to="/register"><Button className="w-full">Register</Button></Link>
+                                            </div>
+                                    }
                                 </div>
                             </NavigationMenu>
 
@@ -131,10 +157,20 @@ const Navbar = () => {
                         <div className='flex mx-auto'>
                             <DropdownMenu>
                                 <DropdownMenuTrigger>
-                                    <Avatar className="w-full h-12">
-                                        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                                    </Avatar>
+                                    <Tooltip asChild>
+                                        <TooltipTrigger asChild>
+                                            <Avatar className="w-full h-12">
+                                                <AvatarImage src={user.photoURL} alt="@shadcn" />
+                                            </Avatar>
+                                        </TooltipTrigger>
+                                        <TooltipContent className={"text-sm"}>
+                                            <p><span className='font-bold'>Name:</span> {user.displayName}</p>
+                                            <p><span className='font-bold'>Email:</span> {user.email}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+
                                 </DropdownMenuTrigger>
+
 
                                 <DropdownMenuContent className="w-36">
                                     <DropdownMenuItem className="text-black focus:text-secondary">

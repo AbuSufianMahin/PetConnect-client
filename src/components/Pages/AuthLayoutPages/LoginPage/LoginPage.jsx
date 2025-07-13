@@ -112,12 +112,6 @@ const LoginPage = () => {
                         {errors.password && <p className="text-red-500 mt-1 ml-1 text-xs">{errors.password.message}</p>}
                     </div>
 
-                    {/* <div className="text-right text-sm">
-                    <Link to="/forgot-password" className="text-primary hover:underline">
-                        Forgot password?
-                    </Link>
-                </div> */}
-
                     <Button type="submit" className="w-full" disabled={isValidating}>
                         Login
                         {

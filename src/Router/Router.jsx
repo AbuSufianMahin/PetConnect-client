@@ -9,6 +9,7 @@ import AuthLayout from "../components/Layouts/AuthLayout";
 import LoginPage from "../components/Pages/AuthLayoutPages/LoginPage/LoginPage";
 import RegisterPage from "../components/Pages/AuthLayoutPages/RegisterPage/RegisterPage";
 import DashboardLayout from "../components/Layouts/DashboardLayout";
+import PrivateRoute from "../components/Routes/PrivateRoute";
 
 
 export const router = createBrowserRouter([
@@ -46,6 +47,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout></DashboardLayout>
+    element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>
   }
 ]);

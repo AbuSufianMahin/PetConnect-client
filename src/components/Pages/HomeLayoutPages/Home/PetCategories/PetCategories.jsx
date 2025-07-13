@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { PawPrint, Cat, Dog, Rabbit, Fish } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { Card, CardContent } from '../../../../ui/card';
@@ -18,7 +16,7 @@ const PetCategories = () => {
     return (
         <section className="py-12 px-4 sm:px-8 md:px-16 bg-muted/50">
             <div className='mx-auto w-11/12 md:w-10/12'>
-                <h2 className="text-3xl font-bold text-center mb-8">Browse by Pet Category</h2>
+                <h2 className="text-3xl font-bold text-center mb-8 font-delius-regular">Browse by Pet Category</h2>
                 <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-3">
                     {categories.map((category, index) => (
                         <Card
@@ -30,7 +28,7 @@ const PetCategories = () => {
                                 <div className="p-3 bg-muted rounded-full group-hover:bg-white group-hover:text-secondary transition">
                                     {category.icon}
                                 </div>
-                                <span className="font-medium text-lg">{category.name}</span>
+                                <span className="font-bold text-lg">{category.name}</span>
                             </CardContent>
                         </Card>
                     ))}

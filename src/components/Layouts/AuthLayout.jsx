@@ -9,10 +9,10 @@ import PetConnectLogo from '../Shared/PetConnectLogo/PetConnectLogo';
 
 const AuthLayout = () => {
     return (
-        <div className='bg-accent border-pink-300 min-h-screen py-16'>
+        <div className='bg-accent min-h-screen py-16'>
             <div className='grid lg:grid-cols-2 md:items-center xl:items-start w-11/12 xl:w-10/12 mx-auto min-h-[80vh] rounded-2xl overflow-hidden bg-muted'>
 
-                <div className='py-6 md:py-10'>
+                <div className='py-6 md:py-8'>
                     <div className='flex justify-center'>
                         <PetConnectLogo></PetConnectLogo>
                     </div>

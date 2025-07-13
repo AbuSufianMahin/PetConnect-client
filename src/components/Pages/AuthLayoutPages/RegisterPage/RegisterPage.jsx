@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Input } from '../../../ui/input';
 import { Button } from '../../../ui/button';
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
@@ -10,14 +10,21 @@ import googleIcon from "../../../../assets/icons/google.png"
 import { Link, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../../hooks/useAuth';
+import { UploadCloud, X } from 'lucide-react';
+import useCloudinaryUpload from '../../../../hooks/useCloudynariUpload';
 import { errorAlert, successAlert } from '../../../../Utilities/sweetAlerts';
+import useAxiosPublic from '../../../../hooks/useAxiosPublic';
+
 
 const RegisterPage = () => {
     const { createUserWithEmail, updateUserInfo } = useAuth();
+    const { uploadImage } = useCloudinaryUpload();
+    const axiosPublic = useAxiosPublic();
 
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm();
 
@@ -30,20 +37,56 @@ const RegisterPage = () => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleEmailRegister = (data) => {
+    // console.log()
+    const handleEmailRegister = async (data) => {
+
         setIsSubmitting(true);
-        const { userName, email, password } = data;
+        const { userName, email, password, photoFile } = data;
+
+        const photoURL = await uploadImage(photoFile);
+
+        // file size validation
+        // if ((size / 1024 / 1024) > 2) {
+        //     alert("File too big! Must be less than 2MB");
+        //     return;
+        // }
 
         createUserWithEmail(email, password)
             .then(() => {
-                updateUserInfo({ userName })
+                updateUserInfo({ displayName: userName, photoURL })
+                    .then(() => {
+                        const userInfo = {
+                            name: userName,
+                            email: email,
+                            photoURL: photoURL,
+                            role: "user",
+                            role_created_at: new Date().toISOString(),
+                            role_updated_at: new Date().toISOString(),
+                            role_update_by: "default",
+
+                            addedPetIds: [],
+                            questedPetIds: [],
+                            donationCampaigns: [],
+
+                            isBanned: false,
+                            banned_at: null,
+                            banned_by: null,
+                        }
+
+                        axiosPublic.post("/users", userInfo)
+                            .then((res) => {
+                                console.log(res.data);
+                            });
+
+                    })
+                    .then(() => {
+                        successAlert("Welcome", "Your account has been created successfully.")
+                            .then(() => navigate("/"));
+                    })
                     .catch((error) => {
                         errorAlert("", error.message)
                         return;
                     });
-
-                successAlert("Welcome", "Your account has been created successfully.")
-                    .then(() => navigate("/"));
             })
             .catch((error) => {
                 errorAlert("Registration Failed!", error.message);
@@ -57,12 +100,34 @@ const RegisterPage = () => {
 
     }
 
-    const handleGithubSignUp = () =>{
+    const handleGithubSignUp = () => {
 
     }
-    
+
+    const [image, setImage] = useState(null);
+    const [preview, setPreview] = useState(null);
+
+    const inputRef = useRef(null);
+
+    const handleFileChange = (e) => {
+        const file = e.target.files?.[0];
+        if (file && file.type.startsWith("image/")) {
+            setImage(file);
+            setPreview(URL.createObjectURL(file));
+
+            setValue("photoFile", file, { shouldValidate: true });
+        }
+    };
+
+    const clearImage = () => {
+        setImage(null);
+        setPreview(null);
+        inputRef.current.value = "";
+        setValue("photoFile", null, { shouldValidate: true });
+    };
+
     return (
-        <div className="w-4/5 xl:w-7/10 mx-auto md:mt-8">
+        <div className="w-4/5 xl:w-7/10 mx-auto md:mt-5">
             <div className='space-y-2 my-5 md:w-2/3 lg:w-8/10 mx-auto text-center font-delius-regular'>
                 <h2 className="text-2xl font-bold">Create and Account</h2>
                 <p className="text-sm text-muted-foreground">
@@ -73,8 +138,8 @@ const RegisterPage = () => {
             <div className='md:w-8/10 mx-auto'>
                 {/* Social buttons */}
                 <div className="flex flex-col gap-4">
-                    <Button variant="outline" className="w-full" type="button"><img src={googleIcon} className='w-5' onClick={handleGoogleSignUp}/> Google</Button>
-                    <Button variant="outline" className="w-full" type="button"><img src={githubIcon} className='w-5' onClick={handleGithubSignUp}/>Github</Button>
+                    <Button variant="outline" className="w-full" type="button"><img src={googleIcon} className='w-5' onClick={handleGoogleSignUp} /> Google</Button>
+                    <Button variant="outline" className="w-full" type="button"><img src={githubIcon} className='w-5' onClick={handleGithubSignUp} />Github</Button>
                 </div>
 
                 {/* Divider */}
@@ -86,6 +151,63 @@ const RegisterPage = () => {
 
                 {/* Form */}
                 <form onSubmit={handleSubmit(handleEmailRegister)} className="space-y-4 flex-1">
+                    <div className="flex flex-col items-center gap-2">
+                        <div className="relative">
+                            {preview ?
+                                <>
+                                    <img
+                                        src={preview}
+                                        alt="Preview"
+                                        className="w-20 h-20 rounded-full object-cover border shadow"
+                                    />
+                                    <Button
+                                        size="icon"
+                                        variant="destructive"
+                                        onClick={clearImage}
+                                        className="absolute -top-2 -right-2 rounded-full h-6 w-6 p-1"
+                                    >
+                                        <X className="w-4 h-4" />
+                                    </Button>
+                                </>
+                                :
+                                <div className='flex flex-col items-center gap-2'>
+                                    <div
+                                        onClick={() => inputRef.current.click()}
+                                        className="w-20 h-20 bg-white rounded-full flex items-center justify-center border-2 border-dashed cursor-pointer hover:bg-accent transition"
+                                    >
+                                        <UploadCloud className="w-6 h-6" />
+
+                                    </div>
+                                    <p>Upload photo</p>
+                                </div>
+                            }
+                        </div>
+
+                        <Input
+                            type="file"
+                            accept="image/*"
+                            ref={inputRef}
+                            onChange={handleFileChange}
+                            className="hidden"
+                        />
+
+                        {/* Hidden registered input for validation */}
+                        <Input
+                            type="hidden"
+                            {...register("photoFile", { required: "Photo is required" })}
+                        />
+
+                        {errors.photoFile && (
+                            <p className="text-xs text-red-500">{errors.photoFile.message}</p>
+                        )}
+
+
+                        {image && (
+                            <Button variant="outline" type="button" className="text-xs px-2 md:px-3" onClick={() => inputRef.current.click()}>
+                                Change Photo
+                            </Button>
+                        )}
+                    </div>
 
                     <div>
                         <Input
@@ -95,21 +217,7 @@ const RegisterPage = () => {
                         />
                         {errors.userName && <p className='text-red-500 mt-1 ml-1 text-xs'>User name is required</p>}
                     </div>
-                    {/* <div className="flex items-center gap-4">
-                    <input
-                        type="file"
-                        accept="image/*"
-                        ref={fileRef}
-                        required
-                        className="hidden"
-                    />
 
-                    <Button type="button" variant="outline" onClick={handleClick} className="text-muted-foreground">
-                        Upload photo
-                    </Button>
-
-                    <span className="text-sm text-muted-foreground">No file selected</span>
-                </div> */}
                     <div>
                         <Input
                             type="email"

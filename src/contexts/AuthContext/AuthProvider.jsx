@@ -30,22 +30,22 @@ const AuthProvider = ({ children }) => {
         return signInWithPopup(auth, provider);
     }
 
-    const signInEmailUser = (email, password) =>{
+    const signInEmailUser = (email, password) => {
         setIsAuthLoading(true);
         return signInWithEmailAndPassword(auth, email, password);
     }
 
     const updateUserInfo = (userInfo) => {
-
-        // for (let key in userInfo) {
-        //     setUser({ ...user, [key]: userInfo[key] });
-        // }
-
-        // setUser({ ...user, photoURL: userInfo.photoURL });
+        console.log(userInfo);
         if (user) {
-            setUser({ ...user, displayName: userInfo.userName });
+            for (let key in userInfo) {
+                setUser({ ...user, [key]: userInfo[key] });
+            }
+            // setUser({ ...user, photoURL: userInfo.photoURL });
+            // setUser({ ...user, displayName: userInfo.userName });
+
         }
-        return updateProfile(auth.currentUser, { displayName: userInfo.userName });
+        return updateProfile(auth.currentUser, userInfo);
 
     }
 
@@ -63,7 +63,7 @@ const AuthProvider = ({ children }) => {
         googleLogin,
 
         signInEmailUser,
-        
+
         updateUserInfo,
 
         logOutUser

@@ -27,7 +27,7 @@ const Navbar = () => {
     const [shouldCloseDrawer, setShouldCloseDrawer] = useState(false);
     const drawerCloseRef = useRef(false);
 
-
+    
     useEffect(() => {
         if (shouldCloseDrawer) {
             drawerCloseRef.current.click();
@@ -105,7 +105,7 @@ const Navbar = () => {
                                                     <DropdownMenu>
                                                         <DropdownMenuTrigger>
                                                             <Avatar className="w-10 h-10">
-                                                                <AvatarImage src={user.photoURL} alt="@shadcn" />
+                                                                <AvatarImage src={user.photoURL || "https://github.com/shadcn.png"} alt="@shadcn" />
                                                             </Avatar>
                                                         </DropdownMenuTrigger>
                                                         <DropdownMenuContent className="w-36">

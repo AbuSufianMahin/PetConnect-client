@@ -14,10 +14,11 @@ import { UploadCloud, X } from 'lucide-react';
 import useCloudinaryUpload from '../../../../hooks/useCloudynariUpload';
 import { errorAlert, successAlert } from '../../../../Utilities/sweetAlerts';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
+import { getFirebaseAuthError } from '../../../../Utilities/getFirebaseAuthError';
 
 
 const RegisterPage = () => {
-    const { createUserWithEmail, updateUserInfo } = useAuth();
+    const { createUserWithEmail, updateUserInfo, googleLogin, githubLogin } = useAuth();
     const { uploadImage } = useCloudinaryUpload();
     const axiosPublic = useAxiosPublic();
 
@@ -43,8 +44,6 @@ const RegisterPage = () => {
         setIsSubmitting(true);
         const { userName, email, password, photoFile } = data;
 
-        const photoURL = await uploadImage(photoFile);
-
         // file size validation
         // if ((size / 1024 / 1024) > 2) {
         //     alert("File too big! Must be less than 2MB");
@@ -52,7 +51,8 @@ const RegisterPage = () => {
         // }
 
         createUserWithEmail(email, password)
-            .then(() => {
+            .then(async () => {
+                const photoURL = await uploadImage(photoFile);
                 updateUserInfo({ displayName: userName, photoURL })
                     .then(() => {
                         const userInfo = {
@@ -95,13 +95,34 @@ const RegisterPage = () => {
                 setIsSubmitting(false);
             })
     }
-
+    const [isGoogleClicked, setIsGoogleClicked] = useState(false);
     const handleGoogleSignUp = () => {
-
+        setIsGoogleClicked(true);
+        googleLogin()
+            .then(() => {
+                navigate("/");
+            })
+            .catch((error) => {
+                errorAlert("Log in Failed!", getFirebaseAuthError(error.code));
+            })
+            .finally(() => {
+                setIsGoogleClicked(false);
+            })
     }
 
+    const [isGithubClicked, setIsGithubClicked] = useState(false);
     const handleGithubSignUp = () => {
-
+        setIsGithubClicked(true);
+        githubLogin()
+            .then(() => {
+                navigate("/");
+            })
+            .catch((error) => {
+                errorAlert("Log in Failed!", getFirebaseAuthError(error.code));
+            })
+            .finally(() => {
+                setIsGithubClicked(false);
+            })
     }
 
     const [image, setImage] = useState(null);
@@ -138,8 +159,20 @@ const RegisterPage = () => {
             <div className='md:w-8/10 mx-auto'>
                 {/* Social buttons */}
                 <div className="flex flex-col gap-4">
-                    <Button variant="outline" className="w-full" type="button"><img src={googleIcon} className='w-5' onClick={handleGoogleSignUp} /> Google</Button>
-                    <Button variant="outline" className="w-full" type="button"><img src={githubIcon} className='w-5' onClick={handleGithubSignUp} />Github</Button>
+                    <Button variant="outline" className="w-full" type="button">
+                        <img src={googleIcon} className='w-5' onClick={handleGoogleSignUp} />
+                        Google
+                        {
+                            isGoogleClicked && <TbLoader className='animate-spin' />
+                        }
+                    </Button>
+                    <Button variant="outline" className="w-full" type="button">
+                        <img src={githubIcon} className='w-5' onClick={handleGithubSignUp} />
+                        Github
+                        {
+                            isGithubClicked && <TbLoader className='animate-spin' />
+                        }
+                    </Button>
                 </div>
 
                 {/* Divider */}

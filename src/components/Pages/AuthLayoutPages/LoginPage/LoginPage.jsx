@@ -11,11 +11,13 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { useForm } from 'react-hook-form';
 import { errorAlert } from '../../../../Utilities/sweetAlerts';
 import { TbLoader } from 'react-icons/tb';
+import { getFirebaseAuthError } from '../../../../Utilities/getFirebaseAuthError';
+import useAxiosPublic from '../../../../hooks/useAxiosPublic';
 
 
 const LoginPage = () => {
-
-    const { googleLogin, signInEmailUser } = useAuth();
+    const { googleLogin, githubLogin, signInEmailUser } = useAuth();
+    const axiosPublic = useAxiosPublic();
 
     const {
         register,
@@ -36,18 +38,89 @@ const LoginPage = () => {
                 navigate("/");
             })
             .catch((error) => {
-                errorAlert("Log in Failed!", error.message);
+                errorAlert("Log in Failed!", getFirebaseAuthError(error.code));
             })
-            .finally(()=> setIsValidating(false))
+            .finally(() => setIsValidating(false))
     }
+    const [isGoogleClicked, setIsGoogleClicked] = useState(false);
 
     const handleGoogleSignIn = () => {
+        setIsGoogleClicked(true);
         googleLogin()
             .then((result) => {
-                console.log(result)
+                const user = result.user;
+
+                const userInfo = {
+                    name: user.displayName,
+                    email: user.email,
+                    photoURL: user.photoURL,
+                    role: "user",
+                    role_created_at: new Date().toISOString(),
+                    role_updated_at: new Date().toISOString(),
+                    role_update_by: "default",
+
+                    addedPetIds: [],
+                    questedPetIds: [],
+                    donationCampaigns: [],
+
+                    isBanned: false,
+                    banned_at: null,
+                    banned_by: null,
+                }
+
+                return axiosPublic.post("/users", userInfo);
+            })
+            .then(() => {
+                navigate("/");
             })
             .catch((error) => {
-                console.log(error)
+                errorAlert("Log in Failed!", getFirebaseAuthError(error.code));
+            })
+            .finally(() => {
+                setIsGoogleClicked(false);
+            })
+    }
+
+
+    const [isGithubClicked, setIsGithubClicked] = useState(false);
+
+    const handleGithubSignIn = () => {
+        setIsGithubClicked(true);
+        githubLogin()
+            .then((result) => {
+                const user = result.user;
+
+                const userInfo = {
+                    name: user.displayName,
+                    email: user.email,
+                    photoURL: user.photoURL,
+                    role: "user",
+                    role_created_at: new Date().toISOString(),
+                    role_updated_at: new Date().toISOString(),
+                    role_update_by: "default",
+
+                    addedPetIds: [],
+                    questedPetIds: [],
+                    donationCampaigns: [],
+
+                    isBanned: false,
+                    banned_at: null,
+                    banned_by: null,
+                }
+
+                return axiosPublic.post("/users", userInfo);
+            })
+            .then(() => {
+                navigate("/");
+            })
+            .then(() => {
+                navigate("/");
+            })
+            .catch((error) => {
+                errorAlert("Log in Failed!", getFirebaseAuthError(error.code));
+            })
+            .finally(() => {
+                setIsGithubClicked(false);
             })
     }
 
@@ -64,8 +137,21 @@ const LoginPage = () => {
             <div className='md:w-8/10 mx-auto'>
                 {/* Social buttons */}
                 <div className="flex flex-col gap-4">
-                    <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn}><img src={googleIcon} className='w-5' /> Google</Button>
-                    <Button variant="outline" className="w-full" type="button"><img src={githubIcon} className='w-5' />Github</Button>
+                    <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn} disabled={isGoogleClicked}>
+                        <img src={googleIcon} className='w-5' />
+                        Google
+                        {
+                            isGoogleClicked && <TbLoader className='animate-spin' />
+                        }
+
+                    </Button>
+                    <Button variant="outline" className="w-full" type="button" onClick={handleGithubSignIn} disabled={isGithubClicked}>
+                        <img src={githubIcon} className='w-5' />
+                        Github
+                        {
+                            isGithubClicked && <TbLoader className='animate-spin' />
+                        }
+                    </Button>
                 </div>
 
                 {/* Divider */}

@@ -25,7 +25,6 @@ const useCloudinaryUpload = () => {
         }
         catch (error) {
             setError("Image Upload Failed");
-            console.log(error);
             return null;
         }
     }

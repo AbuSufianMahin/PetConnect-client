@@ -4,6 +4,8 @@ import { Button } from '../../ui/button';
 import PetConnectLogo from '../PetConnectLogo/PetConnectLogo';
 import NavbarLinks from './NavbarLinks';
 
+import noDP from "../../../assets/icons/user.png"
+
 import {
     Drawer,
     DrawerContent,
@@ -27,7 +29,7 @@ const Navbar = () => {
     const [shouldCloseDrawer, setShouldCloseDrawer] = useState(false);
     const drawerCloseRef = useRef(false);
 
-    
+
     useEffect(() => {
         if (shouldCloseDrawer) {
             drawerCloseRef.current.click();
@@ -105,7 +107,7 @@ const Navbar = () => {
                                                     <DropdownMenu>
                                                         <DropdownMenuTrigger>
                                                             <Avatar className="w-10 h-10">
-                                                                <AvatarImage src={user.photoURL || "https://github.com/shadcn.png"} alt="@shadcn" />
+                                                                <AvatarImage src={user.photoURL || noDP} alt="user avatar" referrerPolicy='no-referrer' />
                                                             </Avatar>
                                                         </DropdownMenuTrigger>
                                                         <DropdownMenuContent className="w-36">
@@ -151,7 +153,7 @@ const Navbar = () => {
                 </NavigationMenu>
             </div>
 
-            <div className=" hidden md:flex gap-2 min-w-20">
+            <div className="hidden md:flex gap-2 min-w-20">
                 {
                     user ?
                         <div className='flex mx-auto'>
@@ -160,7 +162,7 @@ const Navbar = () => {
                                     <Tooltip>
                                         <TooltipTrigger asChild>
                                             <Avatar className="h-12 w-12 border-2 border-green-500">
-                                                <AvatarImage src={user.photoURL || "https://github.com/shadcn.png"} alt="@shadcn" />
+                                                <AvatarImage src={user.photoURL || noDP} alt="user avatar" referrerPolicy='no-referrer' />
                                             </Avatar>
                                         </TooltipTrigger>
                                         <TooltipContent className={"text-sm"}>

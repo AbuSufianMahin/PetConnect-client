@@ -1,17 +1,45 @@
-import { Link } from 'react-router';
-import PetConnectLogo from '../../../Shared/PetConnectLogo/PetConnectLogo';
+import { Link, useNavigate } from 'react-router';
 import { Input } from '../../../ui/input';
 import { Button } from '../../../ui/button';
 
 import githubIcon from "../../../../assets/icons/github.png"
 import googleIcon from "../../../../assets/icons/google.png"
 import useAuth from '../../../../hooks/useAuth';
+import { useState } from 'react';
+
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import { useForm } from 'react-hook-form';
+import { errorAlert } from '../../../../Utilities/sweetAlerts';
+import { TbLoader } from 'react-icons/tb';
 
 
 const LoginPage = () => {
 
-    const {user, googleLogin } = useAuth();
+    const { googleLogin, signInEmailUser } = useAuth();
 
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
+    const navigate = useNavigate();
+
+    const [showPass, setShowPass] = useState(false);
+    const [isValidating, setIsValidating] = useState(false);
+
+    const handleEmailSignIn = (data) => {
+        setIsValidating(true);
+        const { email, password } = data;
+        signInEmailUser(email, password)
+            .then(() => {
+                navigate("/");
+            })
+            .catch((error) => {
+                errorAlert("Log in Failed!", error.message);
+            })
+            .finally(()=> setIsValidating(false))
+    }
 
     const handleGoogleSignIn = () => {
         googleLogin()
@@ -22,7 +50,6 @@ const LoginPage = () => {
                 console.log(error)
             })
     }
-    console.log(user);
 
 
     return (
@@ -34,52 +61,79 @@ const LoginPage = () => {
                 </p>
             </div>
 
-            {/* Form */}
-            <form className="space-y-4 flex-1">
-                <Input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                />
-                <Input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    required
-                />
+            <div className='md:w-8/10 mx-auto'>
+                {/* Social buttons */}
+                <div className="flex flex-col gap-4">
+                    <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn}><img src={googleIcon} className='w-5' /> Google</Button>
+                    <Button variant="outline" className="w-full" type="button"><img src={githubIcon} className='w-5' />Github</Button>
+                </div>
 
-                <div className="text-right text-sm">
+                {/* Divider */}
+                <div className="flex items-center my-5">
+                    <div className='border flex-1'></div>
+                    <div className='mx-2 md:mx-5 text-gray-500 text-xs sm:text-sm md:text-base'>Or Continue With</div>
+                    <div className='border flex-1'></div>
+                </div>
+
+                {/* Form */}
+                <form className="space-y-4 flex-1" onSubmit={handleSubmit(handleEmailSignIn)}>
+                    <div>
+                        <Input
+                            type="email"
+                            placeholder="Email"
+                            {...register("email", {
+                                required: "Email is required",
+                            })}
+                        />
+                        {errors.email && <p className="text-red-500 mt-1 ml-1 text-xs">{errors.email.message}</p>}
+                    </div>
+                    <div className='relative'>
+                        <Input
+                            type={showPass ? "text" : "password"}
+                            name="password"
+                            placeholder="Password"
+                            {...register("password", {
+                                required: "Password is required",
+                            })}
+                        />
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={() => setShowPass(!showPass)}
+                            className="absolute inset-y-0 right-2 flex items-center px-3 text-muted-foreground hover:text-white hover:bg-primary rounded-full"
+                        >
+                            {
+                                showPass ?
+                                    <FaRegEyeSlash />
+                                    :
+                                    <FaRegEye />
+                            }
+                        </Button>
+                        {errors.password && <p className="text-red-500 mt-1 ml-1 text-xs">{errors.password.message}</p>}
+                    </div>
+
+                    {/* <div className="text-right text-sm">
                     <Link to="/forgot-password" className="text-primary hover:underline">
                         Forgot password?
                     </Link>
-                </div>
+                </div> */}
 
-                <Button type="submit" className="w-full">
-                    Login
-                </Button>
+                    <Button type="submit" className="w-full" disabled={isValidating}>
+                        Login
+                        {
+                            isValidating && <TbLoader className='animate-spin' />
+                        }
+                    </Button>
+                </form>
 
-                {/* Divider */}
-                <div className="flex items-center">
-                    <div className='border flex-1'></div>
-                    <div className='mx-5 text-gray-500 text-xs sm:text-sm md:text-base'>Or Continue With</div>
-                    <div className='border flex-1'></div>
-                </div>
-
-                {/* Social buttons */}
-                <div className="flex flex-col gap-4">
-                    <Button variant="outline" className="w-full" type="button" onClick={handleGoogleSignIn}><img src={googleIcon} className='w-4' /> Google</Button>
-                    <Button variant="outline" className="w-full" type="button"><img src={githubIcon} className='w-5' />Github</Button>
-                </div>
-            </form>
-
-            {/* Sign up prompt */}
-            <p className="text-center text-sm mt-8">
-                Don't have an account?{" "}
-                <Link to="/register" className="text-primary hover:underline">
-                    Sign up
-                </Link>
-            </p>
+                {/* Sign up prompt */}
+                <p className="text-center text-sm mt-4 md:mt-8">
+                    Don't have an account?{" "}
+                    <Link to="/register" className="text-primary hover:underline">
+                        Sign up
+                    </Link>
+                </p>
+            </div>
         </div>
     );
 

@@ -151,16 +151,16 @@ const Navbar = () => {
                 </NavigationMenu>
             </div>
 
-            <div className="hidden md:flex gap-2 min-w-20">
+            <div className=" hidden md:flex gap-2 min-w-20">
                 {
                     user ?
                         <div className='flex mx-auto'>
                             <DropdownMenu>
                                 <DropdownMenuTrigger>
-                                    <Tooltip asChild>
+                                    <Tooltip>
                                         <TooltipTrigger asChild>
-                                            <Avatar className="w-full h-12">
-                                                <AvatarImage src={user.photoURL} alt="@shadcn" />
+                                            <Avatar className="h-12 w-12 border-2 border-green-500">
+                                                <AvatarImage src={user.photoURL || "https://github.com/shadcn.png"} alt="@shadcn" />
                                             </Avatar>
                                         </TooltipTrigger>
                                         <TooltipContent className={"text-sm"}>
@@ -168,7 +168,6 @@ const Navbar = () => {
                                             <p><span className='font-bold'>Email:</span> {user.email}</p>
                                         </TooltipContent>
                                     </Tooltip>
-
                                 </DropdownMenuTrigger>
 
 

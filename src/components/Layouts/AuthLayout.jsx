@@ -10,9 +10,9 @@ import PetConnectLogo from '../Shared/PetConnectLogo/PetConnectLogo';
 const AuthLayout = () => {
     return (
         <div className='bg-accent border-pink-300 min-h-screen py-16'>
-            <div className='grid lg:grid-cols-2 md:items-center xl:items-start w-11/12 md:w-10/12 mx-auto min-h-[80vh] rounded-2xl overflow-hidden bg-muted'>
+            <div className='grid lg:grid-cols-2 md:items-center xl:items-start w-11/12 xl:w-10/12 mx-auto min-h-[80vh] rounded-2xl overflow-hidden bg-muted'>
 
-                <div className='py-10'>
+                <div className='py-6 md:py-10'>
                     <div className='flex justify-center'>
                         <PetConnectLogo></PetConnectLogo>
                     </div>
@@ -24,9 +24,13 @@ const AuthLayout = () => {
                 </div>
 
 
-                <div className='order-1 h-full overflow-hidden bg-secondary rounded-lg lg:rounded-bl-[30%]'>
-                    <div className='flex h-full mx-auto w-fit'>
-                        <Lottie animationData={happyDog}></Lottie>
+                <div className='hidden lg:flex shadow-lg shadow-secondary order-1 h-full overflow-hidden bg-secondary lg:rounded-tl-3xl lg:rounded-bl-[30%]'>
+                    <div className='flex items-center h-full mx-auto w-fit'>
+                        <Lottie animationData={happyDog} style={
+                            {
+                                height: "40vh"
+                            }
+                        }></Lottie>
                     </div>
                 </div>
             </div>

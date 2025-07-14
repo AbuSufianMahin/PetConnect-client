@@ -24,7 +24,7 @@ const NavbarLinks = ({ navbarlinks }) => {
                                     transition-all duration-300 ease-in-out
                                     backdrop-blur-md
                                     ${!isActive ? "hover:text-primary hover:bg-primary/10" : ""}
-                                    ${isActive ? "text-white bg-primary hover" : ""}
+                                    ${isActive ? "text-white bg-primary" : ""}
                                     
                                 `
                             }

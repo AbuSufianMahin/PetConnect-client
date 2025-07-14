@@ -21,6 +21,7 @@ import useAuth from '../../../hooks/useAuth';
 import { Avatar, AvatarImage } from '../../ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../ui/dropdown-menu';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip';
+import { ChevronsUpDown } from 'lucide-react';
 
 const Navbar = () => {
     const { user, logOutUser } = useAuth();
@@ -62,13 +63,13 @@ const Navbar = () => {
                             <Button variant="outline" className="shadow-none"><RxHamburgerMenu /></Button>
                         </DrawerTrigger>
 
-                        <DrawerContent className="space-y-5 pt-5">
-                            <div className='flex justify-center'>
+                        <DrawerContent className="pt-5">
+                            <div className='flex justify-center mb-5'>
                                 <DrawerTitle><PetConnectLogo></PetConnectLogo></DrawerTitle>
                                 <DrawerDescription></DrawerDescription>
                             </div>
 
-                            <NavigationMenu className='flex flex-col justify-between h-full border-t-2 p-5'>
+                            <NavigationMenu className='flex flex-col justify-between h-full border-t-2 p-3'>
                                 <NavigationMenuList className='space-y-5'>
                                     {
                                         navbarlinks.map((link, index) =>
@@ -102,26 +103,39 @@ const Navbar = () => {
                                 <div className='md:hidden pt-4 border-t-2'>
                                     {
                                         user ?
-                                            <div className='flex items-center justify-between px-2'>
+                                            <div className='flex items-center justify-between'>
                                                 <div>
-                                                    <DropdownMenu>
-                                                        <DropdownMenuTrigger>
-                                                            <Avatar className="w-10 h-10">
-                                                                <AvatarImage src={user.photoURL || noDP} alt="user avatar" referrerPolicy='no-referrer' />
-                                                            </Avatar>
+                                                    <DropdownMenu
+                                                    >
+                                                        <DropdownMenuTrigger className="flex items-center gap-2 hover:bg-amber-800">
+                                                            <div>
+                                                                <Avatar className="w-8 h-8">
+                                                                    <AvatarImage src={user.photoURL || noDP} alt="user avatar" referrerPolicy='no-referrer' />
+                                                                </Avatar>
+                                                            </div>
+                                                            <div className='text-start text-xs'>
+                                                                <p>{user.displayName}</p>
+                                                                <p>{user.email}</p>
+                                                            </div>
+                                                            <div>
+                                                                <ChevronsUpDown className="ml-auto size-4" />
+                                                            </div>
                                                         </DropdownMenuTrigger>
-                                                        <DropdownMenuContent className="w-36">
-                                                            <DropdownMenuItem className="text-black focus:text-secondary">
-                                                                <NavLink to="/dashboard">
-                                                                    Dashboard
-                                                                </NavLink>
+                                                        <DropdownMenuContent className="w-full">
+                                                            <DropdownMenuItem className="text-black focus:text-secondary flex flex-col">
+                                                                <div className='w-full text-center shadow rounded-xl p-2'>
+                                                                    <NavLink to="/dashboard">
+                                                                        Dashboard
+                                                                    </NavLink>
+                                                                </div>
+                                                                <div>
+                                                                    <Button className="text-xs" onClick={handleLogout}>Logout</Button>
+                                                                </div>
                                                             </DropdownMenuItem>
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
                                                 </div>
-                                                <div>
-                                                    <Button className="text-xs" onClick={handleLogout}>Logout</Button>
-                                                </div>
+
                                             </div>
                                             :
                                             <div className='grid grid-cols-2 gap-2 '>
@@ -146,7 +160,7 @@ const Navbar = () => {
                 <NavigationMenu>
                     <NavigationMenuList className='flex gap-2'>
 
-                        {/* navigation bar for large */}
+                        {/* navigation bar for large devices*/}
                         <NavbarLinks navbarlinks={navbarlinks}></NavbarLinks>
 
                     </NavigationMenuList>
@@ -174,13 +188,15 @@ const Navbar = () => {
 
 
                                 <DropdownMenuContent className="w-36">
-                                    <DropdownMenuItem className="text-black focus:text-secondary">
-                                        <NavLink to="/dashboard">
+                                    <NavLink to="/dashboard">
+                                        <DropdownMenuItem className="shadow">
+
                                             Dashboard
-                                        </NavLink>
-                                    </DropdownMenuItem>
-                                    <div className='text-center mt-2'>
-                                        <Button onClick={handleLogout}>
+
+                                        </DropdownMenuItem>
+                                    </NavLink>
+                                    <div className='text-center mt-2 pt-2 border-t-2'>
+                                        <Button onClick={handleLogout} className="w-full">
                                             Logout
                                         </Button>
                                     </div>

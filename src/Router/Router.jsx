@@ -1,15 +1,24 @@
 import {
   createBrowserRouter,
 } from "react-router";
-import HomeLayout from "../components/Layouts/HomeLayout";
+
 import Home from "../components/Pages/HomeLayoutPages/Home/Home";
 import PetListing from "../components/Pages/HomeLayoutPages/PetListing/PetListing";
 import DonationCampaigns from "../components/Pages/HomeLayoutPages/DonationCampaings/DonationCampaigns";
-import AuthLayout from "../components/Layouts/AuthLayout";
+
 import LoginPage from "../components/Pages/AuthLayoutPages/LoginPage/LoginPage";
 import RegisterPage from "../components/Pages/AuthLayoutPages/RegisterPage/RegisterPage";
-import DashboardLayout from "../components/Layouts/DashboardLayout";
+
 import PrivateRoute from "../components/Routes/PrivateRoute";
+import HomeLayout from "../components/Layouts/HomeLayout/HomeLayout";
+import AuthLayout from "../components/Layouts/AuthLayout/AuthLayout";
+import DashboardLayout from "../components/Layouts/DashboardLayout/DashboardLayout";
+import AddPetPage from "../components/Pages/DashboardPages/UserDashboard/AddPet/AddPetPage";
+import MyPetsPage from "../components/Pages/DashboardPages/UserDashboard/MyPets/MyPetsPage";
+import AdoptionRequests from "../components/Pages/DashboardPages/UserDashboard/AdoptionRequests/AdoptionRequests";
+import CreateCampaignPage from "../components/Pages/DashboardPages/UserDashboard/CreateCampaign/CreateCampaignPage";
+import MyDonations from "../components/Pages/DashboardPages/UserDashboard/MyDonations/MyDonations";
+import MyCampaignsPage from "../components/Pages/DashboardPages/UserDashboard/MyCampaigns/MyCampaignsPage";
 
 
 export const router = createBrowserRouter([
@@ -47,6 +56,37 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>
+    element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+    children: [
+      {
+        index: true,
+        element: <div>ADD home</div>
+      },
+      {
+        path: "add-pet",
+        Component: AddPetPage,
+      },
+      {
+        path: "my-pets",
+        Component: MyPetsPage,
+      },
+      {
+        path: "adoption-requests",
+        Component: AdoptionRequests,
+      },
+      {
+        path: "create-donation-campaign",
+        Component: CreateCampaignPage,
+      },
+      {
+        path: "my-donation-campaigns",
+        Component: MyCampaignsPage,
+      },
+      {
+        path: "my-donations",
+        Component: MyDonations,
+      }
+
+    ]
   }
 ]);

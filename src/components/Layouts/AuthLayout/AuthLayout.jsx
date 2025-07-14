@@ -1,10 +1,10 @@
 import React from 'react';
 import { Outlet } from 'react-router';
 
-import happyDog from "../../assets/LottieAnimations/Happy Dog.json"
+import happyDog from "../../../assets/LottieAnimations/Happy Dog.json"
 import Lottie from 'lottie-react';
 
-import PetConnectLogo from '../Shared/PetConnectLogo/PetConnectLogo';
+import PetConnectLogo from '../../Shared/PetConnectLogo/PetConnectLogo';
 
 
 const AuthLayout = () => {

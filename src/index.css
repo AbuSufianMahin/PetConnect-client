@@ -140,3 +140,53 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+/* text editor tiptap */
+
+.ProseMirror p.is-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #9ca3af; /* Tailwind gray-400 */
+  pointer-events: none;
+  height: 0;
+  user-select: none;
+}
+
+.ProseMirror {
+  border: none;
+  outline: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+
+.ProseMirror ul {
+  list-style-type: disc;
+  margin-left: 1.25rem; /* Tailwind ml-5 */
+  padding-left: 0;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+  margin-left: 1.25rem;
+  padding-left: 0;
+}
+
+
+
+.rich-text-content ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  padding-left: 1rem;
+}
+
+.rich-text-content ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+  padding-left: 1rem;
+}
+
+.rich-text-content li {
+  margin-bottom: 0.5rem;
+}

@@ -14,25 +14,32 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import { NavLink } from "react-router";
+import { SidebarTrigger, useSidebar } from "../../ui/sidebar";
 
 const DashboardNavbar = ({ userLinks }) => {
+  const { toggleSidebar, isMobile } = useSidebar();
   return (
     <SidebarGroup>
       <SidebarMenu className="space-y-2 my-2">
+        {/* <SidebarTrigger className="-ml-1" /> */}
         {
           userLinks.map((item, index) =>
             <NavLink key={index} to={item.path}
-              className={({ isActive }) => `${isActive? "hover:bg-primary bg-primary text-white" : ""} rounded-lg active:scale-95`}>
+              className={({ isActive }) => `${isActive ? "hover:bg-primary bg-primary text-white" : ""} rounded-lg active:scale-95`} onClick={() => {
+                if(isMobile){
+                  toggleSidebar();
+                }
+                
+              }}>
 
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip={item.linkName} 
-                className="px-4 py-5 hover:bg-accent active:bg-accent font-semibold"
+                <SidebarMenuButton tooltip={item.linkName}
+                  className="px-4 py-5 hover:bg-accent active:bg-accent font-semibold cursor-pointer"
                 >
                   {item.icon && <item.icon />}
                   <span>{item.linkName}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-
 
             </NavLink>
           )}

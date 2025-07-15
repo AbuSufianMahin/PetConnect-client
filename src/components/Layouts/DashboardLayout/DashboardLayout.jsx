@@ -92,7 +92,7 @@ const DashboardLayout = () => {
                         </Breadcrumb> */}
                     </div>
                 </header>
-                <div className="p-10">
+                <div className="bg-accent min-h-[93vh]">
                     <Outlet></Outlet>
                 </div>
             </SidebarInset>

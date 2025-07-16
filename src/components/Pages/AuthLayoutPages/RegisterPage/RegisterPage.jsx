@@ -38,7 +38,6 @@ const RegisterPage = () => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // console.log()
     const handleEmailRegister = async (data) => {
 
         setIsSubmitting(true);
@@ -95,6 +94,31 @@ const RegisterPage = () => {
                 setIsSubmitting(false);
             })
     }
+
+    const [image, setImage] = useState(null);
+    const [preview, setPreview] = useState(null);
+
+    const inputRef = useRef(null);
+
+    const handleFileChange = (e) => {
+        const file = e.target.files?.[0];
+        if (file && file.type.startsWith("image/")) {
+            setImage(file);
+            setPreview(URL.createObjectURL(file));
+
+            setValue("photoFile", file, { shouldValidate: true });
+        }
+    };
+
+    const clearImage = () => {
+        setImage(null);
+        setPreview(null);
+        inputRef.current.value = "";
+        setValue("photoFile", null, { shouldValidate: true });
+    };
+
+
+
     const [isGoogleClicked, setIsGoogleClicked] = useState(false);
     const handleGoogleSignUp = () => {
         setIsGoogleClicked(true);
@@ -124,28 +148,6 @@ const RegisterPage = () => {
                 setIsGithubClicked(false);
             })
     }
-
-    const [image, setImage] = useState(null);
-    const [preview, setPreview] = useState(null);
-
-    const inputRef = useRef(null);
-
-    const handleFileChange = (e) => {
-        const file = e.target.files?.[0];
-        if (file && file.type.startsWith("image/")) {
-            setImage(file);
-            setPreview(URL.createObjectURL(file));
-
-            setValue("photoFile", file, { shouldValidate: true });
-        }
-    };
-
-    const clearImage = () => {
-        setImage(null);
-        setPreview(null);
-        inputRef.current.value = "";
-        setValue("photoFile", null, { shouldValidate: true });
-    };
 
     return (
         <div className="w-4/5 xl:w-7/10 mx-auto md:mt-5">

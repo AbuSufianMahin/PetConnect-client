@@ -68,8 +68,8 @@ const DashboardLayout = () => {
 
             <AppSidebar userLinks={userLinks} />
 
-            <SidebarInset className="flex-1">
-                <header className="flex border-b h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+            <SidebarInset className="flex-1 flex flex-col h-screen">
+                <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
                     <div className="flex items-center gap-2 px-4">
                         <SidebarTrigger className="-ml-1" />
                         <Separator
@@ -92,7 +92,7 @@ const DashboardLayout = () => {
                         </Breadcrumb> */}
                     </div>
                 </header>
-                <div className="bg-accent min-h-[93vh]">
+                <div className="bg-accent flex-1">
                     <Outlet></Outlet>
                 </div>
             </SidebarInset>

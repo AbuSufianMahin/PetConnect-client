@@ -11,10 +11,10 @@ import happyCat from "../../../../../assets/LottieAnimations/Lovely cats.json"
 import { ImagePlus } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 import useCloudinaryUpload from '../../../../../hooks/useCloudynariUpload';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '../../../../ui/dialog';
-import Cropper from 'react-easy-crop';
-
-import { Slider } from "../../../../ui/slider"
+import useAuth from '../../../../../hooks/useAuth';
+import { TbLoader } from 'react-icons/tb';
+import useAxiosSecure from '../../../../../hooks/useAxiosSecure';
+import { confirmAction, errorAlert, successAlert } from '../../../../../Utilities/sweetAlerts';
 
 const petCategories = [
     { value: "Dog", label: "Dog" },
@@ -27,26 +27,27 @@ const petCategories = [
 
 
 const AddPetPage = () => {
-    const { register, handleSubmit, setValue, control, formState: { errors } } = useForm()
+    const { register, handleSubmit, watch, setValue, control, formState: { errors }, reset } = useForm({
+        defaultValues: {
+            longDescription: '',
+        },
+    })
+
+
     const inputImageRef = useRef();
+    const { user } = useAuth();
     const { uploadImage } = useCloudinaryUpload();
+    const axiosSecure = useAxiosSecure();
 
-
+    const longDescription = watch('longDescription');
     const [imagePreview, setImagePreview] = useState(null);
-
-    const [selectedImage, setSelectedImage] = useState(null); // raw file
-    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-    const [crop, setCrop] = useState({ x: 0, y: 0 });
-    const [zoom, setZoom] = useState(1);
-    const [showCropModal, setShowCropModal] = useState(false);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             setImagePreview(URL.createObjectURL(file));
-
-            console.log(URL.createObjectURL(file))
-
+            setValue("petImage", file, { shouldValidate: true });
+            // console.log(URL.createObjectURL(file))
         }
     };
 
@@ -57,19 +58,67 @@ const AddPetPage = () => {
         setValue("petImage", null, { shouldValidate: true });
     }
 
-    const onPetFormSubmit = (data) => {
-        const petInfo = {
-            petName: data.petName,
-            petAge: data.petAge,
-            petCategory: data.petCategory.value,
-            petLocation: data.petLocation,
-            shortDescription: data.shortDescription,
-            longDescription: data.longDescription,
-        };
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const onPetFormSubmit = async (data) => {
+
+        const { petName, petAge, petCategory, petLocation, shortDescription, longDescription, petImage } = data;
+
+        confirmAction("Confirm Adoption Listing", "Are you sure you want to list this pet for adoption? You can edit it later if needed.", "Yes, list the pet")
+            .then(async (result) => {
+
+                try {
+                    if (result.isConfirmed) {
+                        setIsSubmitting(true);
+                        const photoURL = await uploadImage(petImage);
+                        // const photoURL = "";
+
+                        const petInfo = {
+                            petName,
+                            petAge,
+                            petCategory: petCategory.value,
+                            petLocation,
+                            shortDescription,
+                            longDescription,
+                            photoURL,
+                            isAdopted: false,
+                            createdAt: new Date().toISOString(),
+                            ownerEmail: user.email
+                        };
+
+                        axiosSecure.post('/add-pet', petInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    successAlert("Pet Listed for Adoption!", res.data.message);
+                                    reset({
+                                        petName: '',
+                                        petAge: '',
+                                        petCategory: null,
+                                        petLocation: '',
+                                        shortDescription: '',
+                                        longDescription: '',
+                                        photoURL: null,
+                                    });
+                                    clearImage();
+                                    setValue("petImage", null, { shouldValidate: false });
+                                    setValue("longDescription", null, { shouldValidate: true });
+                                }
+                            })
+                            .catch(error => {
+                                errorAlert("Unable to List Pet", error.response.data.message);
+
+                            })
+                    }
+
+                }
+                catch (error) {
+                    errorAlert("Something Went Wrong", "Could not upload photo");
+                }
+                finally {
+                    setIsSubmitting(false)
+                };
+            })
+
     }
-
-
-
 
     return (
         <div className="w-11/12 mx-auto py-10">
@@ -93,8 +142,8 @@ const AddPetPage = () => {
                             </div>
                         </div>
 
-                        <div className='grid md:grid-cols-2 gap-4'>
-                            <div className='space-y-2'>
+                        <div className='grid lg:grid-cols-2 gap-4'>
+                            <div className=' flex flex-col justify-between'>
                                 {/* Pet Age */}
                                 <div className='space-y-2'>
                                     <Label className="text-lg">Pet Age</Label>
@@ -123,9 +172,22 @@ const AddPetPage = () => {
                                         <p className="text-xs text-red-500">{errors.petCategory.message}</p>
                                     )}
                                 </div>
+                                {/* Short Description */}
+                                <div className='space-y-2'>
+                                    <Label className="text-lg">Short Description</Label>
+                                    <Textarea
+                                        className="bg-white"
+                                        placeholder="A small note or summary about the pet"
+                                        {...register("shortDescription", { required: "Please enter short description about your pet" })}
+                                    />
+
+                                </div>
+                                <div className={`${!errors.shortDescription ? "hidden" : ""}`}>
+                                    {errors.shortDescription && <p className="text-xs text-red-500 mt-2">{errors.shortDescription.message}</p>}
+                                </div>
                             </div>
 
-                            <div className="flex flex-col justify-between h-full">
+                            <div className=" flex flex-col min-h-70">
                                 <Label className="text-lg mb-2">Pet Image</Label>
 
                                 <label
@@ -137,7 +199,7 @@ const AddPetPage = () => {
                                             <img
                                                 src={imagePreview}
                                                 alt="Preview"
-                                                className="w-full h-full object-cover"
+                                                className="object-cover"
                                             />
 
 
@@ -159,8 +221,8 @@ const AddPetPage = () => {
                                     <Input className="hidden" {...register("petImage", { required: "Pet Image is Required" })}></Input>
 
                                 </label>
-                                {errors.petImage && <p className="text-xs text-red-500 text-center">{errors.petImage.message}</p>}
 
+                                {errors.petImage && <p className="text-xs text-red-500 text-center mt-2 lg:mt-4">{errors.petImage.message}</p>}
 
                                 <div>
                                     {
@@ -186,29 +248,27 @@ const AddPetPage = () => {
                                         )}
                                 </div>
                             </div>
+
+
                         </div>
 
-
-
-                        {/* Short Description */}
-                        <div className='space-y-2'>
-                            <Label className="text-lg">Short Description</Label>
-                            <Textarea
-                                className="bg-white"
-                                placeholder="A small note or summary about the pet"
-                                {...register("shortDescription", { required: "Please enter short description about your pet" })}
-                            />
-                            {errors.shortDescription && <p className="text-xs text-red-500">{errors.shortDescription.message}</p>}
-                        </div>
 
                         {/* Long Description (Tiptap WYSIWYG) */}
                         <LongDescriptionInput
                             register={register}
                             setValue={setValue}
-                            errors={errors}></LongDescriptionInput>
+                            errors={errors}
+                            longDescription={longDescription}
+                        />
+                        
                         {/* Submit Button */}
                         <div>
-                            <Button type="submit">Submit</Button>
+                            <Button type="submit" disabled={isSubmitting}>
+                                Submit
+                                {
+                                    isSubmitting && <TbLoader className='animate-spin' />
+                                }
+                            </Button>
                         </div>
                     </form>
 

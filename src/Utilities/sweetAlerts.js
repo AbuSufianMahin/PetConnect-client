@@ -16,4 +16,16 @@ const errorAlert = (title, message) => {
     });
 }
 
-export { errorAlert, successAlert };
+const confirmAction = (title, message, confirmBtnText) => {
+    return Swal.fire({
+        title: title || "Are you sure?",
+        text: message || "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: confirmBtnText || "Yes, delete it!"
+    })
+}
+
+export { errorAlert, successAlert, confirmAction };

@@ -1,10 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import useAxiosSecure from './useAxiosSecure';
 
 const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UNSIGNED_PRESET;
 
 const useCloudinaryUpload = () => {
+    const axiosSecure = useAxiosSecure()
     const [error, setError] = useState(null);
 
     const uploadImage = async (photoFile) => {
@@ -16,7 +18,7 @@ const useCloudinaryUpload = () => {
         formData.append("upload_preset", UPLOAD_PRESET);
 
         try {
-            const response = await axios.post(
+            const response = await axiosSecure.post(
                 `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
                 formData
             );

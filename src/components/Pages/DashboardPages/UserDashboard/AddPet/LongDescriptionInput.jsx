@@ -13,17 +13,11 @@ import {
 import { Label } from "../../../../ui/label";
 import { useEffect, useState } from "react";
 
-const LongDescriptionInput = ({ register, setValue, errors }) => {
-    
+const LongDescriptionInput = ({ register, setValue, errors, longDescription }) => {
+
     const [isBoldActive, setIsBoldActive] = useState(false);
     const [isItalicActive, setIsItalicActive] = useState(false);
     const [isStrikeActive, setIsStrikeActive] = useState(false);
-
-    useEffect(() => {
-        register("longDescription", {
-            required: "Please enter long description about your pet",
-        });
-    }, [register]);
 
     const editor = useEditor({
         extensions: [
@@ -32,11 +26,29 @@ const LongDescriptionInput = ({ register, setValue, errors }) => {
                 placeholder: "Write a detailed description about your pet",
             }),
         ],
-        content: "",
+        content: longDescription || "",
         onUpdate: ({ editor }) => {
-            setValue("longDescription", editor.getHTML()); // Keep form value in sync
+            const html = editor.getHTML();
+            setValue("longDescription", html, { shouldValidate: false }); // update value without triggering validation here
         },
     });
+
+    // console.log(longDescription);
+
+    useEffect(() => {
+        register("longDescription", {
+            required: "Please enter long description about your pet",
+        });
+
+    }, [register]);
+
+    useEffect(() => {
+        if (editor && longDescription !== editor.getHTML()) {
+            editor.commands.setContent(longDescription || "");
+        }
+    }, [longDescription, editor]);
+
+
     if (!editor) return null;
 
 

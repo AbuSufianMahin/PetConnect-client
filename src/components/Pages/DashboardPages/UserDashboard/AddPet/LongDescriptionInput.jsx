@@ -54,7 +54,7 @@ const LongDescriptionInput = ({ register, setValue, errors, longDescription }) =
 
     return (
         <div>
-            <Label className="mb-2 text-lg">Long Description</Label>
+            <Label className="mb-2 md:text-lg">Long Description</Label>
 
 
             <div className="border rounded-md min-h-[150px] bg-white overflow-hidden">
@@ -119,7 +119,7 @@ const LongDescriptionInput = ({ register, setValue, errors, longDescription }) =
                         </Button>
                     </div>
                 </div>
-                <div className="px-2 py-4">
+                <div className="px-2 py-4 text-xs md:text-base lg:text-lg">
                     <EditorContent editor={editor} />
                 </div>
 

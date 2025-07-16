@@ -130,39 +130,41 @@ const AddPetPage = () => {
                         <div className='grid md:grid-cols-2 gap-4'>
                             {/* Pet Name */}
                             <div className='space-y-2'>
-                                <Label className="text-lg">Pet Name</Label>
-                                <Input type="text" placeholder="Enter pet name" {...register("petName", { required: "Pet Name is Required" })} />
+                                <Label className="md:text-lg">Pet Name</Label>
+                                <Input type="text" placeholder="Enter pet name" className="text-xs md:text-base lg:text-lg" {...register("petName", { required: "Pet Name is Required" })} />
                                 {errors.petName && <p className="text-xs text-red-500">{errors.petName.message}</p>}
                             </div>
                             {/* Pet Location */}
                             <div className='space-y-2'>
-                                <Label className="text-lg">Pet Location</Label>
-                                <Input type="text" placeholder="Enter pickup location" {...register("petLocation", { required: "Pet Location is Required" })} />
+                                <Label className="md:text-lg">Pet Location</Label>
+                                <Input type="text" placeholder="Enter pickup location" className="text-xs md:text-base lg:text-lg" {...register("petLocation", { required: "Pet Location is Required" })} />
                                 {errors.petLocation && <p className="text-xs text-red-500">{errors.petLocation.message}</p>}
                             </div>
                         </div>
 
                         <div className='grid lg:grid-cols-2 gap-4'>
-                            <div className=' flex flex-col justify-between'>
+                            <div className=' flex flex-col gap-4 justify-between'>
                                 {/* Pet Age */}
                                 <div className='space-y-2'>
-                                    <Label className="text-lg">Pet Age</Label>
-                                    <Input type="number" min="0" step="0.1" placeholder="e.g. 2.5 years" {...register("petAge", { required: "Pet Age is Required" })} />
+                                    <Label className="md:text-lg">Pet Age</Label>
+                                    <Input type="number" min="0" step="0.1" placeholder="e.g. 2.5 years" className="text-xs md:text-base lg:text-lg" {...register("petAge", { required: "Pet Age is Required" })} />
                                     {errors.petAge && <p className="text-xs text-red-500">{errors.petAge.message}</p>}
                                 </div>
 
                                 {/* Pet Category */}
                                 <div className="space-y-2">
-                                    <Label className="text-lg">Pet Category</Label>
+                                    <Label className="md:text-lg">Pet Category</Label>
 
                                     <Controller
                                         name="petCategory"
+                                        
                                         control={control}
                                         rules={{ required: "Pet Category is Required" }}
                                         render={({ field }) => (
                                             <Select
                                                 {...field}
                                                 options={petCategories}
+                                                className="text-xs md:text-base lg:text-lg"
                                                 placeholder="Select pet category"
                                             />
                                         )}
@@ -174,10 +176,11 @@ const AddPetPage = () => {
                                 </div>
                                 {/* Short Description */}
                                 <div className='space-y-2'>
-                                    <Label className="text-lg">Short Description</Label>
+                                    <Label className="md:text-lg">Short Description</Label>
                                     <Textarea
-                                        className="bg-white"
+                                        className="bg-white text-xs md:text-base lg:text-lg"
                                         placeholder="A small note or summary about the pet"
+                                        
                                         {...register("shortDescription", { required: "Please enter short description about your pet" })}
                                     />
 
@@ -188,7 +191,7 @@ const AddPetPage = () => {
                             </div>
 
                             <div className=" flex flex-col min-h-70">
-                                <Label className="text-lg mb-2">Pet Image</Label>
+                                <Label className="md:text-lg mb-2">Pet Image</Label>
 
                                 <label
                                     className="flex-1 border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition overflow-hidden"

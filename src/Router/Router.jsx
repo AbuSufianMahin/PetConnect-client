@@ -19,6 +19,7 @@ import AdoptionRequests from "../components/Pages/DashboardPages/UserDashboard/A
 import CreateCampaignPage from "../components/Pages/DashboardPages/UserDashboard/CreateCampaign/CreateCampaignPage";
 import MyDonations from "../components/Pages/DashboardPages/UserDashboard/MyDonations/MyDonations";
 import MyCampaignsPage from "../components/Pages/DashboardPages/UserDashboard/MyCampaigns/MyCampaignsPage";
+import PetDetails from "../components/Pages/HomeLayoutPages/PetDetails/PetDetails";
 
 
 export const router = createBrowserRouter([
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: "pet-listing",
         Component: PetListing
+      },
+      {
+        path: "pet-details/:petId",
+        element : <PrivateRoute><PetDetails></PetDetails></PrivateRoute>
       },
       {
         path: "donation-campaign",

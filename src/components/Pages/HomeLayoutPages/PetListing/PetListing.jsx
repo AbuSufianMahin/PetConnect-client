@@ -1,12 +1,12 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
 import { Input } from '../../../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../ui/select';
 import { Button } from '../../../ui/button';
 import { useInView } from "react-intersection-observer";
 import { MapPin } from 'lucide-react';
-import { NavLink } from 'react-router';
+import { Link } from 'react-router';
 import PetSkeletonCard from './PetSkeletonCard';
 import NoPetFound from './NoPetFound';
 import useDebounce from '../../../../hooks/useDebounce';
@@ -48,7 +48,7 @@ const PetListing = () => {
                 fetchNextPage();
                 console.log("fetch new");
             }
-            console.log(inView , hasNextPage, !isFetchingNextPage);
+            console.log(inView, hasNextPage, !isFetchingNextPage);
         },
     });
 
@@ -122,11 +122,11 @@ const PetListing = () => {
 
                                                 {/* Content */}
                                                 <div className="py-3 px-2 -mt-15 z-1 bg-white rounded-t-[100%] text-center">
-                                                    <NavLink>
+                                                    <Link to={`/pet-details/${pet._id}`}>
                                                         <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-100 mb-1 hover:text-primary hover:scale-105 font-delius-regular">
                                                             {pet.petName}
                                                         </h2>
-                                                    </NavLink>
+                                                    </Link>
                                                     <div>
                                                         <p className="text-sm text-gray-600 dark:text-gray-300">
                                                             <span className="font-bold">Age:</span> {pet.petAge} years
@@ -145,7 +145,9 @@ const PetListing = () => {
 
                                             <div className='pb-5 px-10 lg:px-20 bg-white'>
                                                 <div className='flex flex-wrap gap-3'>
-                                                    <Button className="flex-1 text-xs md:text-sm">View Details</Button>
+                                                    <Link to={`/pet-details/${pet._id}`} className='flex-1'>
+                                                        <Button className="w-full text-xs md:text-sm">View Details</Button>
+                                                    </Link>
                                                     <Button className="flex-1 text-xs md:text-sm" variant={"outline"}>Request Adoption</Button>
                                                 </div>
                                             </div>
@@ -157,9 +159,11 @@ const PetListing = () => {
             </div>
 
             {isFetchingNextPage && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4 mt-6 min-h-[30vh]">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4 mt-6 min-h-[30vh]">
                     {[...Array(3)].map((_, i) => (
-                        <PetSkeletonCard key={i} />
+                        <div key={i} className={`${i === 2 ? "md:hidden xl:grid" : ""}`}>
+                            <PetSkeletonCard />
+                        </div>
                     ))}
                 </div>
             )}

@@ -7,6 +7,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import { Button } from '../../../../ui/button';
 import NoAddedPets from './NoAddedPets';
+import PetsLoadingSkeleton from './petsLoadingSkeleton';
 
 
 const MyPetsPage = () => {
@@ -38,33 +39,7 @@ const MyPetsPage = () => {
             <h1 className="text-2xl font-bold mb-6 text-center">My Added Pets</h1>
             {
                 isLoading ?
-                    <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-                        {[...Array(6)].map((_, index) => (
-                            <div key={index} className="bg-white dark:bg-gray-900 rounded-2xl shadow p-4 flex flex-col animate-pulse">
-                                {/* Pet Image */}
-                                <Skeleton height={200} className="mb-4" style={{ borderRadius: "16px" }} />
-
-                                {/* Text Skeletons */}
-                                <div className="grid gap-1">
-                                    <Skeleton height={20} width="50%" /> {/* Pet Name */}
-                                    <Skeleton height={16} width="20%" /> {/* Category */}
-                                    <Skeleton height={16} width="40%" /> {/* Age */}
-                                    <Skeleton height={16} width="40%" /> {/* Location */}
-                                    <Skeleton height={16} width="100%" count={2} /> {/* Short description */}
-                                </div>
-
-                                {/* Status badge */}
-                                <Skeleton height={16} width={100} className="my-2 rounded-full" />
-
-                                {/* Action Buttons */}
-                                <div className="grid grid-cols-3">
-                                    <Skeleton height={26} width={"70%"} />
-                                    <Skeleton height={26} width={"70%"} />
-                                    <Skeleton height={26} width={"70%"} />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                    <PetsLoadingSkeleton></PetsLoadingSkeleton>
                     :
                     <>
                         {
@@ -83,7 +58,7 @@ const MyPetsPage = () => {
                                                 />
                                             </div>
                                             <div className='px-6 py-6 bg-white rounded-t-[30%] -mt-20 h-full flex flex-col justify-between'>
-                                                <div className='text-center space-y-2'> 
+                                                <div className='text-center space-y-2'>
                                                     <h2 className="text-xl font-semibold">{pet.petName}</h2>
                                                     <p className="text-sm text-gray-500">Category: {pet.petCategory}</p>
                                                     <p className="text-sm text-gray-500">Age: {pet.petAge} years</p>
@@ -126,6 +101,7 @@ const MyPetsPage = () => {
 
                                         </div>
                                     ))}
+
 
                                 </div>
                         }

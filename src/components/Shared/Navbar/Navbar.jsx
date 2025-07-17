@@ -25,7 +25,7 @@ import { ChevronsUpDown } from 'lucide-react';
 
 const Navbar = () => {
     const { user, logOutUser } = useAuth();
-    console.log(user);
+    // console.log(user);
 
     const [shouldCloseDrawer, setShouldCloseDrawer] = useState(false);
     const drawerCloseRef = useRef(false);

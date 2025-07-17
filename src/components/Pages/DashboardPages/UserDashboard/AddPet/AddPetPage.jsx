@@ -111,6 +111,7 @@ const AddPetPage = () => {
 
                 }
                 catch (error) {
+                    console.error(error);
                     errorAlert("Something Went Wrong", "Could not upload photo");
                 }
                 finally {

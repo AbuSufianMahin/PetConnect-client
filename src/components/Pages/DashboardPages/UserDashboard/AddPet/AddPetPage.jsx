@@ -47,7 +47,6 @@ const AddPetPage = () => {
         if (file) {
             setImagePreview(URL.createObjectURL(file));
             setValue("petImage", file, { shouldValidate: true });
-            // console.log(URL.createObjectURL(file))
         }
     };
 

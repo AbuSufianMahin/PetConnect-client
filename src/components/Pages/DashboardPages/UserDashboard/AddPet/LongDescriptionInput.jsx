@@ -29,11 +29,16 @@ const LongDescriptionInput = ({ register, setValue, errors, longDescription }) =
         content: longDescription || "",
         onUpdate: ({ editor }) => {
             const html = editor.getHTML();
-            setValue("longDescription", html, { shouldValidate: false }); // update value without triggering validation here
+            
+            if(html !== "<p></p>"){
+                setValue("longDescription", html, { shouldValidate: true });
+                return;
+            }
+            setValue("longDescription", "", { shouldValidate: true });
+
         },
     });
 
-    // console.log(longDescription);
 
     useEffect(() => {
         register("longDescription", {

@@ -1,5 +1,5 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
 import { Input } from '../../../ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../ui/select';
@@ -13,12 +13,15 @@ const PetListing = () => {
     const axiosPublic = useAxiosPublic();
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
-    // console.log(selectedCategory);
 
-    const { data: allPetsData = [], isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+    const [isChangingCategory, setIsChangingCategory] = useState(false);
+
+
+    const { data: allPetsData = [], isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } = useInfiniteQuery({
         queryKey: ["all-pets"],
         queryFn: async ({ pageParam = 1 }) => {
-            const res = await axiosPublic(`/pets?page=${pageParam}&limit=6`);
+            const res = await axiosPublic(`/pets?page=${pageParam}&limit=6&category=${selectedCategory}`);
+            setIsChangingCategory(false);
             return res.data;
         },
         getNextPageParam: (lastPage, pages) => {
@@ -28,6 +31,11 @@ const PetListing = () => {
             return undefined;
         },
     });
+
+    useEffect(() => {
+        setIsChangingCategory(true);
+        refetch();
+    }, [selectedCategory]);
 
     const { ref } = useInView({
         threshold: 1,
@@ -40,13 +48,9 @@ const PetListing = () => {
     });
 
 
-    // allPetsData.pages.flatMap(page => page.pets).map((pet) => console.log(pet));
-    console.log(allPetsData.pages);
-
-
 
     return (
-        <div className="w-11/12 lg:w-9/12 mx-auto py-10">
+        <div className="w-11/12 lg:w-10/12 xl:w-9/12 mx-auto py-10 max-w-[1440px]">
             <h1 className="text-3xl font-bold text-center mb-8">Available Pets for Adoption</h1>
 
             {/* 🔍 Search + Filter */}
@@ -75,9 +79,9 @@ const PetListing = () => {
             </div>
 
             {/* 🐾 Pet Cards */}
-            <div className="grid gap-3 lg:gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-2 lg:gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
                 {
-                    isLoading ?
+                    isLoading || isChangingCategory ?
                         <>
                             {
                                 [...Array(3)].map((_, i) =>
@@ -136,7 +140,7 @@ const PetListing = () => {
             </div>
 
             {isFetchingNextPage && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 min-h-[30vh]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4 mt-6 min-h-[30vh]">
                     {[...Array(3)].map((_, i) => (
                         <PetSkeletonCard key={i} />
                     ))}

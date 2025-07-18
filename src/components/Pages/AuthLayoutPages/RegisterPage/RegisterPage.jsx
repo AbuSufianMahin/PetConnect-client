@@ -15,6 +15,8 @@ import useCloudinaryUpload from '../../../../hooks/useCloudynariUpload';
 import { errorAlert, successAlert } from '../../../../Utilities/sweetAlerts';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
 import { getFirebaseAuthError } from '../../../../Utilities/getFirebaseAuthError';
+import useSendUserDetails from '../../../../hooks/useSendUserDetails';
+import { successToast } from '../../../../Utilities/toastAlerts';
 
 
 const RegisterPage = () => {
@@ -22,6 +24,7 @@ const RegisterPage = () => {
     const { uploadImage } = useCloudinaryUpload();
     const axiosPublic = useAxiosPublic();
 
+    const sendUserDetailsToBackend = useSendUserDetails();
     const {
         register,
         handleSubmit,
@@ -117,12 +120,20 @@ const RegisterPage = () => {
         setValue("photoFile", null, { shouldValidate: true });
     };
 
-
-
     const [isGoogleClicked, setIsGoogleClicked] = useState(false);
+
     const handleGoogleSignUp = () => {
         setIsGoogleClicked(true);
         googleLogin()
+            .then(async (result) => {
+                const response = await sendUserDetailsToBackend(result);
+                if (response.isDuplicate) {
+                    successToast("Welcome back to PetConnect!", 2000)
+                }
+                else {
+                    successToast("Thanks for joining PetConnect — welcome aboard!", 2000)
+                }
+            })
             .then(() => {
                 navigate("/");
             })
@@ -135,9 +146,19 @@ const RegisterPage = () => {
     }
 
     const [isGithubClicked, setIsGithubClicked] = useState(false);
+
     const handleGithubSignUp = () => {
         setIsGithubClicked(true);
         githubLogin()
+            .then(async (result) => {
+                const response = await sendUserDetailsToBackend(result);
+                if (response.isDuplicate) {
+                    successToast("Welcome back to PetConnect!", 2000)
+                }
+                else {
+                    successToast("Thanks for joining PetConnect — welcome aboard!", 2000)
+                }
+            })
             .then(() => {
                 navigate("/");
             })
@@ -152,7 +173,7 @@ const RegisterPage = () => {
     return (
         <div className="w-4/5 xl:w-7/10 mx-auto md:mt-5">
             <div className='space-y-2 my-5 md:w-2/3 lg:w-8/10 mx-auto text-center font-delius-regular'>
-                <h2 className="text-2xl font-bold">Create and Account</h2>
+                <h2 className="text-2xl font-bold">Create an Account</h2>
                 <p className="text-sm text-muted-foreground">
                     Join our pet-loving community to adopt, donate, or list pets in need of a new home.
                 </p>
@@ -161,15 +182,15 @@ const RegisterPage = () => {
             <div className='md:w-8/10 mx-auto'>
                 {/* Social buttons */}
                 <div className="flex flex-col gap-4">
-                    <Button variant="outline" className="w-full" type="button">
-                        <img src={googleIcon} className='w-5' onClick={handleGoogleSignUp} />
+                    <Button variant="outline" className="w-full" type="button" disabled={isGoogleClicked} onClick={handleGoogleSignUp}>
+                        <img src={googleIcon} className='w-5' />
                         Google
                         {
                             isGoogleClicked && <TbLoader className='animate-spin' />
                         }
                     </Button>
-                    <Button variant="outline" className="w-full" type="button">
-                        <img src={githubIcon} className='w-5' onClick={handleGithubSignUp} />
+                    <Button variant="outline" className="w-full" type="button" disabled={isGithubClicked} onClick={handleGithubSignUp} >
+                        <img src={githubIcon} className='w-5' />
                         Github
                         {
                             isGithubClicked && <TbLoader className='animate-spin' />

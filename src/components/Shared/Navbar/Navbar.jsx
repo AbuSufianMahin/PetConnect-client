@@ -22,6 +22,7 @@ import { Avatar, AvatarImage } from '../../ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../ui/dropdown-menu';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip';
 import { ChevronsUpDown } from 'lucide-react';
+import ThemeToggler from './ThemeToggler';
 
 const Navbar = () => {
     const { user, logOutUser } = useAuth();
@@ -121,16 +122,17 @@ const Navbar = () => {
                                                                 <ChevronsUpDown className="ml-auto size-4" />
                                                             </div>
                                                         </DropdownMenuTrigger>
-                                                        <DropdownMenuContent className="w-full">
-                                                            <DropdownMenuItem className="text-black focus:text-secondary flex flex-col">
-                                                                <div className='w-full text-center shadow rounded-xl p-2'>
-                                                                    <NavLink to="/dashboard">
-                                                                        Dashboard
-                                                                    </NavLink>
-                                                                </div>
-                                                                <div>
-                                                                    <Button className="text-xs" onClick={handleLogout}>Logout</Button>
-                                                                </div>
+                                                        <DropdownMenuContent className="w-36 flex flex-col justify-between gap-1">
+                                                            <NavLink to="/dashboard">
+                                                                <DropdownMenuItem className="shadow">
+                                                                    Dashboard
+                                                                </DropdownMenuItem>
+                                                            </NavLink>
+                                                            <DropdownMenuItem className="w-full">
+                                                                <ThemeToggler></ThemeToggler>
+                                                            </DropdownMenuItem>
+                                                            <DropdownMenuItem className={"w-full p-0 border"}>
+                                                                <Button className="text-xs w-full" onClick={handleLogout}>Logout</Button>
                                                             </DropdownMenuItem>
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
@@ -186,15 +188,15 @@ const Navbar = () => {
                                     </Tooltip>
                                 </DropdownMenuTrigger>
 
-
                                 <DropdownMenuContent className="w-36">
                                     <NavLink to="/dashboard">
                                         <DropdownMenuItem className="shadow">
-
                                             Dashboard
-
                                         </DropdownMenuItem>
                                     </NavLink>
+                                    <div className='mt-2'>
+                                        <ThemeToggler></ThemeToggler>
+                                    </div>
                                     <div className='text-center mt-2 pt-2 border-t-2'>
                                         <Button onClick={handleLogout} className="w-full">
                                             Logout

@@ -122,11 +122,12 @@ const PetListing = () => {
 
                                                 {/* Content */}
                                                 <div className="py-3 px-2 -mt-15 z-1 bg-white rounded-t-[100%] text-center">
-                                                    <Link to={`/pet-details/${pet._id}`}>
-                                                        <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-100 mb-1 hover:text-primary hover:scale-105 font-delius-regular">
+                                                    <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-100 mb-1 hover:text-primary hover:scale-105 font-delius-regular">
+                                                        <Link to={`/pet-details/${pet._id}`}>
                                                             {pet.petName}
-                                                        </h2>
-                                                    </Link>
+                                                        </Link>
+                                                    </h2>
+
                                                     <div>
                                                         <p className="text-sm text-gray-600 dark:text-gray-300">
                                                             <span className="font-bold">Age:</span> {pet.petAge} years
@@ -158,17 +159,19 @@ const PetListing = () => {
                 }
             </div>
 
-            {isFetchingNextPage && (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4 mt-6 min-h-[30vh]">
-                    {[...Array(3)].map((_, i) => (
-                        <div key={i} className={`${i === 2 ? "md:hidden xl:grid" : ""}`}>
-                            <PetSkeletonCard />
-                        </div>
-                    ))}
-                </div>
-            )}
+            {
+                isFetchingNextPage && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4 mt-6 min-h-[30vh]">
+                        {[...Array(3)].map((_, i) => (
+                            <div key={i} className={`${i === 2 ? "md:hidden xl:grid" : ""}`}>
+                                <PetSkeletonCard />
+                            </div>
+                        ))}
+                    </div>
+                )
+            }
             <div ref={ref} id="scroll-sentinel" className="mt-5 h-4" />
-        </div>
+        </div >
     );
 };
 

@@ -12,13 +12,13 @@ import { useForm } from 'react-hook-form';
 import { errorAlert } from '../../../../Utilities/sweetAlerts';
 import { TbLoader } from 'react-icons/tb';
 import { getFirebaseAuthError } from '../../../../Utilities/getFirebaseAuthError';
-import useAxiosPublic from '../../../../hooks/useAxiosPublic';
+import useSendUserDetails from '../../../../hooks/useSendUserDetails';
+import { successToast } from '../../../../Utilities/toastAlerts';
 
 
 const LoginPage = () => {
     const { googleLogin, githubLogin, signInEmailUser } = useAuth();
-    const axiosPublic = useAxiosPublic();
-
+    const sendUserDetailsToBackend = useSendUserDetails();
     const {
         register,
         handleSubmit,
@@ -47,28 +47,14 @@ const LoginPage = () => {
     const handleGoogleSignIn = () => {
         setIsGoogleClicked(true);
         googleLogin()
-            .then((result) => {
-                const user = result.user;
-
-                const userInfo = {
-                    name: user.displayName,
-                    email: user.email,
-                    photoURL: user.photoURL,
-                    role: "user",
-                    role_created_at: new Date().toISOString(),
-                    role_updated_at: new Date().toISOString(),
-                    role_update_by: "default",
-
-                    addedPetIds: [],
-                    questedPetIds: [],
-                    donationCampaigns: [],
-
-                    isBanned: false,
-                    banned_at: null,
-                    banned_by: null,
+            .then(async (result) => {
+                const response = await sendUserDetailsToBackend(result);
+                if (response.isDuplicate) {
+                    successToast("Welcome back to PetConnect!", 2000)
                 }
-
-                return axiosPublic.post("/users", userInfo);
+                else {
+                    successToast("Thanks for joining PetConnect — welcome aboard!", 2000)
+                }
             })
             .then(() => {
                 navigate("/");
@@ -87,31 +73,17 @@ const LoginPage = () => {
     const handleGithubSignIn = () => {
         setIsGithubClicked(true);
         githubLogin()
-            .then((result) => {
-                const user = result.user;
-
-                const userInfo = {
-                    name: user.displayName,
-                    email: user.email,
-                    photoURL: user.photoURL,
-                    role: "user",
-                    role_created_at: new Date().toISOString(),
-                    role_updated_at: new Date().toISOString(),
-                    role_update_by: "default",
-
-                    addedPetIds: [],
-                    questedPetIds: [],
-                    donationCampaigns: [],
-
-                    isBanned: false,
-                    banned_at: null,
-                    banned_by: null,
+            .then(async (result) => {
+                const response = await sendUserDetailsToBackend(result);
+                if (response.isDuplicate) {
+                    successToast("Welcome back to PetConnect!", 2000)
                 }
-
-                return axiosPublic.post("/users", userInfo);
+                else {
+                    successToast("Thanks for joining PetConnect — welcome aboard!", 2000)
+                }
             })
             .then(() => {
-                navigate("/");
+                // navigate("/");
             })
             .then(() => {
                 navigate("/");

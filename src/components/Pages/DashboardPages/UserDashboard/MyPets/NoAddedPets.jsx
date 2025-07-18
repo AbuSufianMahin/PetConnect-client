@@ -2,6 +2,7 @@ import React from 'react';
 import Lottie from 'lottie-react';
 import noDataFound from "../../../../../assets/LottieAnimations/no data found.json"
 import { NavLink } from 'react-router';
+import { Button } from '../../../../ui/button';
 const NoAddedPets = () => {
     return (
         <div className="flex flex-col items-center justify-center text-center">

@@ -4,14 +4,16 @@ import { Link, useParams } from 'react-router';
 import useAuth from '../../../../hooks/useAuth';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
 import DOMPurify from "dompurify";
-import { Card, CardContent } from '../../../ui/card';
 import { Separator } from '../../../ui/separator';
-import { ArrowLeft, BadgeCheck, CalendarIcon, MapPinIcon, PawPrintIcon, UserRound } from 'lucide-react';
+import { ArrowLeft, BadgeCheck, CalendarIcon, ImagePlus, MapPinIcon, PawPrintIcon, UserRound } from 'lucide-react';
 import { Button } from '../../../ui/button';
 import { Badge } from '../../../ui/badge';
 import PetDetailsSkeleton from './PetDetailsSkeleton';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../ui/tooltip';
-import PetRequestDialogue from '../../../Shared/PetDialogues/PetRequestDialogue';
+
+import PetAdoptionRequestDialogue from '../../../Shared/PetDialogues/PetAdoptionRequestDialogue';
+import PetEditDialogue from '../../../Shared/PetDialogues/PetEditDialogue';
+
 
 const PetDetails = () => {
     const { user } = useAuth();
@@ -26,8 +28,8 @@ const PetDetails = () => {
         }
     })
 
-    const [openDialog, setOpenDialogue] = useState(false);
-
+    const [openAdoptDialog, setOpenAdoptDialog] = useState(false);
+    const [openEditDialog, setOpenEditDialog] = useState(false);
     const { petName, petAge, petCategory, petLocation, shortDescription, longDescription, photoURL, adoption_status, createdAt, ownerEmail } = petDetails;
 
 
@@ -137,7 +139,7 @@ const PetDetails = () => {
                                                 size="lg"
                                                 className="w-full text-base tracking-wide"
                                                 disabled={ownerEmail === user.email || adoption_status === "requested"}
-                                                onClick={()=>setOpenDialogue(true)}
+                                                onClick={() => setOpenAdoptDialog(true)}
                                             >
                                                 Adopt Now
                                             </Button>
@@ -164,7 +166,7 @@ const PetDetails = () => {
                                 {
                                     ownerEmail === user.email &&
                                     <div className='flex-1 flex gap-2'>
-                                        <Button size="lg" variant={"outline"} className="flex-1 text-base">Edit</Button>
+                                        <Button size="lg" variant={"outline"} className="flex-1 text-base" onClick={() => setOpenEditDialog(true)}>Edit</Button>
                                     </div>
                                 }
                             </div>
@@ -172,13 +174,20 @@ const PetDetails = () => {
                     </div>
             }
 
-            <PetRequestDialogue
+            <PetAdoptionRequestDialogue
                 user={user}
                 pet={petDetails}
-                openDialog={openDialog}
-                setOpenDialogue={setOpenDialogue}
-                refetch={refetch} 
-                />
+                openAdoptDialog={openAdoptDialog}
+                setOpenAdoptDialog={setOpenAdoptDialog}
+                refetch={refetch}
+            />
+
+            <PetEditDialogue
+                petDetails={petDetails}
+                openEditDialog={openEditDialog} 
+                setOpenEditDialog={setOpenEditDialog}
+                refetch={refetch}
+            />
         </div>
     );
 };

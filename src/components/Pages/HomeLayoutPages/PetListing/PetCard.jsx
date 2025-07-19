@@ -5,17 +5,17 @@ import { Button } from '../../../ui/button';
 
 import { errorToast } from '../../../../Utilities/toastAlerts';
 
-import PetRequestDialogue from '../../../Shared/PetDialogues/PetRequestDialogue';
+import PetRequestDialogue from '../../../Shared/PetDialogues/PetAdoptionRequestDialogue';
 
 const PetCard = ({ pet, user, refetch }) => {
 
-    const [openDialog, setOpenDialogue] = useState(false);
+    const [openAdoptDialog, setOpenAdoptDialog] = useState(false);
     const handleAdoptionModalOpen = () => {
         if (!user) {
             errorToast("You need to login to request for adoption!", 2000);
             return;
         }
-        setOpenDialogue(true);
+        setOpenAdoptDialog(true);
     }
 
 
@@ -66,7 +66,7 @@ const PetCard = ({ pet, user, refetch }) => {
 
                     {
                         pet.ownerEmail === user?.email ?
-                        <Button className="flex-1 text-xs md:text-sm border-3" variant={"outline"} onClick={handleAdoptionModalOpen} disabled={pet.ownerEmail === user?.email}>Your Pet</Button>
+                        <Button className="flex-1 text-xs md:text-sm border-3" variant={"outline"} disabled={pet.ownerEmail === user?.email}>Your Pet</Button>
                         :
                         <Button className="flex-1 text-xs md:text-sm" variant={"outline"} onClick={handleAdoptionModalOpen}>Request adoption</Button>
                     }
@@ -77,8 +77,8 @@ const PetCard = ({ pet, user, refetch }) => {
             <PetRequestDialogue
                 user={user}
                 pet={pet}
-                openDialog={openDialog}
-                setOpenDialogue={setOpenDialogue}
+                openAdoptDialog={openAdoptDialog} 
+                setOpenAdoptDialog={setOpenAdoptDialog}
                 refetch={refetch}
             />
 

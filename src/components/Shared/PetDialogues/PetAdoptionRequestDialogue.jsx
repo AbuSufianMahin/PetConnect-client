@@ -8,7 +8,7 @@ import { Input } from '../../ui/input';
 import { Button } from '../../ui/button';
 import { TbLoader } from 'react-icons/tb';
 
-const PetRequestDialogue = ({user, pet, openDialog, setOpenDialogue, refetch }) => {
+const PetAdoptionRequestDialogue = ({user, pet, openAdoptDialog, setOpenAdoptDialog, refetch }) => {
     const axiosSecure = useAxiosSecure();
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
@@ -16,7 +16,7 @@ const PetRequestDialogue = ({user, pet, openDialog, setOpenDialogue, refetch }) 
 
     const handleAoptionRequest = async (data) => {
         setIsSubmitting(true);
-        setOpenDialogue(false);
+        setOpenAdoptDialog(false);
         const { contactNumber, address } = data;
 
         const requesterInfo = {
@@ -45,7 +45,7 @@ const PetRequestDialogue = ({user, pet, openDialog, setOpenDialogue, refetch }) 
 
     return (
         <>
-            <Dialog open={openDialog} onOpenChange={() => setOpenDialogue(false)}>
+            <Dialog open={openAdoptDialog} onOpenChange={() => setOpenAdoptDialog(false)}>
                 <DialogContent className="md:max-w-2xl xl:max-w-3xl gap-3">
                     <DialogHeader className="gap-0">
                         <DialogTitle className="text-lg md:text-xl font-semibold">
@@ -109,4 +109,4 @@ const PetRequestDialogue = ({user, pet, openDialog, setOpenDialogue, refetch }) 
     );
 };
 
-export default PetRequestDialogue;
+export default PetAdoptionRequestDialogue;

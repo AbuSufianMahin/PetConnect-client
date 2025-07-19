@@ -25,6 +25,7 @@ const useCloudinaryUpload = () => {
             return response.data.secure_url;
         }
         catch (error) {
+            console.log(error);
             setError("Image Upload Failed");
             return null;
         }

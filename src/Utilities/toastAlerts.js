@@ -14,16 +14,16 @@ const successToast = (message, time, theme) => {
     });
 }
 
-const errorToast = () => {
-    return toast.error('🦄 Wow so easy!', {
+const errorToast = (message, time ,theme) => {
+    return toast.error(message, {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: time || 5000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: theme || "light",
         transition: Bounce,
     });
 }

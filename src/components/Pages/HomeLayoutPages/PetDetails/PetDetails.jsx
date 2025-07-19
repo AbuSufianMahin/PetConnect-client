@@ -26,7 +26,7 @@ const PetDetails = () => {
     })
 
 
-    const { petName, petAge, petCategory, petLocation, shortDescription, longDescription, photoURL, isAdopted, createdAt, ownerEmail } = petDetails;
+    const { petName, petAge, petCategory, petLocation, shortDescription, longDescription, photoURL, adoption_status, createdAt, ownerEmail } = petDetails;
 
 
     return (
@@ -58,22 +58,27 @@ const PetDetails = () => {
                             <div className="flex items-center justify-between">
                                 <h1 className="text-3xl font-extrabold tracking-tight font-delius-regular">{petName}</h1>
                                 {
-                                    isAdopted ?
+                                    adoption_status === "adopted" ?
                                         <Badge variant={"outline"}
                                             className="rounded-3xl px-2 py-1 text-sm bg-red-300 text-red-700 border-0"
                                         >
                                             Adopted
                                         </Badge>
                                         :
-                                        <Badge
-                                            variant="secondary"
-                                            className="rounded-3xl px-2 py-1 bg-primary text-sm text-white dark:bg-blue-600 flex items-center gap-1"
-                                        >
-                                            <div className='flex gap-1 items-center'>
-                                                <BadgeCheck className="w-4 h-4" strokeWidth={2} />
-                                                <span>Available</span>
-                                            </div>
-                                        </Badge>
+                                        adoption_status === "requested" ?
+                                            <Badge className="rounded-3xl px-2 py-1 text-sm bg-yellow-200 text-yellow-800">
+                                                Requested
+                                            </Badge>
+                                            :
+                                            <Badge
+                                                variant="secondary"
+                                                className="rounded-3xl px-2 py-1 bg-primary text-sm text-white dark:bg-blue-600 flex items-center gap-1"
+                                            >
+                                                <div className='flex gap-1 items-center'>
+                                                    <BadgeCheck className="w-4 h-4" strokeWidth={2} />
+                                                    <span>Available</span>
+                                                </div>
+                                            </Badge>
                                 }
 
                             </div>
@@ -129,21 +134,29 @@ const PetDetails = () => {
                                         <Button
                                             size="lg"
                                             className="w-full text-base tracking-wide"
-                                            disabled={ownerEmail === user.email}
+                                            disabled={ownerEmail === user.email || adoption_status === "requested"}
                                         >
                                             Adopt Now
                                         </Button>
                                     </div>
                                 </TooltipTrigger>
-                                {ownerEmail === user.email && (
-                                    <TooltipContent
-                                        side="bottom"
-                                        className="text-sm text-white text-center"
-                                    >
-                                        You cannot adopt your own pet listing.
-                                    </TooltipContent>
-
-                                )}
+                                {
+                                    ownerEmail === user.email ?
+                                        <TooltipContent
+                                            side="bottom"
+                                            className="text-sm text-white text-center"
+                                        >
+                                            You cannot adopt your own pet listing.
+                                        </TooltipContent>
+                                        :
+                                        adoption_status === "requested" &&
+                                        <TooltipContent
+                                            side="bottom"
+                                            className="text-sm text-white text-center"
+                                        >
+                                            This pet is already requested by a user for adoption.
+                                        </TooltipContent>
+                                }
                             </Tooltip>
                         </div>
                     </div>

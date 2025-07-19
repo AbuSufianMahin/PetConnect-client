@@ -58,8 +58,8 @@ const AddPetPage = () => {
     }
 
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const onPetFormSubmit = async (data) => {
 
+    const onPetFormSubmit = async (data) => {
         const { petName, petAge, petCategory, petLocation, shortDescription, longDescription, petImage } = data;
 
         confirmAction("Confirm Adoption Listing", "Are you sure you want to list this pet for adoption? You can edit it later if needed.", "Yes, list the pet")
@@ -79,15 +79,19 @@ const AddPetPage = () => {
                             shortDescription,
                             longDescription,
                             photoURL,
-                            isAdopted: false,
+                            adoption_status: "not_adopted",
                             createdAt: new Date().toISOString(),
                             ownerEmail: user.email
                         };
 
-                        axiosSecure.post('/add-pet', petInfo)
+                        await axiosSecure.post('/add-pet', petInfo)
                             .then(res => {
                                 if (res.data.insertedId) {
+
+                                    // success message
                                     successAlert("Pet Listed for Adoption!", res.data.message);
+
+                                    // reseting all input fields
                                     reset({
                                         petName: '',
                                         petAge: '',
@@ -104,7 +108,6 @@ const AddPetPage = () => {
                             })
                             .catch(error => {
                                 errorAlert("Unable to List Pet", error.response.data.message);
-
                             })
                     }
 

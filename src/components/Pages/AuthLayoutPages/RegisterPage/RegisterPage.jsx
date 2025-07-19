@@ -65,11 +65,6 @@ const RegisterPage = () => {
                             role_created_at: new Date().toISOString(),
                             role_updated_at: new Date().toISOString(),
                             role_update_by: "default",
-
-                            addedPetIds: [],
-                            questedPetIds: [],
-                            donationCampaigns: [],
-
                             isBanned: false,
                             banned_at: null,
                             banned_by: null,

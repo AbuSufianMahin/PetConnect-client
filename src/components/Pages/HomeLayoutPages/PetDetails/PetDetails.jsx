@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import useAuth from '../../../../hooks/useAuth';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
@@ -11,13 +11,14 @@ import { Button } from '../../../ui/button';
 import { Badge } from '../../../ui/badge';
 import PetDetailsSkeleton from './PetDetailsSkeleton';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../ui/tooltip';
+import PetRequestDialogue from '../../../Shared/PetDialogues/PetRequestDialogue';
 
 const PetDetails = () => {
     const { user } = useAuth();
     const { petId } = useParams();
     const axiosPublic = useAxiosPublic();
 
-    const { data: petDetails = {}, isLoading } = useQuery({
+    const { data: petDetails = {}, isLoading, refetch } = useQuery({
         queryKey: ["pet-details", petId],
         queryFn: async () => {
             const res = await axiosPublic.get(`/pet-details?petId=${petId}`);
@@ -25,6 +26,7 @@ const PetDetails = () => {
         }
     })
 
+    const [openDialog, setOpenDialogue] = useState(false);
 
     const { petName, petAge, petCategory, petLocation, shortDescription, longDescription, photoURL, adoption_status, createdAt, ownerEmail } = petDetails;
 
@@ -42,7 +44,6 @@ const PetDetails = () => {
                 isLoading ?
                     <PetDetailsSkeleton />
                     :
-
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 items-center rounded-3xl overflow-hidden bg-white shadow-lg border">
                         {/* Image */}
                         <div className=" overflow-hidden shadow-sm bg-muted/20 h-full">
@@ -128,39 +129,56 @@ const PetDetails = () => {
                             </div>
 
 
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <div className="w-full">
-                                        <Button
-                                            size="lg"
-                                            className="w-full text-base tracking-wide"
-                                            disabled={ownerEmail === user.email || adoption_status === "requested"}
-                                        >
-                                            Adopt Now
-                                        </Button>
-                                    </div>
-                                </TooltipTrigger>
+                            <div className='flex gap-2 flex-wrap'>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <div className="flex-2">
+                                            <Button
+                                                size="lg"
+                                                className="w-full text-base tracking-wide"
+                                                disabled={ownerEmail === user.email || adoption_status === "requested"}
+                                                onClick={()=>setOpenDialogue(true)}
+                                            >
+                                                Adopt Now
+                                            </Button>
+                                        </div>
+                                    </TooltipTrigger>
+                                    {
+                                        ownerEmail === user.email ?
+                                            <TooltipContent
+                                                side="bottom"
+                                                className="text-sm text-white text-center"
+                                            >
+                                                You cannot adopt your own pet listing.
+                                            </TooltipContent>
+                                            :
+                                            adoption_status === "requested" &&
+                                            <TooltipContent
+                                                side="bottom"
+                                                className="text-sm text-white text-center"
+                                            >
+                                                This pet is already requested for adoption.
+                                            </TooltipContent>
+                                    }
+                                </Tooltip>
                                 {
-                                    ownerEmail === user.email ?
-                                        <TooltipContent
-                                            side="bottom"
-                                            className="text-sm text-white text-center"
-                                        >
-                                            You cannot adopt your own pet listing.
-                                        </TooltipContent>
-                                        :
-                                        adoption_status === "requested" &&
-                                        <TooltipContent
-                                            side="bottom"
-                                            className="text-sm text-white text-center"
-                                        >
-                                            This pet is already requested by a user for adoption.
-                                        </TooltipContent>
+                                    ownerEmail === user.email &&
+                                    <div className='flex-1 flex gap-2'>
+                                        <Button size="lg" variant={"outline"} className="flex-1 text-base">Edit</Button>
+                                    </div>
                                 }
-                            </Tooltip>
+                            </div>
                         </div>
                     </div>
             }
+
+            <PetRequestDialogue
+                user={user}
+                pet={petDetails}
+                openDialog={openDialog}
+                setOpenDialogue={setOpenDialogue}
+                refetch={refetch} 
+                />
         </div>
     );
 };

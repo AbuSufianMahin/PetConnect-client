@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PetAdoptionModal = () => {
+const PetEditDialogue = () => {
     return (
         <div>
             
@@ -8,4 +8,4 @@ const PetAdoptionModal = () => {
     );
 };
 
-export default PetAdoptionModal;
+export default PetEditDialogue;

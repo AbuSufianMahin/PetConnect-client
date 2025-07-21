@@ -14,10 +14,10 @@ const PetCategories = () => {
     const navigate = useNavigate();
 
     return (
-        <section className="py-12 px-4 sm:px-8 md:px-16 bg-muted/50">
-            <div className='mx-auto w-11/12 md:w-10/12'>
+        <section className="pt-12 pb-8 xl:pt-16 xl:pb-12 border-black bg-[#F1F1F9]">
+            <div className='px-8 xl:px-16'>
                 <h2 className="text-3xl font-bold text-center mb-8 font-delius-regular">Browse by Pet Category</h2>
-                <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-3">
+                <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-2">
                     {categories.map((category, index) => (
                         <Card
                             key={index}

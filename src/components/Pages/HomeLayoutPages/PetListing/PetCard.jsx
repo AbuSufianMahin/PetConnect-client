@@ -35,7 +35,7 @@ const PetCard = ({ pet, user, refetch }) => {
                 </div>
 
                 {/* Content */}
-                <div className="py-3 px-2 -mt-15 z-1 bg-white rounded-t-[100%] text-center">
+                <div className="pt-3 pb-5 px-10 -mt-15 z-1 bg-white rounded-t-[100%] text-center">
                     <h2 className="text-2xl font-extrabold text-gray-800 dark:text-gray-100 mb-1 hover:text-primary hover:scale-105 font-delius-regular">
                         <Link to={`/pet-details/${pet._id}`}>
                             {pet.petName}

@@ -6,17 +6,17 @@ import bannerImage from "../../../../../assets/images/petGroup.png"
 import { Link, NavLink } from 'react-router';
 const Header = () => {
     return (
-        <div className="w-11/12 md:w-10/12 mx-auto border my-5 xl:my-10 rounded-4xl overflow-hidden shadow-lg">
+        <div className="w-11/12 md:w-10/12 mx-auto border my-5 xl:my-8 rounded-4xl overflow-hidden shadow-lg">
             <header className="relative">
                 <div className='bg-[#420D17] pt-8 pb-6 md:pt-12 md:pb-4 lg:pt-16 lg:pb-2 xl:pt-6 xl:pb-0'>
-                    <div className='w-8/10 md:w-9/10 mx-auto xl:flex md:pb-0'>
+                    <div className='w-9/10 mx-auto xl:flex md:pb-0'>
                         <div className='flex-1 flex items-center justify-center text-center xl:text-start'>
-                            <div>
+                            <div className='w-11/12'>
                                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white font-delius-regular leading-tight">
                                     Find the Right <br /> Pet for You
                                 </h1>
 
-                                <p className="mt-4 text-base sm:text-lg md:text-xl text-white/90 max-w-xl">
+                                <p className="mt-4 text-sm sm:text-lg md:text-xl text-white/90 max-w-xl">
                                     Discover your perfect furry (or finned!) companion. Browse, connect, and adopt with ease on PetConnect.
                                 </p>
                             </div>

@@ -110,7 +110,7 @@ const PetListing = () => {
                         </>
                 }
             </div>
-
+            
             {
                 isFetchingNextPage && (
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 lg:gap-4 mt-6 min-h-[30vh]">
@@ -122,7 +122,7 @@ const PetListing = () => {
                     </div>
                 )
             }
-            <div ref={ref} id="scroll-sentinel" className="mt-5 h-4" />
+            <div ref={ref} id="scroll-sentinel" className="mt-5 h-4 border-8" />
         </div >
     );
 };

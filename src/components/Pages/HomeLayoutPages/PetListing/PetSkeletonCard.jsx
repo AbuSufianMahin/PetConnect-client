@@ -10,7 +10,7 @@ const PetSkeletonCard = () => {
             </div>
 
             {/* Curved Content Area */}
-            <div className="relative p-4 md:px-16 md:py-10 lg:p-10 -mt-15 bg-white rounded-t-[100%] overflow-hidden flex flex-col">
+            <div className="relative pt-3 pb-5 px-10 -mt-15 bg-white rounded-t-[100%] overflow-hidden flex flex-col">
                 <div className='text-center'>
                     <Skeleton height={20} width="20%" />
                 </div>

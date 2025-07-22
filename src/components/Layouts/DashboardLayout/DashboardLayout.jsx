@@ -43,7 +43,7 @@ const DashboardLayout = () => {
         },
         {
             path: "/dashboard/adoption-requests",
-            linkName: "Adoption Requests",
+            linkName: "Requested Adoptions",
             icon: Users
         },
         {
@@ -64,20 +64,21 @@ const DashboardLayout = () => {
     ]
 
     return (
-        <SidebarProvider>
+        <div className='w-full h-screen flex'>
+            <SidebarProvider>
 
-            <AppSidebar userLinks={userLinks} />
+                <AppSidebar userLinks={userLinks} />
 
-            <SidebarInset className="flex-1 flex flex-col h-screen">
-                <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-                    <div className="flex items-center gap-2 px-4">
-                        <SidebarTrigger className="-ml-1" />
-                        <Separator
-                            orientation="vertical"
-                            className="mr-2 data-[orientation=vertical]:h-4"
-                        />
-                        {/* <div></div> */}
-                        {/* <Breadcrumb>
+                <SidebarInset className="flex-1 flex flex-col overflow-x-hidden">
+                    <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 sticky top-0 border-b-2">
+                        <div className="flex items-center gap-2 px-4">
+                            <SidebarTrigger className="-ml-1 hover:text-secondary" />
+                            <Separator
+                                orientation="vertical"
+                                className="mr-2 data-[orientation=vertical]:h-4"
+                            />
+                            {/* <div></div> */}
+                            {/* <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
                                     <BreadcrumbLink href="#">
@@ -90,13 +91,16 @@ const DashboardLayout = () => {
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb> */}
+                        </div>
+                    </header>
+                    <div className="bg-accent overflow-y-auto flex-1">
+                        <Outlet></Outlet>
                     </div>
-                </header>
-                <div className="bg-accent flex-1">
-                    <Outlet></Outlet>
-                </div>
-            </SidebarInset>
-        </SidebarProvider>
+                </SidebarInset>
+            </SidebarProvider>
+
+        </div>
+
     );
 };
 

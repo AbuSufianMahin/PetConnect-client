@@ -5,16 +5,13 @@ import {
 } from "@/components/ui/collapsible"
 import {
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
+
 } from "@/components/ui/sidebar"
 import { NavLink } from "react-router";
-import { SidebarTrigger, useSidebar } from "../../ui/sidebar";
+import { useSidebar } from "../../ui/sidebar";
 
 const DashboardNavbar = ({ userLinks }) => {
   const { toggleSidebar, isMobile } = useSidebar();

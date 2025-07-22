@@ -24,12 +24,11 @@ const petCategories = [
 ];
 
 const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetch }) => {
-    const { register, handleSubmit, setValue, control, formState: { errors }, reset } = useForm();
+    const { register, watch, handleSubmit, setValue, control, formState: { errors }, reset } = useForm();
     const { uploadImage } = useCloudinaryUpload();
-    const axiosSecure = useAxiosSecure()
+    const axiosSecure = useAxiosSecure();
 
-
-    const [longDescription, setLongDescription] = useState(petDetails.longDescription || "");
+    const [longDescription, setLongDescription] = useState(petDetails?.longDescription || "");
     const [imagePreview, setImagePreview] = useState("");
 
     useEffect(() => {
@@ -41,7 +40,6 @@ const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetc
             setLongDescription(petDetails.longDescription);
         }
     }, [petDetails, reset, setValue]);
-
 
     const inputImageRef = useRef();
 
@@ -56,6 +54,7 @@ const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetc
         setImagePreview(null);
         inputImageRef.current.value = "";
         setValue("petImageFile", null, { shouldValidate: true });
+
     }
 
     const handleCloseDialog = () => {
@@ -67,11 +66,9 @@ const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetc
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleEditSubmit = async (data) => {
-        
+
         const { photoURL, ...oldPetData } = petDetails;
         const { petImageFile, photoURL: previewPhotoURL, ...newPetData } = data;
-
-        console.log(newPetData);
 
         const isSameData = JSON.stringify(oldPetData) === JSON.stringify(newPetData);
         if (petImageFile === "" && isSameData) {
@@ -130,7 +127,7 @@ const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetc
     return (
         <>
             <Dialog open={openEditDialog} onOpenChange={handleCloseDialog}>
-                <DialogContent className="bg-accent md:max-w-2xl lg:max-w-4xl xl:max-w-6xl gap-3 max-h-[80vh] overflow-y-auto">
+                <DialogContent className="bg-accent md:max-w-2xl lg:max-w-4xl xl:max-w-6xl gap-3 max-h-[95vh] overflow-y-auto">
                     <DialogHeader className="gap-0">
                         <DialogTitle className="text-lg md:text-xl font-semibold">
                             Edit Pet
@@ -242,7 +239,9 @@ const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetc
                                         onChange={handleImageChange}
                                         className="hidden"
                                     />
-                                    <Input className="hidden" {...register("petImageFile")} />
+                                    <Input className="hidden" {...register("petImageFile", {
+                                        required: !imagePreview ? "Pet Image is Required" : false
+                                    })} />
                                 </label>
 
                                 {errors.petImageFile && (

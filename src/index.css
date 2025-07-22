@@ -147,7 +147,8 @@
 .ProseMirror p.is-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
-  color: #9ca3af; /* Tailwind gray-400 */
+  color: #9ca3af;
+  /* Tailwind gray-400 */
   pointer-events: none;
   height: 0;
   user-select: none;
@@ -163,7 +164,8 @@
 
 .ProseMirror ul {
   list-style-type: disc;
-  margin-left: 1.25rem; /* Tailwind ml-5 */
+  margin-left: 1.25rem;
+  /* Tailwind ml-5 */
   padding-left: 0;
 }
 

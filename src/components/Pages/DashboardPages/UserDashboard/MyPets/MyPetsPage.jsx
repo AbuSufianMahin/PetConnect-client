@@ -155,29 +155,37 @@ const MyPetsPage = () => {
                 const pet = row.original
                 return (
                     <>
-                        <div className="flex flex-col items-center gap-2">
-                            <Button
-                                variant="outline"
-                                className="w-40 flex items-center justify-center gap-2"
-                                onClick={() => handleEditDialog(pet)}
-                            >
-                                <Pencil className="h-4 w-4" />
-                                Update Pet
-                            </Button>
+                        {
+                            pet.adoption_status === "adopted" ?
+                                <span className="inline-block px-3 py-1 text-xs font-medium text-gray-500 bg-gray-100 rounded-full">
+                                    No action available
+                                </span>
 
-                            <Button
-                                variant="destructive"
-                                className="w-40 flex items-center justify-center gap-2 disabled:opacity-50"
-                                onClick={() => handleDelete(pet)}
-                                disabled={isDeleting}
-                            >
-                                <Trash2 className="h-4 w-4" />
-                                Delete Pet
-                                {isDeleting && pet._id === deletePetId && (
-                                    <TbLoader className="h-4 w-4 animate-spin ml-1" />
-                                )}
-                            </Button>
-                        </div>
+                                :
+                                <div className="flex flex-col items-center gap-2">
+                                    <Button
+                                        variant="outline"
+                                        className="w-40 flex items-center justify-center gap-2"
+                                        onClick={() => handleEditDialog(pet)}
+                                    >
+                                        <Pencil className="h-4 w-4" />
+                                        Update Pet
+                                    </Button>
+
+                                    <Button
+                                        variant="destructive"
+                                        className="w-40 flex items-center justify-center gap-2 disabled:opacity-50"
+                                        onClick={() => handleDelete(pet)}
+                                        disabled={isDeleting}
+                                    >
+                                        <Trash2 className="h-4 w-4" />
+                                        Delete Pet
+                                        {isDeleting && pet._id === deletePetId && (
+                                            <TbLoader className="h-4 w-4 animate-spin ml-1" />
+                                        )}
+                                    </Button>
+                                </div>
+                        }
 
 
                     </>
@@ -242,7 +250,7 @@ const MyPetsPage = () => {
                                 <NoAddedPets></NoAddedPets>
                                 :
                                 <>
-                                    
+
                                     <div className="rounded-xl overflow-hidden">
                                         <Table>
                                             <TableHeader className="bg-secondary">

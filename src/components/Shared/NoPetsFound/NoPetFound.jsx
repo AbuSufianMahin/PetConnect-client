@@ -1,6 +1,6 @@
 import React from 'react';
 
-import noDataFound from "../../../../assets/LottieAnimations/no data found.json"
+import noDataFound from "../../../assets/LottieAnimations/no data found.json"
 import Lottie from 'lottie-react';
 
 const NoPetFound = () => {

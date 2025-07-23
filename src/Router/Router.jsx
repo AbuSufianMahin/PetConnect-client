@@ -15,11 +15,13 @@ import AuthLayout from "../components/Layouts/AuthLayout/AuthLayout";
 import DashboardLayout from "../components/Layouts/DashboardLayout/DashboardLayout";
 import AddPetPage from "../components/Pages/DashboardPages/UserDashboard/AddPet/AddPetPage";
 import MyPetsPage from "../components/Pages/DashboardPages/UserDashboard/MyPets/MyPetsPage";
-import AdoptionRequests from "../components/Pages/DashboardPages/UserDashboard/AdoptionRequests/AdoptionRequests";
 import CreateCampaignPage from "../components/Pages/DashboardPages/UserDashboard/CreateCampaign/CreateCampaignPage";
 import MyDonations from "../components/Pages/DashboardPages/UserDashboard/MyDonations/MyDonations";
 import MyCampaignsPage from "../components/Pages/DashboardPages/UserDashboard/MyCampaigns/MyCampaignsPage";
 import PetDetails from "../components/Pages/HomeLayoutPages/PetDetails/PetDetails";
+import ReceivedRequest from "../components/Pages/DashboardPages/UserDashboard/ReceivedRequest/ReceivedRequest";
+import SentRequests from "../components/Pages/DashboardPages/UserDashboard/SentRequests/SentRequests";
+
 
 
 export const router = createBrowserRouter([
@@ -37,7 +39,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "pet-details/:petId",
-        element : <PrivateRoute><PetDetails></PetDetails></PrivateRoute>
+        element: <PrivateRoute><PetDetails></PetDetails></PrivateRoute>
       },
       {
         path: "donation-campaign",
@@ -76,8 +78,12 @@ export const router = createBrowserRouter([
         Component: MyPetsPage,
       },
       {
-        path: "adoption-requests",
-        Component: AdoptionRequests,
+        path: "received-adoption-requests",
+        Component: ReceivedRequest,
+      },
+      {
+        path: "sent-adoption-requests",
+        Component: SentRequests,
       },
       {
         path: "create-donation-campaign",

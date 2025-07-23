@@ -6,10 +6,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { useInView } from "react-intersection-observer";
 
 import PetSkeletonCard from './PetSkeletonCard';
-import NoPetFound from './NoPetFound';
 import useDebounce from '../../../../hooks/useDebounce';
 import PetCard from './PetCard';
 import useAuth from '../../../../hooks/useAuth';
+import NoPetFound from '../../../Shared/NoPetsFound/NoPetFound';
 
 const PetListing = () => {
     const axiosPublic = useAxiosPublic();
@@ -122,7 +122,7 @@ const PetListing = () => {
                     </div>
                 )
             }
-            <div ref={ref} id="scroll-sentinel" className="mt-5 h-4 border-8" />
+            <div ref={ref} id="scroll-sentinel" className="mt-5 h-4" />
         </div >
     );
 };

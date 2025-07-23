@@ -9,7 +9,6 @@ const PetSkeletonCard = () => {
                 <Skeleton className="w-fit h-56 object-cover" />
             </div>
 
-            {/* Curved Content Area */}
             <div className="relative pt-3 pb-5 px-10 -mt-15 bg-white rounded-t-[100%] overflow-hidden flex flex-col">
                 <div className='text-center'>
                     <Skeleton height={20} width="20%" />
@@ -20,7 +19,6 @@ const PetSkeletonCard = () => {
                     <Skeleton height={16} width="80%" />
                 </div>
 
-                {/* Action Buttons */}
             </div>
             <div className="grid pb-5 px-10 grid-cols-2 gap-3 text-center">
                 <Skeleton height={30} width={"100%"} />

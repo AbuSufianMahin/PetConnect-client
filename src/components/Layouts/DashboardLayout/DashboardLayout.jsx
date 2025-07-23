@@ -33,27 +33,32 @@ const DashboardLayout = () => {
     const userLinks = [
         {
             path: "/dashboard/add-pet",
-            linkName: "Add a Pet",
+            linkName: "Add Pet",
             icon: PlusCircle
         },
         {
             path: "/dashboard/my-pets",
-            linkName: "My Added Pets",
+            linkName: "My Pets",
             icon: PawPrint
         },
         {
-            path: "/dashboard/adoption-requests",
-            linkName: "Requested Adoptions",
+            path: "/dashboard/received-adoption-requests",
+            linkName: "Requests for My Pets",
             icon: Users
         },
         {
-            path: "/dashboard/create-donation-campaign",
-            linkName: "Create Donation Campaign",
+            path: "/dashboard/sent-adoption-requests",
+            linkName: "My Sent Requests",
             icon: HeartHandshake
         },
         {
+            path: "/dashboard/create-donation-campaign",
+            linkName: "Create Campaign",
+            icon: PlusCircle
+        },
+        {
             path: "/dashboard/my-donation-campaigns",
-            linkName: "My Donation Campaigns",
+            linkName: "My Campaigns",
             icon: FolderHeart
         },
         {
@@ -61,6 +66,7 @@ const DashboardLayout = () => {
             linkName: "My Donations",
             icon: HandCoins
         }
+
     ]
 
     return (

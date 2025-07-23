@@ -1,76 +1,63 @@
-import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState } from 'react';
 import useAxiosSecure from '../../../../../hooks/useAxiosSecure';
 import useAuth from '../../../../../hooks/useAuth';
-import "react-loading-skeleton/dist/skeleton.css";
-
-import { Button } from '../../../../ui/button';
+import { useQuery } from '@tanstack/react-query';
 import { flexRender, getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../../../ui/table';
 import { confirmAction, errorAlert, successAlert } from '../../../../../Utilities/sweetAlerts';
-import { ArrowUpDown, Pencil, Trash2 } from 'lucide-react';
-
-import PetEditDialogue from '../../../../Shared/PetDialogues/PetEditDialogue';
+import { ArrowUpDown, XCircle } from 'lucide-react';
 import { Link } from 'react-router';
-import NoAddedPets from './NoAddedPets';
+import { Button } from '../../../../ui/button';
 import { TbLoader } from 'react-icons/tb';
-import PetsLoadingSkeleton from './PetsLoadingSkeleton';
+import { Badge } from '../../../../ui/badge';
+import NoPetFound from '../../../../Shared/NoPetsFound/NoPetFound';
+import SentReqTableSkeleton from './SentReqTableSkeleton';
 
 
-const MyPetsPage = () => {
+const SentRequests = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
 
-    const { data: myAddedPetsData = [], isLoading, refetch } = useQuery({
-        queryKey: ["my-added-pets", user?.email],
+    const { data: outgoingPetRequests = [], isLoading, refetch } = useQuery({
+        queryKey: ["sent-requests", user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/my-added-pets?email=${user.email}`);
+            const res = await axiosSecure.get(`/pet-requests/outgoing?email=${user.email}`);
             return res.data;
         }
     });
 
-    const [openEditDialog, setOpenEditDialog] = useState(false);
-    const [selectedPetForEdit, setSelectedPetForEdit] = useState(null);
+    const [isCanceling, setIsCanceling] = useState(false);
+    const [cancelPetId, setCancelPetId] = useState(null);
 
-    const [sorting, setSorting] = useState([])
+    const handleCancelRequest = (pet) => {
 
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [deletePetId, setDeletePetId] = useState(null);
-
-
-    const handleDelete = (pet) => {
-        setDeletePetId(pet._id);
-        confirmAction("Are you sure?", "The pet's data will be deleted permanently. This cannot be undone.", "Confirm Deletion")
+        confirmAction("Cancel Adoption Request?", "Are you sure you want to cancel this adoption request? This action cannot be undone.", "Yes, Cancel Request")
             .then(async (result) => {
                 if (result.isConfirmed) {
-                    try {
-                        setIsDeleting(true);
-                        const res = await axiosSecure.delete(`/pets/${pet._id}`);
+                    setIsCanceling(true);
+                    setCancelPetId(pet._id);
 
-                        if (res.data.deletedCount) {
-                            successAlert("Deleted!", "The pet has been deleted successfully.");
-                            refetch();
+                    try {
+                        const response = await axiosSecure.patch(`/adoptions/cancel/${pet._id}`);
+
+                        if (response.data.success) {
+                            successAlert("Request canceled", response.data.message)
                         }
                     }
                     catch (error) {
-                        errorAlert(error.response.data.message, "Failed to delete the pet. Please try again.");
-
+                        errorAlert("Failed to reject", error.response?.data?.message || "Try again later.");
                     }
                     finally {
-                        setIsDeleting(false);
+                        setIsCanceling(false);
+                        setCancelPetId(null);
+                        refetch();
                     }
                 }
             })
-
-
     }
 
-
-    const handleEditDialog = (pet) => {
-        setSelectedPetForEdit(pet);
-        setOpenEditDialog(true);
-    }
+    const [sorting, setSorting] = useState([])
     const columns = [
         {
             header: 'SL',
@@ -81,20 +68,23 @@ const MyPetsPage = () => {
             header: 'Pet Name',
             accessorKey: 'petName',
             cell: info => {
-                const value = info.getValue()
+                const petName = info.getValue()
                 const petId = info.row.original._id;
+                const petCategory = info.row.original.petCategory;
 
                 return (
-                    <Link to={`/pet-details/${petId}`}>
-                        <span className='text-lg font-bold hover:text-primary font-delius-regular'>{value}</span>
-                    </Link>
+
+                    <div className='flex flex-col items-center justify-center gap-2'>
+                        <Link to={`/pet-details/${petId}`}>
+                            <span className='text-lg font-bold hover:text-primary font-delius-regular'>{petName}</span>
+                        </Link>
+                        <Badge variant={"outline"} className="bg-white/70 dark:bg-gray-800/70 text-xs font-medium px-3 py-1 rounded-full shadow">
+                            {petCategory}
+                        </Badge>
+                    </div>
+
                 )
             }
-        },
-        {
-            header: 'Category',
-            accessorKey: 'petCategory',
-            cell: info => info.getValue(),
         },
         {
             header: 'Image',
@@ -125,7 +115,7 @@ const MyPetsPage = () => {
 
                 switch (status) {
                     case 'adopted':
-                        label = 'Adopted'
+                        label = 'Approved'
                         bgClass = 'bg-green-100'
                         textClass = 'text-green-700'
                         break
@@ -133,12 +123,6 @@ const MyPetsPage = () => {
                         label = 'Requested'
                         bgClass = 'bg-blue-100'
                         textClass = 'text-blue-700'
-                        break
-                    case 'not_adopted':
-                    default:
-                        label = 'Not Adopted'
-                        bgClass = 'bg-yellow-100'
-                        textClass = 'text-yellow-700'
                         break
                 }
 
@@ -150,44 +134,96 @@ const MyPetsPage = () => {
             }
         },
         {
-            header: 'Actions',
-            cell: ({ row }) => {
-                const pet = row.original
-                return (
-                    <>
-                        <div className="flex flex-col items-center gap-2">
-                            <Button
-                                variant="outline"
-                                className="w-40 flex items-center justify-center gap-2"
-                                onClick={() => handleEditDialog(pet)}
-                            >
-                                <Pencil className="h-4 w-4" />
-                                Update Pet
-                            </Button>
+            header: 'Timestamps',
+            accessorFn: row => ({ requested_at: row.requested_at, adopted_at: row.adopted_at, created_at: row.created_at }),
+            cell: (info) => {
+                const { requested_at, adopted_at } = info.getValue();
 
-                            <Button
-                                variant="destructive"
-                                className="w-40 flex items-center justify-center gap-2 disabled:opacity-50"
-                                onClick={() => handleDelete(pet)}
-                                disabled={isDeleting}
-                            >
-                                <Trash2 className="h-4 w-4" />
-                                Delete Pet
-                                {isDeleting && pet._id === deletePetId && (
-                                    <TbLoader className="h-4 w-4 animate-spin ml-1" />
-                                )}
-                            </Button>
+                const renderDateTime = (value, fallbackText) => {
+                    const date = value ? new Date(value) : null;
+                    return date ?
+                        <div className='flex flex-col'>
+                            <span className="text-gray-800 font-medium">
+                                {date.toLocaleDateString('en-GB', {
+                                    weekday: 'short',
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric',
+                                })}
+                            </span>
+                            <span className="text-gray-500 text-xs">
+                                {date.toLocaleTimeString('en-GB', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: true,
+                                })}
+                            </span>
+                        </div>
+                        :
+                        <span className="italic text-gray-400 text-sm">{fallbackText}</span>
+
+                };
+
+                return (
+                    <div className="flex flex-col gap-4 text-sm font-sans">
+                        <div>
+                            <span className={`block text-xs font-semibold ${requested_at ? "text-blue-600" : "text-gray-400"} mb-1`}>Requested At:</span>
+                            <div className="text-gray-800 font-medium">
+                                {renderDateTime(requested_at, "Not requested yet")}
+                            </div>
+                        </div>
+                        <div>
+                            <span className={`block text-xs font-semibold text-gray-400 ${adopted_at ? "text-green-500" : "text-gray-400"} mb-1`}>Adopted At:</span>
+                            <div className="text-gray-800 font-medium">
+                                {renderDateTime(adopted_at, "Not adopted yet")}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+        },
+        {
+            header: 'Owner',
+            accessorKey: 'requesterDetails',
+            cell: info => {
+                const pet = info.row.original;
+                const requester = info.getValue()
+                if (!requester) {
+                    return <span className="italic text-gray-400 text-sm">-</span>
+                }
+
+                return (
+                    <div className="flex flex-col">
+                        <div className="flex flex-col gap-1 p-3">
+                            <span className="text-xs text-gray-500">{pet.ownerEmail}</span>
                         </div>
 
-
-                    </>
+                        {
+                            pet.adoption_status === "requested" &&
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="cursor-pointer w-32 mx-auto text-xs font-bold flex items-center justify-center gap-1 border-red-500 text-red-500 hover:text-white hover:bg-red-500"
+                                onClick={() => handleCancelRequest(pet)}
+                                disabled={isCanceling}
+                            >
+                                {
+                                    isCanceling && pet._id === cancelPetId ?
+                                        <TbLoader className="h-4 w-4 animate-spin" />
+                                        :
+                                        <XCircle className="h-4 w-4" />
+                                }
+                                Cancel Request
+                            </Button>
+                        }
+                    </div>
                 )
             }
         },
     ]
 
     const table = useReactTable({
-        data: myAddedPetsData,
+        data: outgoingPetRequests,
         columns,
         state: {
             sorting,
@@ -198,8 +234,9 @@ const MyPetsPage = () => {
         getPaginationRowModel: getPaginationRowModel(),
     })
 
+
     return (
-        <div className='w-11/12 mx-auto py-10'>
+        <section className='w-11/12 mx-auto py-10'>
             <div className='flex flex-col md:flex-row items-center justify-between mb-4 md:mb-8'>
                 <h1 className="text-3xl font-bold">
                     Your Listed Pets
@@ -234,16 +271,16 @@ const MyPetsPage = () => {
 
             {
                 isLoading ?
-                    <PetsLoadingSkeleton rows={3}></PetsLoadingSkeleton>
+                    <SentReqTableSkeleton rows={3}></SentReqTableSkeleton>
                     :
                     <>
                         {
-                            myAddedPetsData.length === 0 ?
-                                <NoAddedPets></NoAddedPets>
+                            outgoingPetRequests.length === 0 ?
+                                <NoPetFound></NoPetFound>
                                 :
                                 <>
-                                    
                                     <div className="rounded-xl overflow-hidden">
+                                        
                                         <Table>
                                             <TableHeader className="bg-secondary">
                                                 {table.getHeaderGroups().map(headerGroup => (
@@ -300,19 +337,10 @@ const MyPetsPage = () => {
                                 </>
                         }
                     </>
-
-
             }
+        </section>
 
-            <PetEditDialogue
-                isLoading={isLoading}
-                petDetails={selectedPetForEdit}
-                openEditDialog={openEditDialog}
-                setOpenEditDialog={setOpenEditDialog}
-                refetch={refetch}
-            />
-        </div>
     );
 };
 
-export default MyPetsPage;
+export default SentRequests;

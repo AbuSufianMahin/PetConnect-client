@@ -53,7 +53,7 @@ const LoginPage = () => {
                     successToast("Welcome back to PetConnect!", 2000)
                 }
                 else {
-                    successToast("Thanks for joining PetConnect — welcome aboard!", 2000)
+                    successToast("Thanks for joining PetConnect — welcome aboard!", 2000);
                 }
             })
             .then(() => {

@@ -28,7 +28,7 @@ import { Separator } from "../../ui/separator"
 import { Button } from "../../ui/button"
 
 
-const AppSidebar = ({ userLinks }) => {
+const AppSidebar = ({ userLinks, adminLinks }) => {
 
   const { toggleSidebar } = useSidebar();
 
@@ -73,7 +73,7 @@ const AppSidebar = ({ userLinks }) => {
 
       <SidebarContent>
         {/* DashBoard Navbar */}
-        <DashboardNavbar userLinks={userLinks} />
+        <DashboardNavbar userLinks={userLinks} adminLinks={adminLinks} />
       </SidebarContent>
       <SidebarRail />
     </Sidebar>

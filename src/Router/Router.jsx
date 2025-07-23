@@ -21,6 +21,10 @@ import MyCampaignsPage from "../components/Pages/DashboardPages/UserDashboard/My
 import PetDetails from "../components/Pages/HomeLayoutPages/PetDetails/PetDetails";
 import ReceivedRequest from "../components/Pages/DashboardPages/UserDashboard/ReceivedRequest/ReceivedRequest";
 import SentRequests from "../components/Pages/DashboardPages/UserDashboard/SentRequests/SentRequests";
+import Users from "../components/Pages/DashboardPages/AdminDashboard/Users/Users";
+import AllPets from "../components/Pages/DashboardPages/AdminDashboard/AllPets/AllPets";
+import AllDonationCampaigns from "../components/Pages/DashboardPages/AdminDashboard/AllDonationCampaigns/AllDonationCampaigns";
+import AdminRoute from "../components/Routes/AdminRoute";
 
 
 
@@ -96,8 +100,24 @@ export const router = createBrowserRouter([
       {
         path: "my-donations",
         Component: MyDonations,
+      },
+      {
+        path: "all-users",
+        element : <AdminRoute><Users></Users></AdminRoute>
+      },
+      {
+        path: "all-pets",
+        element : <AdminRoute><AllPets></AllPets></AdminRoute>
+      },
+      {
+        path: "all-donations",
+        element : <AdminRoute><AllDonationCampaigns></AllDonationCampaigns></AdminRoute>
       }
 
     ]
+  },
+  {
+    path: "/forbidden",
+    element: <h1>You do not have access to this path</h1>
   }
 ]);

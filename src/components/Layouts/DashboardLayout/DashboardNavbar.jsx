@@ -19,7 +19,7 @@ import { ShieldUser } from "lucide-react";
 
 const DashboardNavbar = ({ userLinks, adminLinks }) => {
   const { toggleSidebar, isMobile } = useSidebar();
-  const { role, roleLoading } = useUserRole();
+  const { role, isRoleLoading } = useUserRole();
 
   console.log(role)
   return (
@@ -27,7 +27,7 @@ const DashboardNavbar = ({ userLinks, adminLinks }) => {
       <SidebarMenu className="space-y-2 my-2">
         {/* <SidebarTrigger className="-ml-1" /> */}
         {
-          roleLoading ?
+          isRoleLoading ?
             <DashboardLoadingSkeleton></DashboardLoadingSkeleton>
             :
             <>

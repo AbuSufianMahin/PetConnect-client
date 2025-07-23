@@ -138,7 +138,7 @@ const PetDetails = () => {
                                             <Button
                                                 size="lg"
                                                 className="w-full text-base tracking-wide"
-                                                disabled={ownerEmail === user.email || adoption_status === "requested"}
+                                                disabled={ownerEmail === user.email || adoption_status !== "not_adopted"}
                                                 onClick={() => setOpenAdoptDialog(true)}
                                             >
                                                 Adopt Now
@@ -154,21 +154,51 @@ const PetDetails = () => {
                                                 You cannot adopt your own pet listing.
                                             </TooltipContent>
                                             :
-                                            adoption_status === "requested" &&
-                                            <TooltipContent
-                                                side="bottom"
-                                                className="text-sm text-white text-center"
-                                            >
-                                                This pet is already requested for adoption.
-                                            </TooltipContent>
+                                            adoption_status === "requested" ?
+                                                <TooltipContent
+                                                    side="bottom"
+                                                    className="text-sm text-white text-center"
+                                                >
+                                                    This pet is already requested for adoption.
+                                                </TooltipContent>
+                                                :
+                                                <TooltipContent
+                                                    side="bottom"
+                                                    className="text-sm text-white text-center"
+                                                >
+                                                    This pet is already adopted.
+                                                </TooltipContent>
                                     }
                                 </Tooltip>
-                                {
-                                    ownerEmail === user.email &&
-                                    <div className='flex-1 flex gap-2'>
-                                        <Button size="lg" variant={"outline"} className="flex-1 text-base" onClick={() => setOpenEditDialog(true)}>Edit</Button>
-                                    </div>
-                                }
+
+                                <Tooltip>
+
+
+                                    {
+                                        ownerEmail === user.email &&
+                                        <TooltipTrigger asChild>
+                                            <div className='flex-1 flex gap-2'>
+                                                <Button size="lg" variant={"outline"}
+                                                    className="flex-1 text-base"
+                                                    disabled={adoption_status === "adopted"}
+                                                    onClick={() => setOpenEditDialog(true)}>
+                                                    Edit
+                                                </Button>
+                                            </div>
+                                        </TooltipTrigger>
+                                    }
+
+                                    {
+                                        adoption_status === "adopted" &&
+                                        <TooltipContent
+                                            side="bottom"
+                                            className="text-sm text-white text-center"
+                                        >
+                                            You can not edit an adopted Pet!
+                                        </TooltipContent>
+                                    }
+
+                                </Tooltip>
                             </div>
                         </div>
                     </div>
@@ -184,7 +214,7 @@ const PetDetails = () => {
 
             <PetEditDialogue
                 petDetails={petDetails}
-                openEditDialog={openEditDialog} 
+                openEditDialog={openEditDialog}
                 setOpenEditDialog={setOpenEditDialog}
                 refetch={refetch}
             />

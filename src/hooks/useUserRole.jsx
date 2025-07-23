@@ -15,7 +15,7 @@ const useUserRole = () => {
     },
     refetchOnWindowFocus: false
   });
-  return { role, roleLoading: authLoading || roleLoading, refetch };
+  return { role, isRoleLoading: authLoading || roleLoading, refetch };
 };
 
 export default useUserRole;

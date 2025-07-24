@@ -2,38 +2,37 @@ import React from 'react';
 
 import Skeleton from 'react-loading-skeleton';
 import "react-loading-skeleton/dist/skeleton.css";
+import { TableBody, TableCell, TableRow } from '../../../../ui/table';
 
 const SentReqTableSkeleton = ({ rows }) => {
     return (
-        <div className="rounded-xl overflow-hidden border">
-            <div className="grid grid-cols-6 bg-secondary text-white text-center p-6">
-            </div>
+        <TableBody>
             {[...Array(rows)].map((_, index) => (
-                <div
-                    key={index}
-                    className="grid grid-cols-24 items-center bg-white border-b p-4 gap-2"
-                >
-                    {/* Serial No. */}
-                    <div className="text-center col-span-2">
+                <TableRow key={index} className="bg-white">
+
+                    {/* SL */}
+                    <TableCell className="text-center md:min-w-14">
                         <Skeleton width={20} height={20} />
-                    </div>
-                    <div className="grid gap-1 text-center font-bold col-span-3">
-                        <Skeleton width={80} height={20} />
-                        <Skeleton width={60} height={20} style={{ borderRadius: "40px" }} />
-                    </div>
+                    </TableCell>
+
+                    {/* Pet Name */}
+                    <TableCell className="text-center md:min-w-32">
+                        <Skeleton width={index % 2 === 0 ? 80 : 70} borderRadius={20} height={20} />
+                        <Skeleton width={40} borderRadius={30} height={20} />
+                    </TableCell>
 
                     {/* Image */}
-                    <div className="flex justify-center col-span-5">
-                        <Skeleton height={80} width={80} />
-                    </div>
+                    <TableCell className="text-center md:min-w-32">
+                        <Skeleton height={70} width={70} borderRadius={12} />
+                    </TableCell>
 
-                    {/* Status badge */}
-                    <div className="flex justify-center col-span-3">
-                        <Skeleton width={90} height={28} borderRadius={12} />
-                    </div>
+                    {/* Status */}
+                    <TableCell className="text-center md:min-w-32">
+                        <Skeleton width={index % 2 === 0 ? 90 : 70} height={24} borderRadius={12} />
+                    </TableCell>
 
                     {/* timeStamp */}
-                    <div className="text-center col-span-6 space-y-1">
+                    <TableCell className="text-center space-y-1">
                         <div>
                             <Skeleton width={70} height={14} />
                             <Skeleton width={120} height={14} />
@@ -44,16 +43,16 @@ const SentReqTableSkeleton = ({ rows }) => {
                             <Skeleton width={120} height={14} />
                             <Skeleton width={50} height={14} />
                         </div>
-                    </div>
+                    </TableCell>
 
-                    {/* Requested by  */}
-                    <div className='text-center col-span-4 grid gap-2'>
-                        <Skeleton width={200} height={18} borderRadius={6} />
-                        <Skeleton width={90} height={24} borderRadius={6} />
-                    </div>
-                </div>
+                    {/* owner */}
+                    <TableCell className="text-center">
+                        <Skeleton width={140} height={20} borderRadius={8} />
+                    </TableCell>
+                </TableRow>
             ))}
-        </div>
+
+        </TableBody>
     );
 };
 

@@ -13,6 +13,7 @@ import { FaUserShield } from "react-icons/fa";
 import { ArrowUpDown } from "lucide-react";
 import { flexRender, getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../../ui/table";
+import { Separator } from "../../../../ui/separator";
 
 const tableVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -28,13 +29,13 @@ const Users = () => {
     const axiosSecure = useAxiosSecure();
     const { user: admin } = useAuth();
 
-    const [searchEmail, setSearchEmail] = useState("");
-    const debouncedSearchEmail = useDebounce(searchEmail, 500);
+    const [searchValue, setSearchValue] = useState("");
+    const debouncedSearchValue = useDebounce(searchValue, 500);
 
     const { data: usersInfo = [], isLoading, refetch } = useQuery({
-        queryKey: ["All-users", debouncedSearchEmail],
+        queryKey: ["All-users", debouncedSearchValue],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/search-users?email=${debouncedSearchEmail}`);
+            const res = await axiosSecure.get(`/search-users?searchValue=${debouncedSearchValue}`);
             return res.data;
         }
     })
@@ -46,7 +47,6 @@ const Users = () => {
         confirmAction("Promote to admin?", "Are you sure you want to grant admin access to this user?", confirmBtnText)
             .then(async (result) => {
                 if (result.isConfirmed) {
-                    console.log(`/users/update-role?email=${user.email}&role=${role}`)
                     try {
                         const res = await axiosSecure.patch(`/users/update-role?email=${user.email}&role=${role}`, { adminEmail: admin.email });
                         if (res.data.modifiedCount) {
@@ -85,12 +85,14 @@ const Users = () => {
                 const userName = info.row.original.name;
 
                 return (
+
                     <img
                         src={value}
                         alt={userName}
                         className="w-16 h-16 mx-auto rounded-full object-cover border-3 border-accent"
                         referrerPolicy="no-referrer"
                     />
+
                 )
             }
         },
@@ -147,18 +149,22 @@ const Users = () => {
             cell: info => {
                 const value = info.getValue();
                 return (
-                    <span className="inline-block px-2 py-1 bg-gray-100 rounded-md shadow-sm">
-                        {new Date(value).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                        })}{" "}
-                        •{" "}
-                        {new Date(value).toLocaleTimeString("en-US", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            hour12: true,
-                        })}
+                    <span className="inline-flex flex-col p-3 bg-gray-100 rounded-md shadow-sm text-center">
+                        <span>
+                            {new Date(value).toLocaleDateString("en-US", {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                            })}
+                        </span>
+                        <Separator className={"my-1"}></Separator>
+                        <span>
+                            {new Date(value).toLocaleTimeString("en-US", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                            })}
+                        </span>
                     </span>
                 )
 
@@ -222,7 +228,7 @@ const Users = () => {
                     Registered Users
                 </h1>
                 <div className="w-1/4">
-                    <Input type="text" placeholder="Search User by Email" onChange={(e) => setSearchEmail(e.target.value)} />
+                    <Input type="text" placeholder="Search User by Name or Email" onChange={(e) => setSearchValue(e.target.value)} />
                 </div>
             </motion.div>
 
@@ -247,30 +253,46 @@ const Users = () => {
                             </TableRow>
                         ))}
                     </TableHeader>
+
                     {
                         isLoading ?
                             <UserTableSkeleton rows={4}></UserTableSkeleton>
                             :
-                            <TableBody>
-                                {table.getRowModel().rows.map((row, idx) => (
-                                    <motion.tr
-                                        key={idx}
-                                        variants={rowVariants}
-                                        initial="hidden"
-                                        animate="visible"
-                                        transition={{ duration: 0.3, delay: idx * 0.05 }}
-                                        className={`${idx % 2 === 0 ? "bg-white" : "bg-gray-100"} text-center`}
-                                    >
-                                        {row.getVisibleCells().map((cell, index) => (
-                                            <TableCell key={index} className="text-center md:p-6">
-                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                            </TableCell>
-                                        ))}
-                                    </motion.tr>
-                                ))}
-                            </TableBody>
-                    }
+                            <>
+                                {
 
+                                    usersInfo.length === 0 ?
+                                        <tr className="bg-white">
+                                            <td colSpan={8} className="text-center text-lg py-6 text-gray-500 italic">
+                                                No User Found
+                                            </td>
+                                        </tr>
+                                        :
+                                        < TableBody >
+                                            {
+                                                table.getRowModel().rows.map((row, idx) => (
+                                                    <motion.tr
+                                                        key={idx}
+                                                        variants={rowVariants}
+                                                        initial="hidden"
+                                                        animate="visible"
+                                                        transition={{ duration: 0.3, delay: idx * 0.05 }}
+                                                        className={`${idx % 2 === 0 ? "bg-white" : "bg-gray-100"} text-center`}
+                                                    >
+                                                        {row.getVisibleCells().map((cell, index) => (
+                                                            <TableCell key={index} className="text-center md:p-6 md:min-w-32">
+                                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                            </TableCell>
+                                                        ))}
+                                                    </motion.tr>
+                                                ))
+                                            }
+                                        </TableBody>
+                                }
+
+                            </>
+
+                    }
                 </Table>
 
             </motion.div>

@@ -97,7 +97,7 @@ const SentRequests = () => {
                     <div className='flex justify-center w-full'>
                         <Link to={`/pet-details/${petId}`}>
                             <img src={value} alt="pet image"
-                                className=" h-12 w-12 xl:h-24 xl:w-24 rounded-md object-cover shadow-lg" />
+                                className="w-16 h-16 md:w-20 md:h-20 xl:h-24 xl:w-24 rounded-md object-cover shadow-lg" />
                         </Link>
                     </div>
                 )
@@ -194,7 +194,7 @@ const SentRequests = () => {
 
                 return (
                     <div className="flex flex-col">
-                        <div className="flex flex-col gap-1 p-3">
+                        <div className="flex flex-col gap-1">
                             <span className="text-xs text-gray-500">{pet.ownerEmail}</span>
                         </div>
 
@@ -239,7 +239,7 @@ const SentRequests = () => {
         <section className='w-11/12 mx-auto py-10'>
             <div className='flex flex-col md:flex-row items-center justify-between mb-4 md:mb-8'>
                 <h1 className="text-3xl font-bold">
-                    Your Listed Pets
+                    Sent Pet Requests
                 </h1>
                 <div>
                     {
@@ -269,75 +269,85 @@ const SentRequests = () => {
                 </div>
             </div>
 
-            {
-                isLoading ?
-                    <SentReqTableSkeleton rows={3}></SentReqTableSkeleton>
-                    :
-                    <>
-                        {
-                            outgoingPetRequests.length === 0 ?
-                                <NoPetFound></NoPetFound>
-                                :
-                                <>
-                                    <div className="rounded-xl overflow-hidden">
-                                        
-                                        <Table>
-                                            <TableHeader className="bg-secondary">
-                                                {table.getHeaderGroups().map(headerGroup => (
-                                                    <TableRow key={headerGroup.id}>
-                                                        {headerGroup.headers.map(header => (
-                                                            <TableHead key={header.id} onClick={header.column.getToggleSortingHandler()} className="cursor-pointer select-none text-white text-center p-4">
-                                                                {flexRender(header.column.columnDef.header, header.getContext())}
-                                                                {header.column.getCanSort() && (
-                                                                    <ArrowUpDown className="ml-2 h-4 w-4 inline-block" />
-                                                                )}
-                                                            </TableHead>
-                                                        ))}
-                                                    </TableRow>
-                                                ))}
-                                            </TableHeader>
-                                            <TableBody>
-                                                {table.getRowModel().rows.map(row => (
+            <div>
+                <Table className="rounded-xl overflow-hidden">
+                    <TableHeader className="bg-secondary">
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map(header => (
+                                    <TableHead key={header.id} onClick={header.column.getToggleSortingHandler()} className="cursor-pointer select-none text-white text-center p-4">
+                                        {flexRender(header.column.columnDef.header, header.getContext())}
+                                        {header.column.getCanSort() && (
+                                            <ArrowUpDown className="ml-2 h-4 w-4 inline-block" />
+                                        )}
+                                    </TableHead>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+                    {
+                        isLoading ?
+                            <SentReqTableSkeleton rows={3}></SentReqTableSkeleton>
+                            :
+
+                            <>
+                                {
+                                    outgoingPetRequests.length === 0 ?
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell colSpan={6} className="text-center py-6 text-gray-500 italic bg-white">
+                                                    No Pets Found
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                        :
+                                        < TableBody >
+                                            {
+                                                table.getRowModel().rows.map(row => (
                                                     <TableRow key={row.id} className="bg-white">
-                                                        {row.getVisibleCells().map(cell => (
-                                                            <TableCell key={cell.id} className="text-center md:p-6">
+                                                        {row.getVisibleCells().map((cell, index) => (
+                                                            <TableCell
+                                                                key={cell.id}
+                                                                className={`text-center md:p-6 ${index === 0 ? 'md:min-w-20' : 'md:min-w-32'}`}
+                                                            >
                                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                             </TableCell>
                                                         ))}
                                                     </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
+                                                ))
+                                            }
+                                        </TableBody>
+                                }
+                            </>
+                    }
 
-                                    </div>
+                </Table>
 
-                                    {table.getPageCount() > 1 && (
-                                        <div className="flex items-center justify-between pt-4">
-                                            <div>
-                                                Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-                                            </div>
-                                            <div className="space-x-2">
-                                                <Button
-                                                    variant="outline"
-                                                    onClick={() => table.previousPage()}
-                                                    disabled={!table.getCanPreviousPage()}
-                                                >
-                                                    Previous
-                                                </Button>
-                                                <Button
-                                                    variant="outline"
-                                                    onClick={() => table.nextPage()}
-                                                    disabled={!table.getCanNextPage()}
-                                                >
-                                                    Next
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    )}
-                                </>
-                        }
-                    </>
-            }
+                {table.getPageCount() > 1 && (
+                    <div className="flex items-center justify-between pt-4">
+                        <div>
+                            Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+                        </div>
+                        <div className="space-x-2">
+                            <Button
+                                variant="outline"
+                                onClick={() => table.previousPage()}
+                                disabled={!table.getCanPreviousPage()}
+                            >
+                                Previous
+                            </Button>
+                            <Button
+                                variant="outline"
+                                onClick={() => table.nextPage()}
+                                disabled={!table.getCanNextPage()}
+                            >
+                                Next
+                            </Button>
+                        </div>
+                    </div>
+                )}
+            </div>
+
         </section>
 
     );

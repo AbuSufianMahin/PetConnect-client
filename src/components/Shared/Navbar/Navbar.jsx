@@ -111,7 +111,7 @@ const Navbar = () => {
                                                         <DropdownMenuTrigger className="flex items-center gap-2 hover:bg-amber-800">
                                                             <div>
                                                                 <Avatar className="w-8 h-8">
-                                                                    <AvatarImage src={user.photoURL || noDP} alt="user avatar" referrerPolicy='no-referrer' />
+                                                                    <AvatarImage src={user.photoURL || noDP} alt="user avatar" referrerPolicy='no-referrer' className=""/>
                                                                 </Avatar>
                                                             </div>
                                                             <div className='text-start text-xs'>
@@ -177,8 +177,8 @@ const Navbar = () => {
                                 <DropdownMenuTrigger>
                                     <Tooltip>
                                         <TooltipTrigger asChild>
-                                            <Avatar className="h-12 w-12 border-2 border-green-500">
-                                                <AvatarImage src={user.photoURL || noDP} alt="user avatar" referrerPolicy='no-referrer' />
+                                            <Avatar className="h-14 w-14 border-2 border-green-500">
+                                                <AvatarImage src={user.photoURL || noDP} alt="user avatar" referrerPolicy='no-referrer' className="object-cover"/>
                                             </Avatar>
                                         </TooltipTrigger>
                                         <TooltipContent className={"text-sm"}>

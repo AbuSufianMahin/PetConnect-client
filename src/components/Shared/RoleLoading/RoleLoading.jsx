@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ShieldCheck } from "lucide-react";
 
 import logo from "../../../assets/images/PetConnect-logo.png"
 
@@ -34,7 +33,7 @@ const RoleLoading = () => {
                     initial={{ scale: 1 }}
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                    className="relative w-28 h-28 rounded-full bg-gradient-to-tr from-yellow-400 to-indigo-500 p-1 shadow-[0_0_30px_rgba(255,255,255,0.5)]"
+                    className="relative w-28 h-28 rounded-full p-1 bg-primary"
                 >
                     <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
 
@@ -58,7 +57,7 @@ const RoleLoading = () => {
                     initial={{ width: "0%" }}
                     animate={{ width: ["0%", "100%", "0%"] }}
                     transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
-                    className="h-1 rounded bg-gradient-to-r from-yellow-400 via-indigo-400 to-purple-400"
+                    className="h-1 rounded bg-primary"
                     style={{ maxWidth: "200px" }}
                 />
 

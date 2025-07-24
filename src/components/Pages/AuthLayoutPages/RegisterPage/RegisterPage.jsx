@@ -64,7 +64,7 @@ const RegisterPage = () => {
                             role: "user",
                             role_created_at: new Date().toISOString(),
                             role_updated_at: new Date().toISOString(),
-                            role_update_by: "default",
+                            role_updated_by: "default",
 
                             // optional
                             isBanned: false,

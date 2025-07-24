@@ -16,7 +16,7 @@ const useSendUserDetails = () => {
             role: "user",
             role_created_at: new Date().toISOString(),
             role_updated_at: new Date().toISOString(),
-            role_update_by: "default",
+            role_updated_by: "default",
             isBanned: false,
             banned_at: null,
             banned_by: null,

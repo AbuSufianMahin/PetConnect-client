@@ -55,7 +55,7 @@ const DashboardNavbar = ({ userLinks, adminLinks }) => {
               }
 
               {
-                // role === "admin" &&
+                role === "admin" &&
                 <>
                   <div className="flex items-center mt-5">
                     <div className="border-b flex-1"></div>

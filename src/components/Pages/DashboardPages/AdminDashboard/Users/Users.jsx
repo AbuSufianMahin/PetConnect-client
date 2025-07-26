@@ -220,14 +220,14 @@ const Users = () => {
     return (
         <section className="w-11/12 mx-auto py-10">
             <motion.div
-                className="flex items-center justify-between mb-6"
+                className="flex flex-col md:flex-row gap-4 items-center justify-between mb-6"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}>
                 <h1 className="text-3xl font-bold">
                     Registered Users
                 </h1>
-                <div className="w-1/4">
+                <div className="w-full md:w-1/2 xl:w-1/3">
                     <Input type="text" placeholder="Search User by Name or Email" onChange={(e) => setSearchValue(e.target.value)} />
                 </div>
             </motion.div>

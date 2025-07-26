@@ -47,7 +47,6 @@ const PetListing = () => {
                 fetchNextPage();
                 console.log("fetch new");
             }
-            // console.log(inView, hasNextPage, !isFetchingNextPage);
         },
     });
 

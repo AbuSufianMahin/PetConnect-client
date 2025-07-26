@@ -173,7 +173,7 @@ const SentRequests = () => {
                             </div>
                         </div>
                         <div>
-                            <span className={`block text-xs font-semibold text-gray-400 ${adopted_at ? "text-green-500" : "text-gray-400"} mb-1`}>Adopted At:</span>
+                            <span className={`block text-xs font-semibold text-gray-400 ${adopted_at ? "text-green-500" : "text-gray-400"} mb-1`}>Approved At:</span>
                             <div className="text-gray-800 font-medium">
                                 {renderDateTime(adopted_at, "Not adopted yet")}
                             </div>

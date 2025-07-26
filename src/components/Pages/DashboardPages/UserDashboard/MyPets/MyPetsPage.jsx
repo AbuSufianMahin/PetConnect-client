@@ -12,7 +12,6 @@ import { ArrowUpDown, Pencil, Trash2 } from 'lucide-react';
 
 import PetEditDialogue from '../../../../Shared/PetDialogues/PetEditDialogue';
 import { Link } from 'react-router';
-import NoAddedPets from './NoAddedPets';
 import { TbLoader } from 'react-icons/tb';
 import PetsLoadingSkeleton from './PetsLoadingSkeleton';
 
@@ -94,7 +93,15 @@ const MyPetsPage = () => {
         {
             header: 'Category',
             accessorKey: 'petCategory',
-            cell: info => info.getValue(),
+            cell: info => {
+                const category = info.getValue();
+                return (
+                    <span className="inline-block px-3 py-1 shadow-sm text-sm font-semibold rounded-full bg-blue-100 text-blue-800">
+                        {category}
+                    </span>
+                );
+
+            }
         },
         {
             header: 'Image',

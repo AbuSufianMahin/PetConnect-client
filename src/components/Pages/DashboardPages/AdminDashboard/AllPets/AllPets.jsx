@@ -10,6 +10,8 @@ import { Separator } from "../../../../ui/separator";
 import { ArrowUpDown, Pencil, Trash2 } from "lucide-react";
 import { Button } from "../../../../ui/button";
 import { NavLink } from "react-router";
+import useDebounce from "../../../../../hooks/useDebounce";
+import AllPetsLoadingSkeleton from "./AllPetsLoadingSkeleton";
 
 
 const tableVariants = {
@@ -27,16 +29,23 @@ const AllPets = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
 
+    const [searchTerm, setSearchTerm] = useState('');
+    const debouncedSearchValue = useDebounce(searchTerm, 500);
+
+
     const { data: petsInfo = [], isLoading } = useQuery({
-        queryKey: ["All-pets"],
+        queryKey: ["All-pets", debouncedSearchValue],
         queryFn: async () => {
-            const res = await axiosSecure.get('/pets');
+            const res = await axiosSecure.get(`/pets?seachByName=${debouncedSearchValue}`);
             return res.data.pets;
             // return res.data; ==> for infinity loading (will implement later)
         }
     })
 
-    console.log(petsInfo);
+
+
+
+
 
     const columns = [
         {
@@ -196,17 +205,17 @@ const AllPets = () => {
     return (
         <section className="w-11/12 mx-auto py-10">
             <motion.div
-                className="flex items-center justify-between mb-6"
+                className="flex flex-col md:flex-row gap-4 items-center justify-between mb-6"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
                 <h1 className="text-3xl font-bold">All Listed Pets</h1>
-                <div className="w-1/4">
+                <div className="w-full md:w-1/2 lg:w-1/3">
                     <Input
                         type="text"
-                        placeholder="Search pet by name/category"
-                    // onChange={(e) => setSearchValue(e.target.value)}
+                        placeholder="Search pet by name"
+                        onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
             </motion.div>
@@ -239,8 +248,7 @@ const AllPets = () => {
 
                     {
                         isLoading ?
-                            // <PetTableSkeleton rows={4} />
-                            <p>LOADING</p>
+                            <AllPetsLoadingSkeleton rows={3}/>
                             :
                             petsInfo.length === 0 ?
                                 <tr className="bg-white">

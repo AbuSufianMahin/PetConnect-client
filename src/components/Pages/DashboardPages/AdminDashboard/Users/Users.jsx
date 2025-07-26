@@ -122,9 +122,9 @@ const Users = () => {
                     <>
                         {
                             value === 'admin' ?
-                                <span className="text-green-600 font-medium">Admin</span>
+                                <span className="text-green-600 font-medium text-sm p-2 rounded-full bg-green-100">Admin</span>
                                 :
-                                <span className="font-medium">User</span>
+                                <span className="font-medium text-sm">User</span>
                         }
                     </>
                 )

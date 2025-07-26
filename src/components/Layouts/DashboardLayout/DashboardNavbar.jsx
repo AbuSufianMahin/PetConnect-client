@@ -13,7 +13,6 @@ import {
 import { NavLink } from "react-router";
 import { useSidebar } from "../../ui/sidebar";
 import useUserRole from "../../../hooks/useUserRole";
-import { Separator } from "../../ui/separator";
 import DashboardLoadingSkeleton from "./DashboardLoadingSkeleton";
 import { ShieldUser } from "lucide-react";
 

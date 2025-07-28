@@ -57,8 +57,6 @@ const CampaignCard = ({ campaign }) => {
                 </div>
             </div>
         </div>
-
-
     );
 };
 

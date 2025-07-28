@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import {
     Dialog,
     DialogContent,
@@ -11,15 +11,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useForm } from 'react-hook-form';
-import { confirmAction, errorAlert, successAlert } from '../../../../Utilities/sweetAlerts';
+import { errorAlert, successAlert } from '../../../../Utilities/sweetAlerts';
 import { errorToast } from '../../../../Utilities/toastAlerts';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
 import useAuth from '../../../../hooks/useAuth';
+import { useQueryClient } from '@tanstack/react-query';
 
 const DonateForm = ({ setOpenDonateModal, maxAmount, campaignData, refetch }) => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-    const { register, handleSubmit, watch, reset } = useForm();
+
+    const queryClient = useQueryClient();
+    const { register, handleSubmit, watch } = useForm();
     const stripe = useStripe();
     const elements = useElements();
 
@@ -111,6 +114,7 @@ const DonateForm = ({ setOpenDonateModal, maxAmount, campaignData, refetch }) =>
         }
         finally {
             setIsLoading(false);
+            queryClient.invalidateQueries({ queryKey: ['recommendedCampaigns'] })
             refetch();
         }
     };

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import useAuth from '../../../../hooks/useAuth';
 import { useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
@@ -10,6 +9,7 @@ import CampaignDetailsSkeleton from './CampaignDetailsSkeleton';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { DonateModal } from './DonateModal';
+import RecommendedCampaigns from './RecommendedCampaigns';
 
 const stripePromise = loadStripe(import.meta.env.VITE_stripe_secret_key);
 
@@ -36,7 +36,7 @@ const CampaignDetails = () => {
                 isLoading ?
                     <CampaignDetailsSkeleton />
                     :
-                    <div className="flex flex-col items-center xl:flex-row md:px-10 md:py-8 xl:gap-6 border rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-neutral-900 transition-all duration-300">
+                    <div className="flex flex-col items-center xl:flex-row md:px-10 md:py-8 xl:gap-6 border rounded-2xl overflow-hidden shadow-lg bg-white dark:bg-neutral-900 transition-all duration-300">
                         <div className='flex-2'>
                             {/* Header Image */}
                             <div className="relative w-full rounded-t-2xl md:rounded-b-2xl overflow-hidden shadow-lg">
@@ -102,6 +102,8 @@ const CampaignDetails = () => {
                         </div>
                     </div>
             }
+
+            <RecommendedCampaigns/>
 
             <Elements stripe={stripePromise}>
                 <DonateModal openDonateModal={openDonateModal} setOpenDonateModal={setOpenDonateModal} campaignData={campaignData} refetch={refetch}/>

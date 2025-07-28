@@ -25,6 +25,7 @@ import Users from "../components/Pages/DashboardPages/AdminDashboard/Users/Users
 import AllPets from "../components/Pages/DashboardPages/AdminDashboard/AllPets/AllPets";
 import AllDonationCampaigns from "../components/Pages/DashboardPages/AdminDashboard/AllDonationCampaigns/AllDonationCampaigns";
 import AdminRoute from "../components/Routes/AdminRoute";
+import CampaignDetails from "../components/Pages/HomeLayoutPages/CampaignDetails/CampaignDetails";
 
 
 
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
       {
         path: "donation-campaign",
         Component: DonationCampaigns
+      },
+      {
+        path: "/campaign-details/:campaignId",
+        element: <PrivateRoute><CampaignDetails></CampaignDetails></PrivateRoute>
       }
     ]
   },
@@ -112,8 +117,7 @@ export const router = createBrowserRouter([
       {
         path: "all-donation-campaigns",
         element : <AdminRoute><AllDonationCampaigns></AllDonationCampaigns></AdminRoute>
-      }
-
+      },
     ]
   },
   {

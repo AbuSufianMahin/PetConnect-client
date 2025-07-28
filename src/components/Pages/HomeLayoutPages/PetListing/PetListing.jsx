@@ -51,7 +51,7 @@ const PetListing = () => {
     });
 
     return (
-        <div className="w-11/12 lg:w-10/12 xl:w-9/12 mx-auto py-10 max-w-[1440px]">
+        <section className="w-11/12 lg:w-10/12 xl:w-9/12 mx-auto py-10 max-w-[1440px]">
             <h1 className="text-3xl font-extrabold text-center mb-8 font-delius-regular">Available Pets for Adoption</h1>
 
             {/* 🔍 Search + Filter */}
@@ -122,7 +122,7 @@ const PetListing = () => {
                 )
             }
             <div ref={ref} id="scroll-sentinel" className="mt-5 h-4" />
-        </div >
+        </section >
     );
 };
 

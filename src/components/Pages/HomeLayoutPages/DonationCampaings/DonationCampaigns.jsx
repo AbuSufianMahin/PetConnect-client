@@ -55,13 +55,13 @@ const DonationCampaigns = () => {
                         :
                         <>
                             {
-                                campaignsData?.pages[0].campaigns.length !== 0 ?
+                                campaignsData?.pages[0].campaigns.length === 0 ?
                                     <div className="flex flex-col items-center justify-center col-span-3 mt-5">
                                         <div className='w-fit border rounded-full overflow-hidden'>
                                             <Lottie animationData={noDataGirlAnimation} loop={true}/>
                                         </div>
                                         <h2 className="mt-6 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                                            No Donation Campaigns Found
+                                            No Active Donation Campaigns Found
                                         </h2>
                                     </div>
                                     :

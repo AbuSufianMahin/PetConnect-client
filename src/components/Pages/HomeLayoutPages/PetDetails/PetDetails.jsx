@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import useAuth from '../../../../hooks/useAuth';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';

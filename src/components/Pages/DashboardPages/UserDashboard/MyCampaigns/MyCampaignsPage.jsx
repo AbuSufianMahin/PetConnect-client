@@ -27,10 +27,11 @@ const MyCampaignsPage = () => {
     });
 
     const [isPausing, setIsPausing] = useState(false);
-
+    const [pauseCampaignId, setPauseCampaignId] = useState();
     const onPauseToggle = async (campaignId, currentStatus) => {
         const newStatus = currentStatus === "active" ? "paused" : "active";
         setIsPausing(true);
+        setPauseCampaignId(campaignId);
         try {
             const response = await axiosSecure.patch(`/donation-campaigns/${campaignId}/toggle-status`, { status: newStatus });
 
@@ -39,7 +40,6 @@ const MyCampaignsPage = () => {
             }
         }
         catch (error) {
-            console.log(error)
             errorAlert("Status update failed", error.message);
         }
         finally {
@@ -129,12 +129,12 @@ const MyCampaignsPage = () => {
                             variant="outline"
                             className="w-40 flex items-center justify-center gap-2"
                             onClick={() => onPauseToggle(campaign._id, campaign.status)}
-                            disabled={isPausing}
+                            disabled={isPausing && campaign._id === pauseCampaignId}
                         >
                             {campaign.status === "active" ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                             {campaign.status === "active" ? "Pause" : "Unpause"}
                             {
-                                isPausing && <TbLoader className='animate-spin' />
+                                isPausing && campaign._id === pauseCampaignId && <TbLoader className='animate-spin' />
                             }
                         </Button>
 

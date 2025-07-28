@@ -21,7 +21,7 @@ const CampaignCard = ({ campaign }) => {
 
                 {/* Bottom Text */}
                 <div className="absolute bottom-3 left-4 z-20 text-white drop-shadow-xl">
-                    <h3 className="text-2xl font-bold">{petName}</h3>
+                    <h3 className="text-2xl font-bold font-delius-regular">{petName}</h3>
                     <p className="text-sm italic text-gray-300">{shortDescription}</p>
                 </div>
             </div>

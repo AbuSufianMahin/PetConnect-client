@@ -3,13 +3,12 @@ import { useRef, useState } from 'react';
 import { Input } from "../../../../ui/input"
 import { Label } from "../../../../ui/label"
 import { Button } from "../../../../ui/button"
-import { CalendarIcon, ImagePlus } from "lucide-react"
+import { ImagePlus } from "lucide-react"
 import { useForm } from 'react-hook-form';
 import LongDescriptionInput from '../../../../Shared/LongDescriptionInput/LongDescriptionInput';
 import useAuth from '../../../../../hooks/useAuth';
 import useAxiosSecure from '../../../../../hooks/useAxiosSecure';
 import useCloudinaryUpload from '../../../../../hooks/useCloudynariUpload';
-
 import helpSeekingAnimation from "../../../../../assets/LottieAnimations/helpSeekingAnimation.json"
 import Lottie from 'lottie-react';
 import AnimatedFormError from '../../../../Shared/AnimatedFormError/AnimatedFormError';

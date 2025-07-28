@@ -14,7 +14,7 @@ const successToast = (message, time, theme) => {
     });
 }
 
-const errorToast = (message, time ,theme) => {
+const errorToast = (message, time, theme) => {
     return toast.error(message, {
         position: "top-right",
         autoClose: time || 5000,
@@ -28,7 +28,7 @@ const errorToast = (message, time ,theme) => {
     });
 }
 
-const warningToast = (message, time ,theme) => {
+const warningToast = (message, time, theme) => {
     return toast.warn(message, {
         position: "top-right",
         autoClose: time || 5000,
@@ -42,4 +42,4 @@ const warningToast = (message, time ,theme) => {
     });
 }
 
-export {successToast, errorToast, warningToast};
+export { successToast, errorToast, warningToast };

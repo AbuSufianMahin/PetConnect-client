@@ -20,7 +20,6 @@ const DashboardNavbar = ({ userLinks, adminLinks }) => {
   const { toggleSidebar, isMobile } = useSidebar();
   const { role, isRoleLoading } = useUserRole();
 
-  console.log(role)
   return (
     <SidebarGroup>
       <SidebarMenu className="space-y-2 my-2">

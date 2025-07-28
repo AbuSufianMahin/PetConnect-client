@@ -1,11 +1,12 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import React from 'react';
 import useAuth from '../../../../hooks/useAuth';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
 import { useInView } from 'react-intersection-observer';
-import Skeleton from 'react-loading-skeleton';
 import CampaignCard from './CampaignCard';
 import CampaignCardSkeleton from './CampaignCardSkeleton';
+
+import noDataGirlAnimation from "../../../../assets/LottieAnimations/noDataGirlAnimation.json"
+import Lottie from 'lottie-react';
 
 const DonationCampaigns = () => {
 
@@ -54,8 +55,15 @@ const DonationCampaigns = () => {
                         :
                         <>
                             {
-                                campaignsData?.pages[0].campaigns.length === 0 ?
-                                    <p>No Campaigns Found</p>
+                                campaignsData?.pages[0].campaigns.length !== 0 ?
+                                    <div className="flex flex-col items-center justify-center col-span-3 mt-5">
+                                        <div className='w-fit border rounded-full overflow-hidden'>
+                                            <Lottie animationData={noDataGirlAnimation} loop={true}/>
+                                        </div>
+                                        <h2 className="mt-6 text-lg font-semibold text-gray-600 dark:text-gray-300">
+                                            No Donation Campaigns Found
+                                        </h2>
+                                    </div>
                                     :
                                     campaignsData.pages.flatMap(page => page.campaigns).map((campaign) =>
                                         <CampaignCard key={campaign._id} campaign={campaign} user={user} />
@@ -64,7 +72,7 @@ const DonationCampaigns = () => {
                         </>
                 }
             </div>
-            
+
 
             {/* Loader when fetching next page */}
             {

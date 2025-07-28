@@ -1,19 +1,19 @@
 import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Placeholder from "@tiptap/extension-placeholder";
-import { Button } from "@/components/ui/button"; // shadcn/ui
 import {
     Bold,
     Italic,
     Strikethrough,
     List,
     ListOrdered,
-    Quote,
 } from "lucide-react";
-import { Label } from "../../../../ui/label";
 import { useEffect, useState } from "react";
+import { Label } from "../../ui/label";
+import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
+import { Button } from "../../ui/button";
+import AnimatedFormError from "../AnimatedFormError/AnimatedFormError";
 
-const LongDescriptionInput = ({ register, setValue, errors, longDescription }) => {
+const LongDescriptionInput = ({ register, setValue, errors, longDescription, placeholder }) => {
 
     const [isBoldActive, setIsBoldActive] = useState(false);
     const [isItalicActive, setIsItalicActive] = useState(false);
@@ -23,14 +23,14 @@ const LongDescriptionInput = ({ register, setValue, errors, longDescription }) =
         extensions: [
             StarterKit,
             Placeholder.configure({
-                placeholder: "Write a detailed description about your pet",
+                placeholder: placeholder || "Write a detailed description",
             }),
         ],
         content: longDescription || "",
         onUpdate: ({ editor }) => {
             const html = editor.getHTML();
-            
-            if(html !== "<p></p>"){
+
+            if (html !== "<p></p>") {
                 setValue("longDescription", html, { shouldValidate: true });
                 return;
             }
@@ -129,9 +129,7 @@ const LongDescriptionInput = ({ register, setValue, errors, longDescription }) =
                 </div>
 
             </div>
-            {errors.longDescription && (
-                <p className="text-xs text-red-500 mt-1">{errors.longDescription.message}</p>
-            )}
+            {errors.longDescription && (<AnimatedFormError message={errors.longDescription.message}></AnimatedFormError>)}
         </div>
     );
 }

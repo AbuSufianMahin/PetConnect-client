@@ -155,6 +155,7 @@
 }
 
 .ProseMirror {
+  white-space: pre-wrap;
   border: none;
   outline: none;
   padding: 0;

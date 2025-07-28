@@ -16,11 +16,11 @@ const errorAlert = (title, message) => {
     });
 }
 
-const confirmAction = (title, message, confirmBtnText) => {
+const confirmAction = (title, message, confirmBtnText, iconType) => {
     return Swal.fire({
         title: title || "Are you sure?",
         text: message || "You won't be able to revert this!",
-        icon: "warning",
+        icon: iconType || "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",

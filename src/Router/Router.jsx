@@ -110,7 +110,7 @@ export const router = createBrowserRouter([
         element : <AdminRoute><AllPets></AllPets></AdminRoute>
       },
       {
-        path: "all-donations",
+        path: "all-donation-campaigns",
         element : <AdminRoute><AllDonationCampaigns></AllDonationCampaigns></AdminRoute>
       }
 

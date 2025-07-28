@@ -85,8 +85,8 @@ const DashboardLayout = () => {
             icon: Dog,
         },
         {
-            path: "/dashboard/all-donations",
-            linkName: "All Donations",
+            path: "/dashboard/all-donation-campaigns",
+            linkName: "All Campaigns",
             icon: Gift,
         },
     ];

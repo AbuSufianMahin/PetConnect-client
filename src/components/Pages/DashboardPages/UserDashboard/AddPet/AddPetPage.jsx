@@ -4,7 +4,6 @@ import { Textarea } from "../../../../ui/textarea";
 import { Label } from "../../../../ui/label";
 import { Button } from "../../../../ui/button";
 import Select from "react-select";
-import LongDescriptionInput from './LongDescriptionInput';
 import Lottie from 'lottie-react';
 
 import happyCat from "../../../../../assets/LottieAnimations/Lovely cats.json"
@@ -15,9 +14,8 @@ import useAuth from '../../../../../hooks/useAuth';
 import { TbLoader } from 'react-icons/tb';
 import useAxiosSecure from '../../../../../hooks/useAxiosSecure';
 import { confirmAction, errorAlert, successAlert } from '../../../../../Utilities/sweetAlerts';
+import LongDescriptionInput from '../../../../Shared/LongDescriptionInput/LongDescriptionInput';
 
-
-// 
 const petCategories = [
     { value: "Dog", label: "Dog" },
     { value: "Cat", label: "Cat" },
@@ -34,14 +32,13 @@ const AddPetPage = () => {
             longDescription: '',
         },
     })
-
+    const longDescription = watch('longDescription');
 
     const inputImageRef = useRef();
     const { user } = useAuth();
     const { uploadImage } = useCloudinaryUpload();
     const axiosSecure = useAxiosSecure();
 
-    const longDescription = watch('longDescription');
     const [imagePreview, setImagePreview] = useState(null);
 
     const handleImageChange = (e) => {
@@ -62,7 +59,8 @@ const AddPetPage = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const onPetFormSubmit = async (data) => {
-        const { petName, petAge, petCategory, petLocation, shortDescription, longDescription, petImage } = data;
+        const { petName, petAge, petCategory, petLocation, shortDescription, longDescription, petImage } = data; // petImage is a file
+        
 
         confirmAction("Confirm Adoption Listing", "Are you sure you want to list this pet for adoption? You can edit it later if needed.", "Yes, list the pet")
             .then(async (result) => {
@@ -71,7 +69,6 @@ const AddPetPage = () => {
                     if (result.isConfirmed) {
                         setIsSubmitting(true);
                         const photoURL = await uploadImage(petImage);
-                        // const photoURL = "";
 
                         const petInfo = {
                             petName,
@@ -126,7 +123,7 @@ const AddPetPage = () => {
     }
 
     return (
-        <div className="w-11/12 mx-auto py-10">
+        <section className="w-11/12 mx-auto py-10">
             <h1 className="text-3xl font-bold mb-6">Add a New Pet to adoption</h1>
             <div className='xl:grid xl:grid-cols-2'>
                 <div>
@@ -162,7 +159,7 @@ const AddPetPage = () => {
 
                                     <Controller
                                         name="petCategory"
-                                        
+
                                         control={control}
                                         rules={{ required: "Pet Category is Required" }}
                                         render={({ field }) => (
@@ -185,7 +182,7 @@ const AddPetPage = () => {
                                     <Textarea
                                         className="bg-white text-xs md:text-base lg:text-lg"
                                         placeholder="A small note or summary about the pet"
-                                        
+
                                         {...register("shortDescription", { required: "Please enter short description about your pet" })}
                                     />
 
@@ -268,7 +265,7 @@ const AddPetPage = () => {
                             errors={errors}
                             longDescription={longDescription}
                         />
-                        
+
                         {/* Submit Button */}
                         <div>
                             <Button type="submit" disabled={isSubmitting}>
@@ -290,7 +287,7 @@ const AddPetPage = () => {
                     ></Lottie>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

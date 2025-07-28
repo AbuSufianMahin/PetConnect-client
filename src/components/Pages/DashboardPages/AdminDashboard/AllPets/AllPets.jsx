@@ -42,11 +42,6 @@ const AllPets = () => {
         }
     })
 
-
-
-
-
-
     const columns = [
         {
             header: "SL",

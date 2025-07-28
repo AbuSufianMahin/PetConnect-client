@@ -5,13 +5,13 @@ import { Label } from '../../ui/label';
 import Select from "react-select";
 import { Input } from '../../ui/input';
 import { Textarea } from '../../ui/textarea';
-import LongDescriptionInput from '../../Pages/DashboardPages/UserDashboard/AddPet/LongDescriptionInput';
 import { TbLoader } from 'react-icons/tb';
 import { ImagePlus } from 'lucide-react';
 import { Button } from '../../ui/button';
 import { confirmAction, errorAlert, successAlert } from '../../../Utilities/sweetAlerts';
 import useCloudinaryUpload from '../../../hooks/useCloudynariUpload';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import LongDescriptionInput from '../LongDescriptionInput/LongDescriptionInput';
 
 
 const petCategories = [
@@ -24,7 +24,7 @@ const petCategories = [
 ];
 
 const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetch }) => {
-    const { register, watch, handleSubmit, setValue, control, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, setValue, control, formState: { errors }, reset } = useForm();
     const { uploadImage } = useCloudinaryUpload();
     const axiosSecure = useAxiosSecure();
 

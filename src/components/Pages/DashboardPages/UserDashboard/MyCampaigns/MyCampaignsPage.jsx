@@ -12,13 +12,11 @@ import { errorAlert } from '../../../../../Utilities/sweetAlerts';
 import { successToast } from '../../../../../Utilities/toastAlerts';
 import { Link } from 'react-router';
 import EditCampaignModal from './EditCampaignModal';
+import DonorModal from './DonorModal';
 
 const MyCampaignsPage = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
-
-    // console.log("user object: ", user);
-
 
     const { data: campaignsData = [], isLoading, refetch } = useQuery({
         queryKey: ["my-campaigns", user.email],
@@ -58,6 +56,15 @@ const MyCampaignsPage = () => {
         setOpenEditDialog(true);
         setSelectedCampaignForEdit(campaign)
     }
+
+    const [openDonorDialog, setOpenDonorDialog] = useState(false);
+    const [selectedCampaign, setSelectedCampaign] = useState(null);
+
+    const onViewDonators = (campaign) => {
+        setOpenDonorDialog(true);
+        setSelectedCampaign(campaign);
+    }
+
     const [sorting, setSorting] = useState([])
     const columns = [
         {
@@ -172,7 +179,7 @@ const MyCampaignsPage = () => {
                         <Button
                             variant="secondary"
                             className="w-40 flex text-white items-center justify-center gap-2"
-                        // onClick={() => onViewDonators(campaign)}
+                            onClick={() => onViewDonators(campaign)}
                         >
                             <Users className="h-4 w-4" />
                             View Donators
@@ -263,6 +270,13 @@ const MyCampaignsPage = () => {
                 setOpenEditDialog={setOpenEditDialog}
                 refetch={refetch}
             />
+
+            <DonorModal
+                selectedCampaign={selectedCampaign}
+                openDonorDialog={openDonorDialog}
+                setOpenDonorDialog={setOpenDonorDialog}
+            />
+
         </section>
     );
 };

@@ -24,7 +24,7 @@ function isValidDate(date) {
     return date instanceof Date && !isNaN(date.getTime())
 }
 
-const DatePickerInput = ({ label = "Select Date", onDateChange, register, errors, resetDate }) => {
+const DatePickerInput = ({ label = "Select Date", onDateChange, register, errors, resetDate, defaultValue }) => {
     const [open, setOpen] = useState(false)
     const [date, setDate] = useState()
     const [month, setMonth] = useState()

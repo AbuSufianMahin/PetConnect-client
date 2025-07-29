@@ -3,6 +3,7 @@ import AboutUs from './AboutUs/AboutUs';
 import CallToAction from './CallToAction/CallToAction';
 
 import Header from './Header/Header';
+import TopContributors from './TopContributors/TopContributors';
 
 const Home = () => {
     return (
@@ -10,7 +11,7 @@ const Home = () => {
             <Header></Header>
             <CallToAction></CallToAction>
             <AboutUs></AboutUs>
-            
+            <TopContributors></TopContributors>
         </div>
     );
 };

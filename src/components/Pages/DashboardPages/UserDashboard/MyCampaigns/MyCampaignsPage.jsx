@@ -11,6 +11,7 @@ import { TbLoader } from 'react-icons/tb';
 import { errorAlert } from '../../../../../Utilities/sweetAlerts';
 import { successToast } from '../../../../../Utilities/toastAlerts';
 import { Link } from 'react-router';
+import EditCampaignModal from './EditCampaignModal';
 
 const MyCampaignsPage = () => {
     const { user } = useAuth();
@@ -29,6 +30,7 @@ const MyCampaignsPage = () => {
 
     const [isPausing, setIsPausing] = useState(false);
     const [pauseCampaignId, setPauseCampaignId] = useState();
+
     const onPauseToggle = async (campaignId, currentStatus) => {
         const newStatus = currentStatus === "active" ? "paused" : "active";
         setIsPausing(true);
@@ -49,6 +51,13 @@ const MyCampaignsPage = () => {
         }
     }
 
+    const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [selectedCampaignForEdit, setSelectedCampaignForEdit] = useState(null);
+
+    const handleEdit = (campaign) => {
+        setOpenEditDialog(true);
+        setSelectedCampaignForEdit(campaign)
+    }
     const [sorting, setSorting] = useState([])
     const columns = [
         {
@@ -154,7 +163,7 @@ const MyCampaignsPage = () => {
 
                         <Button
                             className="w-40 flex items-center justify-center gap-2"
-                        // onClick={() => onEdit(campaign._id)}
+                            onClick={() => handleEdit(campaign)}
                         >
                             <Pencil className="h-4 w-4" />
                             Edit
@@ -188,7 +197,6 @@ const MyCampaignsPage = () => {
     return (
         <section className="w-11/12 mx-auto py-10">
             <h1 className="text-3xl font-bold mb-6">Your Added Donation Campaigns</h1>
-
 
             <Table className="rounded-xl overflow-hidden">
                 <TableHeader className="bg-secondary">
@@ -247,6 +255,14 @@ const MyCampaignsPage = () => {
                 }
 
             </Table >
+
+            <EditCampaignModal
+                isLoading={isLoading}
+                campaignDetails={selectedCampaignForEdit}
+                openEditDialog={openEditDialog}
+                setOpenEditDialog={setOpenEditDialog}
+                refetch={refetch}
+            />
         </section>
     );
 };

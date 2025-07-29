@@ -1,38 +1,56 @@
-import { useRef, useState } from 'react';
-"use client"
-import { Input } from "../../../../ui/input"
-import { Label } from "../../../../ui/label"
-import { Button } from "../../../../ui/button"
-import { ImagePlus } from "lucide-react"
-import { useForm } from 'react-hook-form';
-import LongDescriptionInput from '../../../../Shared/LongDescriptionInput/LongDescriptionInput';
-import useAuth from '../../../../../hooks/useAuth';
-import useAxiosSecure from '../../../../../hooks/useAxiosSecure';
-import useCloudinaryUpload from '../../../../../hooks/useCloudynariUpload';
-import helpSeekingAnimation from "../../../../../assets/LottieAnimations/helpSeekingAnimation.json"
-import Lottie from 'lottie-react';
-import AnimatedFormError from '../../../../Shared/AnimatedFormError/AnimatedFormError';
-import DatePickerInput from '../../../../Shared/DatePickerInput/DatePickerInput';
-import { confirmAction, errorAlert, successAlert } from '../../../../../Utilities/sweetAlerts';
-import { TbLoader } from 'react-icons/tb';
+import React, { useEffect, useRef, useState } from "react";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+    DialogFooter,
+} from "../../../../ui/dialog";
+import { Label } from '../../../../ui/label';
+import { Button } from "../../../../ui/button";
+import { useForm } from "react-hook-form";
+import { Input } from "../../../../ui/input";
+import { ImagePlus } from "lucide-react";
+import LongDescriptionInput from "../../../../Shared/LongDescriptionInput/LongDescriptionInput";
+import DatePickerInput from "../../../../Shared/DatePickerInput/DatePickerInput";
+import AnimatedFormError from "../../../../Shared/AnimatedFormError/AnimatedFormError";
 
-
-const CreateCampaignPage = () => {
-    const { user } = useAuth();
-    const { uploadImage } = useCloudinaryUpload();
-    const axiosSecure = useAxiosSecure();
-
+const EditCampaignModal = ({ openEditDialog, setOpenEditDialog, campaignDetails, refetch }) => {
     const { register, handleSubmit, watch, setValue, formState: { errors }, reset } = useForm({
         defaultValues: {
             longDescription: '',
         },
     })
 
-    const longDescription = watch('longDescription');
+    const [longDescription, setLongDescription] = useState(campaignDetails?.longDescription || "");
+    const [imagePreview, setImagePreview] = useState("");
+
+    useEffect(() => {
+        if (campaignDetails) {
+            const updatedData = {
+                ...campaignDetails,
+                donationDeadline: campaignDetails?.deadline ? new Date(campaignDetails.deadline) : null,
+            };
+            reset(updatedData);
+            setImagePreview(campaignDetails.photoURL);
+            setLongDescription(campaignDetails.longDescription);
+        }
+    }, [campaignDetails, reset, setValue]);
+
+    const [resetDate, setResetDate] = useState(false);
+    const handleDateChange = (date) => {
+        const isoDate = date?.toISOString()
+        setValue("deadline", isoDate, { shouldValidate: true })
+    }
 
     const inputImageRef = useRef();
-    const [imagePreview, setImagePreview] = useState(null);
 
+    const clearImage = () => {
+        setImagePreview(null);
+        inputImageRef.current.value = "";
+        setValue("petPictureFile", null, { shouldValidate: true });
+    }
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -42,90 +60,30 @@ const CreateCampaignPage = () => {
         }
     };
 
-    const clearImage = () => {
-        setImagePreview(null);
-        inputImageRef.current.value = "";
-        setValue("petPictureFile", null, { shouldValidate: true });
-    }
 
-    const handleDateChange = (date) => {
-        const isoDate = date?.toISOString()
-        setValue("deadline", isoDate, { shouldValidate: true })
+    const handleCloseDialog = () => {
+        setImagePreview(campaignDetails.photoURL);
+        reset(campaignDetails);
+        setOpenEditDialog(false);
     }
 
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [resetDate, setResetDate] = useState(false);
-
     const handleCampaignFormSubmit = (data) => {
         setResetDate(false);
-        const { deadline, longDescription, maxDonationAmount: rawMaxDonationAmount, shortDescription, petName, petPictureFile } = data;
-        const maxDonationAmount = parseInt(rawMaxDonationAmount, 10);
-
-        confirmAction("Create Campaign?", "Once created, you'll be able to manage and track donations from your dashboard.", "Create Campaign", "question")
-            .then(async (result) => {
-                try {
-                    if (result.isConfirmed) {
-                        setIsSubmitting(true);
-
-                        const photoURL = await uploadImage(petPictureFile);
-                        // const photoURL = "imageLink";
-
-                        const campaignData = {
-                            petName,
-                            shortDescription,
-                            longDescription,
-                            deadline,
-                            maxDonationAmount,
-                            photoURL,
-                            organizerEmail: user.email,
-
-                            //default values
-                            donatedAmount: 0,
-                            donators: [],
-                            status: "active",
-                            createdAt: new Date().toISOString(),
-                        };
-
-                        console.log(campaignData);
-                        await axiosSecure.post("/create-campaign", campaignData)
-                            .then((res) => {
-                                if (res.data.insertedId) {
-                                    successAlert("Campaign Created!", res.data.message || "Your donation campaign is now live.");
-
-                                    // Reset fields
-                                    reset({
-                                        petName: '',
-                                        shortDescription: '',
-                                        longDescription: '',
-                                        deadline: null,
-                                        maxDonationAmount: '',
-                                        petPictureFile: null,
-                                    });
-                                    clearImage();
-                                    setValue("petPictureFile", null, { shouldValidate: false });
-                                    setValue("longDescription", null, { shouldValidate: true });
-                                    setValue("deadline", null, { shouldValidate: true })
-                                    setResetDate(true);
-                                }
-                            })
-                            .catch((error) => {
-                                errorAlert("Unable to Create Campaign", error.response?.data?.message || "Please try again later.");
-                            });
-                    }
-                } catch (error) {
-                    console.error(error);
-                    errorAlert("Something Went Wrong", "Could not upload photo.");
-                } finally {
-                    setIsSubmitting(false);
-                }
-            })
+        console.log(data);
     }
 
     return (
-        <section className="w-11/12 mx-auto py-10">
-            <h1 className="text-3xl font-bold mb-6">Create Donation Campaign</h1>
+        <Dialog open={openEditDialog} onOpenChange={handleCloseDialog}>
+            <DialogContent className="md:max-w-2xl lg:max-w-4xl gap-3 max-h-[95vh] overflow-y-auto">
+                <DialogHeader>
+                    <DialogTitle>Edit Donation Campaign</DialogTitle>
+                    <DialogDescription>
+                        Update the details of your donation campaign below.
+                    </DialogDescription>
+                </DialogHeader>
 
-            <div className='grid xl:grid-cols-2 gap-24 items-center  lg:max-w-3xl xl:max-w-full'>
+
                 <form className='space-y-4' onSubmit={handleSubmit(handleCampaignFormSubmit)}>
                     {/* Pet Name */}
                     <div>
@@ -174,9 +132,8 @@ const CreateCampaignPage = () => {
 
                             {/* hidden demo input to register with a name */}
                             <Input className="hidden" {...register("petPictureFile", {
-                                required: "Please upload a pet picture"
-                            })}></Input>
-
+                                required: !imagePreview ? "Pet Image is Required" : false
+                            })} />
                         </Label>
                         {errors.petPictureFile && <AnimatedFormError message={errors.petPictureFile?.message}></AnimatedFormError>}
 
@@ -269,24 +226,23 @@ const CreateCampaignPage = () => {
                         placeholder={"Describe the situation and why you're raising funds"}
                     />
 
-                    {/* Submit Button */}
-                    <div>
-                        <Button type="submit" className="w-full text-base font-medium" disabled={isSubmitting}>
-                            Create Campaign
+
+                    <DialogFooter className="pt-4">
+                        <Button variant="outline" type="button" onClick={handleCloseDialog}>
+                            Cancel
+                        </Button>
+                        <Button type="submit" className="text-base font-medium" disabled={isSubmitting}>
+                            save changes
                             {
                                 isSubmitting && <TbLoader className='animate-spin' />
                             }
                         </Button>
-                    </div>
+                    </DialogFooter>
+
                 </form>
-
-
-                <div className='hidden xl:flex'>
-                    <Lottie animationData={helpSeekingAnimation} loop={false}></Lottie>
-                </div>
-            </div>
-        </section>
+            </DialogContent>
+        </Dialog>
     );
 };
 
-export default CreateCampaignPage;
+export default EditCampaignModal;

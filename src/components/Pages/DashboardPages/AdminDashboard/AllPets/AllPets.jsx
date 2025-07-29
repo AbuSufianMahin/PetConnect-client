@@ -357,7 +357,6 @@ const AllPets = () => {
                 openEditDialog={openEditDialog}
                 setOpenEditDialog={setOpenEditDialog}
                 refetch={refetch}
-                userRole="admin"
             />
         </section>
     );

@@ -24,7 +24,7 @@ const petCategories = [
     { value: "Other", label: "Other" },
 ];
 
-const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetch, userRole }) => {
+const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetch}) => {
     const { user } = useAuth();
 
     const { register, handleSubmit, setValue, control, formState: { errors }, reset } = useForm();
@@ -36,9 +36,7 @@ const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetc
 
     useEffect(() => {
         if (petDetails) {
-
             reset(petDetails); //setting all the default values! (with photoURL, which is not given in this edit dialogue)
-
             setImagePreview(petDetails.photoURL)
             setLongDescription(petDetails.longDescription);
         }

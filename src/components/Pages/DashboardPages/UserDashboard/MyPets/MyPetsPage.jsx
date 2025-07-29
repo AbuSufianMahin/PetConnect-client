@@ -61,10 +61,7 @@ const MyPetsPage = () => {
                     }
                 }
             })
-
-
     }
-
 
     const handleEditDialog = (pet) => {
         setSelectedPetForEdit(pet);
@@ -332,7 +329,6 @@ const MyPetsPage = () => {
                 openEditDialog={openEditDialog}
                 setOpenEditDialog={setOpenEditDialog}
                 refetch={refetch}
-                userRole="user"
             />
         </div >
     );

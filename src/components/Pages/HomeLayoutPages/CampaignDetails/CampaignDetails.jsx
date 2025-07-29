@@ -9,7 +9,7 @@ import CampaignDetailsSkeleton from './CampaignDetailsSkeleton';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { DonateModal } from './DonateModal';
-import RecommendedCampaigns from './RecommendedCampaigns';
+import RecommendedCampaigns from '../../../Shared/RecommendedCampaigns/RecommendedCampaigns';
 import { CheckCircle, PauseCircle } from 'lucide-react';
 
 const stripePromise = loadStripe(import.meta.env.VITE_stripe_secret_key);

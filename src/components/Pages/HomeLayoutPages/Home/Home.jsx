@@ -4,6 +4,7 @@ import CallToAction from './CallToAction/CallToAction';
 
 import Header from './Header/Header';
 import TopContributors from './TopContributors/TopContributors';
+import RecommendedCampaigns from '../../../Shared/RecommendedCampaigns/RecommendedCampaigns';
 
 const Home = () => {
     return (
@@ -12,6 +13,9 @@ const Home = () => {
             <CallToAction></CallToAction>
             <AboutUs></AboutUs>
             <TopContributors></TopContributors>
+            <div className='w-11/12 md:w-10/12 mx-auto pb-10 md:py-10'>
+                <RecommendedCampaigns></RecommendedCampaigns>
+            </div>
         </div>
     );
 };

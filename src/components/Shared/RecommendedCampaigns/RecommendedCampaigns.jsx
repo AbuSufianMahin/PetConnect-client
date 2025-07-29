@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
-import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Link } from "react-router";
 
 import 'react-loading-skeleton/dist/skeleton.css';
@@ -19,7 +19,10 @@ const RecommendedCampaigns = () => {
 
     return (
         <section className="mt-10">
-            <h2 className="text-2xl font-bold mb-4">Recommended Campaigns</h2>
+            <h2 className="text-4xl font-extrabold text-center mb-2 drop-shadow-md font-delius-regular text-gray-900 dark:text-gray-100">Recommended Campaigns</h2>
+            <p className="text-center text-gray-600 dark:text-gray-300 max-w-xl mx-auto mb-6">
+                These are the pets who need the most help and your support can make a huge difference.
+            </p>
             {
                 isLoading ?
                     <div className="grid lg:grid-cols-3 gap-4">

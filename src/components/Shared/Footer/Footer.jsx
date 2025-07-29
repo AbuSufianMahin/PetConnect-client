@@ -32,7 +32,7 @@ const Footer = () => {
                         <ul className="space-y-3 text-sm">
                             <li><NavLink className="hover:underline" to="/">Home</NavLink></li>
                             <li><NavLink className="hover:underline" to="/pet-listing">Pet Listing</NavLink></li>
-                            <li><NavLink className="hover:underline" to="/donation-campaign">Donation Campaigns</NavLink></li>
+                            <li><NavLink className="hover:underline" to="/donation-campaigns">Donation Campaigns</NavLink></li>
                             <li><NavLink className="hover:underline" to="/about-us">About Us</NavLink></li>
                         </ul>
                     </div>

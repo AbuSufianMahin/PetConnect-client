@@ -42,7 +42,7 @@ const Navbar = () => {
     const navbarlinks = [
         { name: "Home", path: "/" },
         { name: "Pet Listing", path: "/pet-listing" },
-        { name: "Donation Campaigns", path: "/donation-campaign" },
+        { name: "Donation Campaigns", path: "/donation-campaigns" },
     ]
 
     const handleLogout = () => {
@@ -189,7 +189,7 @@ const Navbar = () => {
                                 </DropdownMenuTrigger>
 
                                 <DropdownMenuContent className="w-36">
-                                    <NavLink to="/dashboard">
+                                    <NavLink to="/dashboard/my-pets">
                                         <DropdownMenuItem className="shadow">
                                             Dashboard
                                         </DropdownMenuItem>

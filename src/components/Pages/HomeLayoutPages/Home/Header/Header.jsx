@@ -33,7 +33,7 @@ const Header = () => {
                     </NavLink>
                     <Separator orientation="vertical" />
 
-                    <NavLink to="" className="flex-1">
+                    <NavLink to="/donation-campaigns" className="flex-1">
                         <Button variant="ghost" className="hover:text-secondary p-3 w-full text-xs md:text-sm">Campaigns</Button>
                     </NavLink>
                     <Separator orientation="vertical" />

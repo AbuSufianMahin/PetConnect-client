@@ -47,7 +47,7 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><PetDetails></PetDetails></PrivateRoute>
       },
       {
-        path: "donation-campaign",
+        path: "donation-campaigns",
         Component: DonationCampaigns
       },
       {
@@ -76,7 +76,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <div>ADD home</div>
+        Component: MyPetsPage
       },
       {
         path: "add-pet",
@@ -108,15 +108,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "all-users",
-        element : <AdminRoute><Users></Users></AdminRoute>
+        element: <AdminRoute><Users></Users></AdminRoute>
       },
       {
         path: "all-pets",
-        element : <AdminRoute><AllPets></AllPets></AdminRoute>
+        element: <AdminRoute><AllPets></AllPets></AdminRoute>
       },
       {
         path: "all-donation-campaigns",
-        element : <AdminRoute><AllDonationCampaigns></AllDonationCampaigns></AdminRoute>
+        element: <AdminRoute><AllDonationCampaigns></AllDonationCampaigns></AdminRoute>
       },
     ]
   },

@@ -5,7 +5,7 @@ const NavbarLinksForSmallerDevice = () => {
     const links = [
         { name: "Home", path: "/" },
         { name: "Pet Listing", path: "/pet-listing" },
-        { name: "Donation Campaigns", path: "/donation-campaign" },
+        { name: "Donation Campaigns", path: "/donation-campaigns" },
     ]
 
     return (

@@ -1,11 +1,11 @@
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { Input } from '../../../ui/input';
 import { Button } from '../../../ui/button';
 
 import githubIcon from "../../../../assets/icons/github.png"
 import googleIcon from "../../../../assets/icons/google.png"
 import useAuth from '../../../../hooks/useAuth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { useForm } from 'react-hook-form';
@@ -13,7 +13,7 @@ import { errorAlert } from '../../../../Utilities/sweetAlerts';
 import { TbLoader } from 'react-icons/tb';
 import { getFirebaseAuthError } from '../../../../Utilities/getFirebaseAuthError';
 import useSendUserDetails from '../../../../hooks/useSendUserDetails';
-import { successToast } from '../../../../Utilities/toastAlerts';
+import { successToast, warningToast } from '../../../../Utilities/toastAlerts';
 
 
 const LoginPage = () => {
@@ -26,6 +26,13 @@ const LoginPage = () => {
     } = useForm();
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state) {
+            warningToast('You need to log in first!');
+        }
+    }, [location.state])
 
     const [showPass, setShowPass] = useState(false);
     const [isValidating, setIsValidating] = useState(false);
@@ -35,7 +42,7 @@ const LoginPage = () => {
         const { email, password } = data;
         signInEmailUser(email, password)
             .then(() => {
-                navigate("/");
+                navigate(location.state || '/');
             })
             .catch((error) => {
                 errorAlert("Log in Failed!", getFirebaseAuthError(error.code));
@@ -57,7 +64,7 @@ const LoginPage = () => {
                 }
             })
             .then(() => {
-                navigate("/");
+                navigate(location.state || '/');
             })
             .catch((error) => {
                 errorAlert("Log in Failed!", getFirebaseAuthError(error.code));
@@ -83,10 +90,7 @@ const LoginPage = () => {
                 }
             })
             .then(() => {
-                // navigate("/");
-            })
-            .then(() => {
-                navigate("/");
+                navigate(location.state || '/');
             })
             .catch((error) => {
                 errorAlert("Log in Failed!", getFirebaseAuthError(error.code));

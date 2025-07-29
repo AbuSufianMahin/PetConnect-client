@@ -80,7 +80,7 @@ const RegisterPage = () => {
                     })
                     .then(() => {
                         successAlert("Welcome", "Your account has been created successfully.")
-                            .then(() => navigate("/"));
+                            .then(() => navigate(location.state || '/'));
                     })
                     .catch((error) => {
                         errorAlert("", error.message)
@@ -132,7 +132,7 @@ const RegisterPage = () => {
                 }
             })
             .then(() => {
-                navigate("/");
+                navigate(location.state || '/');
             })
             .catch((error) => {
                 errorAlert("Log in Failed!", getFirebaseAuthError(error.code));
@@ -157,7 +157,7 @@ const RegisterPage = () => {
                 }
             })
             .then(() => {
-                navigate("/");
+                navigate(location.state || '/');
             })
             .catch((error) => {
                 errorAlert("Log in Failed!", getFirebaseAuthError(error.code));

@@ -39,12 +39,28 @@ const Header = () => {
                     <Separator orientation="vertical" />
 
                     <NavLink to="" className="flex-1">
-                        <Button variant="ghost" className="hover:text-secondary p-3 w-full text-xs md:text-sm">Missions</Button>
+                        <Button
+                            variant="ghost"
+                            className="hover:text-secondary p-3 w-full text-xs md:text-sm"
+                            onClick={() =>
+                                document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })
+                            }
+                        >
+                            About Us
+                        </Button>
                     </NavLink>
                     <Separator orientation="vertical" />
 
                     <NavLink to="" className="flex-1">
-                        <Button variant="ghost" className="hover:text-secondary p-3 w-full text-xs md:text-sm">About Us</Button>
+                        <Button
+                            variant="ghost"
+                            className="hover:text-secondary p-3 w-full text-xs md:text-sm"
+                            onClick={() =>
+                                document.getElementById("missions")?.scrollIntoView({ behavior: "smooth" })
+                            }
+                        >
+                            Missions
+                        </Button>
                     </NavLink>
                 </div>
             </header>

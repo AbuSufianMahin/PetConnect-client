@@ -35,7 +35,7 @@ const Users = () => {
     const { data: usersInfo = [], isLoading, refetch } = useQuery({
         queryKey: ["All-users", debouncedSearchValue],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/search-users?searchValue=${debouncedSearchValue}`);
+            const res = await axiosSecure.get(`/search-users?searchValue=${debouncedSearchValue}&email=${admin.email}`);
             return res.data;
         }
     })

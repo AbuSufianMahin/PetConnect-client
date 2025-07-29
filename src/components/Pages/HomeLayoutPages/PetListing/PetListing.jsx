@@ -23,7 +23,7 @@ const PetListing = () => {
     const { data: allPetsData = [], isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } = useInfiniteQuery({
         queryKey: ["all-pets", selectedCategory, debouncedSearchTerm],
         queryFn: async ({ pageParam = 1 }) => {
-            const res = await axiosPublic(`/pets?page=${pageParam}&limit=6&category=${selectedCategory}&seachByName=${debouncedSearchTerm}`);
+            const res = await axiosPublic(`/active-donation-pets?page=${pageParam}&limit=6&category=${selectedCategory}&seachByName=${debouncedSearchTerm}`);
             setIsChangingCategory(false);
             return res.data;
         },

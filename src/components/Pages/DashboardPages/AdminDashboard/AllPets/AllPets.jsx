@@ -12,6 +12,9 @@ import { Button } from "../../../../ui/button";
 import { NavLink } from "react-router";
 import useDebounce from "../../../../../hooks/useDebounce";
 import AllPetsLoadingSkeleton from "./AllPetsLoadingSkeleton";
+import { confirmAction, errorAlert, successAlert } from "../../../../../Utilities/sweetAlerts";
+import { TbLoader } from "react-icons/tb";
+import { errorToast, successToast } from "../../../../../Utilities/toastAlerts";
 
 
 const tableVariants = {
@@ -27,20 +30,78 @@ const rowVariants = {
 
 const AllPets = () => {
     const axiosSecure = useAxiosSecure();
-    const { user } = useAuth();
+    const { user: admin } = useAuth();
 
     const [searchTerm, setSearchTerm] = useState('');
     const debouncedSearchValue = useDebounce(searchTerm, 500);
 
 
-    const { data: petsInfo = [], isLoading } = useQuery({
+    const { data: petsInfo = [], isLoading, refetch } = useQuery({
         queryKey: ["All-pets", debouncedSearchValue],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/pets?seachByName=${debouncedSearchValue}`);
-            return res.data.pets;
-            // return res.data; ==> for infinity loading (will implement later)
+            const res = await axiosSecure.get(`/all-pets?seachByName=${debouncedSearchValue}&email=${admin.email}`);
+            return res.data;
+
         }
     })
+
+    const [deleteId, setDeleteId] = useState(null);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+
+    const handleDelete = (petId) => {
+        confirmAction("Are you sure?", "Are you sure you want to delete this pet? This action cannot be undone.")
+            .then(async (result) => {
+                if (result.isConfirmed) {
+                    setDeleteId(petId);
+                    setIsDeleting(true);
+                    try {
+                        const res = await axiosSecure.delete(`/admin/pets/${petId}?email=${admin.email}`);
+                        if (res.status === 200) {
+                            successAlert("", "Pet deleted successfully");
+                        }
+                    } catch (error) {
+                        errorAlert("Error deleting pet", error.message || "Unknown error");
+                    }
+                    finally {
+                        setDeleteId(null);
+                        setIsDeleting(false);
+                        refetch();
+                    }
+                }
+            })
+
+    }
+
+    const handleStatusUpdate = async (petId, currentStatus) => {
+        let newStatus = null;
+        let newStatusLabel = null;
+
+        if (currentStatus === "requested" || currentStatus === "adopted") {
+            newStatus = "not_adopted";
+            newStatusLabel = "not adopted"
+        } else {
+            // From not_adopted (or any other), mark as adopted
+            newStatus = "adopted";
+            newStatusLabel = "adopted"
+        }
+
+        try {
+            const res = await axiosSecure.patch(`/admin/pets/${petId}/status?email=${admin.email}`, {
+                adoption_status: newStatus,
+            });
+
+            if (res.status === 200) {
+                successToast(`Status updated to "${newStatusLabel}"`);
+                // updatePetsState(petId, newStatus);
+            }
+        } catch (error) {
+            errorToast("Failed to update status", error.message || "Unknown error");
+        }
+        finally {
+            refetch()
+        }
+    };
 
     const columns = [
         {
@@ -144,7 +205,8 @@ const AllPets = () => {
         {
             header: "Actions",
             cell: info => {
-                const pet = info.row.original;
+                const { _id, adoption_status } = info.row.original;
+
                 return (
                     <div className="flex flex-col gap-3 items-center">
                         {/* Update Button */}
@@ -159,21 +221,28 @@ const AllPets = () => {
                         {/* Adoption Toggle Button */}
                         <Button
                             size="sm"
-                            className={`w-40 px-5 py-2.5 font-semibold rounded-xl hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 ${pet.adopted
-                                ? "bg-gradient-to-r from-yellow-400 to-yellow-600 text-white hover:from-yellow-500 hover:to-yellow-700"
-                                : "bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700"
+                            className={`w-40 px-5 py-2.5 font-semibold rounded-xl transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 hover:shadow-lg 
+                                ${adoption_status === "adopted"
+                                    ? "bg-gray-800 text-white hover:bg-gray-900 shadow-sm"
+                                    : "bg-gray-200 text-gray-900 hover:bg-gray-300 shadow-sm"
                                 }`}
+                            onClick={() => handleStatusUpdate(_id, adoption_status)}
                         >
-                            {pet.adopted ? "Mark Not Adopted" : "Mark Adopted"}
+                            {adoption_status === "adopted" ? "Mark Not Adopted" : "Mark Adopted"}
                         </Button>
 
                         {/* Delete Button */}
                         <Button
                             size="sm"
                             className="w-40 px-5 py-2.5 bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold rounded-xl hover:shadow-lg hover:from-red-600 hover:to-pink-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5"
+                            onClick={() => handleDelete(_id)}
+                            disabled={deleteId === _id}
                         >
                             <Trash2 className="w-4 h-4 mr-2" />
                             Delete
+                            {
+                                isDeleting && deleteId === _id && <TbLoader className='animate-spin' />
+                            }
                         </Button>
                     </div>
 
@@ -243,7 +312,7 @@ const AllPets = () => {
 
                     {
                         isLoading ?
-                            <AllPetsLoadingSkeleton rows={3}/>
+                            <AllPetsLoadingSkeleton rows={3} />
                             :
                             petsInfo.length === 0 ?
                                 <tr className="bg-white">

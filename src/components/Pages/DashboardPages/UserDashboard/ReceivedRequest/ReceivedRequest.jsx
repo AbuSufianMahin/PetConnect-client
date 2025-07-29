@@ -201,13 +201,13 @@ const ReceivedRequest = () => {
                         <div>
                             <span className={`block text-xs font-semibold ${requested_at ? "text-blue-600" : "text-gray-400"} mb-1`}>Requested At:</span>
                             <div className="text-gray-800 font-medium">
-                                {renderDateTime(requested_at, "Not requested yet")}
+                                {renderDateTime(requested_at, "No data available")}
                             </div>
                         </div>
                         <div>
                             <span className={`block text-xs font-semibold text-gray-400 ${adopted_at ? "text-green-500" : "text-gray-400"} mb-1`}>Adopted At:</span>
                             <div className="text-gray-800 font-medium">
-                                {renderDateTime(adopted_at, "Not adopted yet")}
+                                {renderDateTime(adopted_at, "No data available")}
                             </div>
                         </div>
                     </div>

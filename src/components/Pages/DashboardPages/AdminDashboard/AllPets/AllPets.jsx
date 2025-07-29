@@ -15,6 +15,7 @@ import AllPetsLoadingSkeleton from "./AllPetsLoadingSkeleton";
 import { confirmAction, errorAlert, successAlert } from "../../../../../Utilities/sweetAlerts";
 import { TbLoader } from "react-icons/tb";
 import { errorToast, successToast } from "../../../../../Utilities/toastAlerts";
+import PetEditDialogue from "../../../../Shared/PetDialogues/PetEditDialogue";
 
 
 const tableVariants = {
@@ -102,6 +103,14 @@ const AllPets = () => {
             refetch()
         }
     };
+
+    const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [selectedPetForEdit, setSelectedPetForEdit] = useState(null);
+
+    const handleEditDialog = (pet) => {
+        setSelectedPetForEdit(pet);
+        setOpenEditDialog(true);
+    }
 
     const columns = [
         {
@@ -213,9 +222,10 @@ const AllPets = () => {
                         <Button
                             size="sm"
                             className="w-40 px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-xl hover:shadow-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5"
+                            onClick={() => handleEditDialog(info.row.original)}
                         >
-                            <Pencil className="w-4 h-4 mr-2" />
-                            Update
+                            <Pencil className="w-4 h-4 mr-1" />
+                            Edit
                         </Button>
 
                         {/* Adoption Toggle Button */}
@@ -245,9 +255,6 @@ const AllPets = () => {
                             }
                         </Button>
                     </div>
-
-
-
                 );
             },
         },
@@ -342,6 +349,16 @@ const AllPets = () => {
                     }
                 </Table>
             </motion.div>
+
+
+            <PetEditDialogue
+                isLoading={isLoading}
+                petDetails={selectedPetForEdit}
+                openEditDialog={openEditDialog}
+                setOpenEditDialog={setOpenEditDialog}
+                refetch={refetch}
+                userRole="admin"
+            />
         </section>
     );
 };

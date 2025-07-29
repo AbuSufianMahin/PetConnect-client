@@ -21,22 +21,29 @@ const useAxiosSecure = () => {
         return Promise.reject(error);
     })
 
-    axiosSecure.interceptors.response.use(res => {
+    axiosSecure.interceptors.response.use(
+        res => res,
+        async (error) => {
+            const status = error.response?.status;
+            const defaultMessage = "Something went wrong!";
+            let customMessage = defaultMessage;
 
-        return res;
-    }, (error) => {
-        const status = error.status;
-        // console.log("Error Status in axiosSecure Response: ", status)
-        if (status === 403) {
-            navigate('/error/forbidden')
+            if (status === 403) {
+                customMessage = "You are not authorized to perform this action.";
+                navigate('/error/forbidden');
+            } else if (status === 401) {
+                customMessage = "Session expired. Please log in again.";
+                logOutUser().then(() => navigate('/login'))
+            } else if (error.response?.data?.message) {
+                customMessage = error.response.data.message;
+            }
+
+            // Set a consistent error message
+            error.message = customMessage;
+
+            return Promise.reject(error);
         }
-        else if (status === 401) {
-            logOutUser().then(() => navigate('/login'))
-        }
-
-        return Promise.reject(error);
-    })
-
+    );
     return axiosSecure;
 };
 

@@ -247,10 +247,6 @@ const MyPetsPage = () => {
                 </div>
             </div>
 
-
-
-
-
             <Table className="rounded-xl overflow-hidden">
                 <TableHeader className="bg-secondary">
                     {table.getHeaderGroups().map(headerGroup => (
@@ -303,8 +299,6 @@ const MyPetsPage = () => {
 
             </Table >
 
-
-
             {
                 table.getPageCount() > 1 && (
                     <div className="flex items-center justify-between pt-4">
@@ -332,16 +326,13 @@ const MyPetsPage = () => {
             }
 
 
-
-
-
-
             < PetEditDialogue
                 isLoading={isLoading}
                 petDetails={selectedPetForEdit}
                 openEditDialog={openEditDialog}
                 setOpenEditDialog={setOpenEditDialog}
                 refetch={refetch}
+                userRole="user"
             />
         </div >
     );

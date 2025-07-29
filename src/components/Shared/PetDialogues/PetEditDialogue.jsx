@@ -12,6 +12,7 @@ import { confirmAction, errorAlert, successAlert } from '../../../Utilities/swee
 import useCloudinaryUpload from '../../../hooks/useCloudynariUpload';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import LongDescriptionInput from '../LongDescriptionInput/LongDescriptionInput';
+import useAuth from '../../../hooks/useAuth';
 
 
 const petCategories = [
@@ -23,7 +24,9 @@ const petCategories = [
     { value: "Other", label: "Other" },
 ];
 
-const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetch }) => {
+const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetch, userRole }) => {
+    const { user } = useAuth();
+
     const { register, handleSubmit, setValue, control, formState: { errors }, reset } = useForm();
     const { uploadImage } = useCloudinaryUpload();
     const axiosSecure = useAxiosSecure();
@@ -105,8 +108,8 @@ const PetEditDialogue = ({ openEditDialog, setOpenEditDialog, petDetails, refetc
                     longDescription,
                     photoURL: newPhotoURL,
                 }
-
-                const res = await axiosSecure.patch(`/pet/${petDetails._id}`, newPetInfo);
+                
+                const res = await axiosSecure.patch(`/pet/${petDetails._id}?email=${user.email}`, newPetInfo);
 
                 if (res.status === 200) {
                     successAlert("Pet Updated!", "Your pet's information was successfully updated.")

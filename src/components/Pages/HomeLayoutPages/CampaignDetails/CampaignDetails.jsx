@@ -10,6 +10,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { DonateModal } from './DonateModal';
 import RecommendedCampaigns from './RecommendedCampaigns';
+import { CheckCircle, PauseCircle } from 'lucide-react';
 
 const stripePromise = loadStripe(import.meta.env.VITE_stripe_secret_key);
 
@@ -26,7 +27,7 @@ const CampaignDetails = () => {
         },
     });
 
-    const { petName, shortDescription, longDescription, deadline, maxDonationAmount, donatedAmount, photoURL } = campaignData;
+    const { petName, shortDescription, longDescription, deadline, maxDonationAmount, donatedAmount, photoURL, status } = campaignData;
 
     const progress = (donatedAmount / maxDonationAmount) * 100;
 
@@ -92,21 +93,33 @@ const CampaignDetails = () => {
                             />
                             {/* Donate Button */}
                             <div className="pt-4">
-                                <Button
-                                    className="w-full md:w-auto px-6 py-2 font-semibold text-sm bg-green-600 hover:bg-green-700 text-white rounded-xl"
-                                    onClick={() => setOpenDonateModal(true)}
-                                >
-                                    Donate Now
-                                </Button>
+                                {status === "active" ? (
+                                    <Button
+                                        className="w-full md:w-auto px-6 py-2 font-semibold text-sm bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-md transition"
+                                        onClick={() => setOpenDonateModal(true)}
+                                    >
+                                        Donate Now
+                                    </Button>
+                                ) : status === "completed" ? (
+                                    <div className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl bg-blue-100 text-blue-700 border border-blue-300 shadow-sm">
+                                        <CheckCircle className="w-5 h-5" />
+                                        Completed
+                                    </div>
+                                ) : (
+                                    <div className="inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold rounded-xl bg-yellow-100 text-yellow-700 border border-yellow-300 shadow-sm">
+                                        <PauseCircle className="w-5 h-5" />
+                                        Paused
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
             }
 
-            <RecommendedCampaigns/>
+            <RecommendedCampaigns />
 
             <Elements stripe={stripePromise}>
-                <DonateModal openDonateModal={openDonateModal} setOpenDonateModal={setOpenDonateModal} campaignData={campaignData} refetch={refetch}/>
+                <DonateModal openDonateModal={openDonateModal} setOpenDonateModal={setOpenDonateModal} campaignData={campaignData} refetch={refetch} />
             </Elements>
         </section>
     );

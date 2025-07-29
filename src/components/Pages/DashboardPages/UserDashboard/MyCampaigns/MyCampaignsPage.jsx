@@ -10,6 +10,7 @@ import { Button } from '../../../../ui/button';
 import { TbLoader } from 'react-icons/tb';
 import { errorAlert } from '../../../../../Utilities/sweetAlerts';
 import { successToast } from '../../../../../Utilities/toastAlerts';
+import { Link } from 'react-router';
 
 const MyCampaignsPage = () => {
     const { user } = useAuth();
@@ -60,11 +61,14 @@ const MyCampaignsPage = () => {
             accessorKey: "petName",
             cell: (info) => {
                 const petName = info.getValue();
+                const campaignId = info.row.original._id;
                 return (
 
-                    <span className="text-lg font-bold hover:text-primary font-delius-regular">
-                        {petName}
-                    </span>
+                    <Link to={`/campaign-details/${campaignId}`}>
+                        <span className="text-lg font-bold hover:text-primary font-delius-regular">
+                            {petName}
+                        </span>
+                    </Link>
 
                 );
             },
@@ -79,7 +83,7 @@ const MyCampaignsPage = () => {
             accessorKey: "donatedAmount",
             cell: (info) => {
                 const donated = info.getValue();
-                const max = info.row.original.maxDonationAmount || 1;
+                const max = info.row.original.maxDonationAmount;
                 const percentage = Math.min((donated / max) * 100, 100);
 
                 return (
@@ -110,6 +114,10 @@ const MyCampaignsPage = () => {
                         bgClass = "bg-yellow-100";
                         textClass = "text-yellow-700";
                         break;
+                    case "completed":
+                        bgClass = "bg-blue-100";
+                        textClass = "text-blue-700";
+                        break;
                     default:
                         bgClass = "bg-gray-100";
                         textClass = "text-gray-700";
@@ -125,18 +133,24 @@ const MyCampaignsPage = () => {
                 const campaign = row.original;
                 return (
                     <div className="flex flex-col items-center gap-2">
-                        <Button
-                            variant="outline"
-                            className="w-40 flex items-center justify-center gap-2"
-                            onClick={() => onPauseToggle(campaign._id, campaign.status)}
-                            disabled={isPausing && campaign._id === pauseCampaignId}
-                        >
-                            {campaign.status === "active" ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                            {campaign.status === "active" ? "Pause" : "Unpause"}
-                            {
-                                isPausing && campaign._id === pauseCampaignId && <TbLoader className='animate-spin' />
-                            }
-                        </Button>
+                        {campaign.status !== "completed" && (
+                            <Button
+                                variant="outline"
+                                className="w-40 flex items-center justify-center gap-2"
+                                onClick={() => onPauseToggle(campaign._id, campaign.status)}
+                                disabled={isPausing && campaign._id === pauseCampaignId}
+                            >
+                                {campaign.status === "active" ? (
+                                    <Pause className="h-4 w-4" />
+                                ) : (
+                                    <Play className="h-4 w-4" />
+                                )}
+                                {campaign.status === "active" ? "Pause" : "Unpause"}
+                                {isPausing && campaign._id === pauseCampaignId && (
+                                    <TbLoader className="animate-spin" />
+                                )}
+                            </Button>
+                        )}
 
                         <Button
                             className="w-40 flex items-center justify-center gap-2"

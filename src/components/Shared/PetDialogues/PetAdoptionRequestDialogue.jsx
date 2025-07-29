@@ -29,7 +29,7 @@ const PetAdoptionRequestDialogue = ({user, pet, openAdoptDialog, setOpenAdoptDia
 
 
         try {
-            const res = await axiosSecure.patch(`/pets/${pet._id}/request-adoption`, requesterInfo);
+            const res = await axiosSecure.patch(`/pets/${pet._id}/request-adoption?email=${user.email}`, requesterInfo);
             console.log(res);
             successAlert("Adoption Request Submitted", "Your request to adopt this pet has been submitted successfully.")
             reset();

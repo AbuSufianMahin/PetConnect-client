@@ -45,7 +45,7 @@ const MyPetsPage = () => {
                 if (result.isConfirmed) {
                     try {
                         setIsDeleting(true);
-                        const res = await axiosSecure.delete(`/pets/${pet._id}`);
+                        const res = await axiosSecure.delete(`/pets/${pet._id}?email=${user.email}`);
 
                         if (res.data.deletedCount) {
                             successAlert("Deleted!", "The pet has been deleted successfully.");

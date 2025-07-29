@@ -87,7 +87,7 @@ const CreateCampaignPage = () => {
                         };
 
                         console.log(campaignData);
-                        await axiosSecure.post("/create-campaign", campaignData)
+                        await axiosSecure.post(`/create-campaign?email=${user.email}`, campaignData)
                             .then((res) => {
                                 if (res.data.insertedId) {
                                     successAlert("Campaign Created!", res.data.message || "Your donation campaign is now live.");

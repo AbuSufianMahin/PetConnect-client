@@ -39,7 +39,7 @@ const SentRequests = () => {
                     setCancelPetId(pet._id);
 
                     try {
-                        const response = await axiosSecure.patch(`/adoptions/cancel/${pet._id}`);
+                        const response = await axiosSecure.patch(`/adoptions/cancel/${pet._id}?email=${user.email}`);
 
                         if (response.data.success) {
                             successAlert("Request canceled", response.data.message)

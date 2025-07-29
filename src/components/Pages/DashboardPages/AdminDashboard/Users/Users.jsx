@@ -48,7 +48,7 @@ const Users = () => {
             .then(async (result) => {
                 if (result.isConfirmed) {
                     try {
-                        const res = await axiosSecure.patch(`/users/update-role?email=${user.email}&role=${role}`, { adminEmail: admin.email });
+                        const res = await axiosSecure.patch(`/users/update-role?userEmail=${user.email}&role=${role}&email=${admin.email}`, { adminEmail: admin.email });
                         if (res.data.modifiedCount) {
                             if (role == "admin") {
                                 successAlert("User promoted to admin successfully.");

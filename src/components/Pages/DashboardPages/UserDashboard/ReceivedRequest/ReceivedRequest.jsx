@@ -39,7 +39,7 @@ const ReceivedRequest = () => {
                     setAcceptingPetId(pet._id);
                     setTsAccepting(true);
                     try {
-                        const res = await axiosSecure.patch(`/pets/${pet._id}/accept-request`);
+                        const res = await axiosSecure.patch(`/pets/${pet._id}/accept-request?email=${user.email}`);
 
                         if (res.data.success) {
                             successAlert("Request Rejected", res.data.message)
@@ -67,7 +67,7 @@ const ReceivedRequest = () => {
                     setRejectingPetId(pet._id);
                     setTsRejecting(true);
                     try {
-                        const res = await axiosSecure.patch(`/pets/${pet._id}/reject-request`);
+                        const res = await axiosSecure.patch(`/pets/${pet._id}/reject-request?email=${user.email}`);
 
                         if (res.data.success) {
                             successAlert("Request Rejected", res.data.message)

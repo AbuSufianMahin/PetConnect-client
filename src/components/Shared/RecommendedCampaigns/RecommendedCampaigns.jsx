@@ -1,18 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Link } from "react-router";
 
 import 'react-loading-skeleton/dist/skeleton.css';
 import Skeleton from "react-loading-skeleton";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 const RecommendedCampaigns = () => {
-    const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
 
     const { data: recommendedCampaigns = [], isLoading } = useQuery({
         queryKey: ["recommendedCampaigns"],
         queryFn: async () => {
-            const res = await axiosSecure.get("/recommended-campaigns");
+            const res = await axiosPublic.get(`/recommended-campaigns`);
             return res.data;
         },
     });

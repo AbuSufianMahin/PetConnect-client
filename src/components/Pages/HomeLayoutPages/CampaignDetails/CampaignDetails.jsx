@@ -11,10 +11,12 @@ import { Elements } from '@stripe/react-stripe-js';
 import { DonateModal } from './DonateModal';
 import RecommendedCampaigns from '../../../Shared/RecommendedCampaigns/RecommendedCampaigns';
 import { CheckCircle, PauseCircle } from 'lucide-react';
+import useAuth from '../../../../hooks/useAuth';
 
 const stripePromise = loadStripe(import.meta.env.VITE_stripe_secret_key);
 
 const CampaignDetails = () => {
+    const {user} = useAuth();
     const { campaignId } = useParams();
     const axiosSecure = useAxiosSecure();
     const [openDonateModal, setOpenDonateModal] = useState(false);
@@ -22,7 +24,7 @@ const CampaignDetails = () => {
     const { data: campaignData = {}, isLoading, refetch } = useQuery({
         queryKey: ["campaign", campaignId],
         queryFn: async () => {
-            const { data } = await axiosSecure.get(`/campaign-details/${campaignId}`);
+            const { data } = await axiosSecure.get(`/campaign-details/${campaignId}?email=${user.email}`);
             return data;
         },
     });

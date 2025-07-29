@@ -83,7 +83,7 @@ const AddPetPage = () => {
                             ownerEmail: user.email
                         };
 
-                        await axiosSecure.post('/add-pet', petInfo)
+                        await axiosSecure.post(`/add-pet?email=${user.email}`, petInfo)
                             .then(res => {
                                 if (res.data.insertedId) {
 

@@ -30,7 +30,7 @@ const MyDonations = () => {
                 if (result.isConfirmed) {
 
                     try {
-                        const response = await axiosSecure.post("/refund-donation", {
+                        const response = await axiosSecure.post(`/refund-donation?email=${user.email}`, {
                             campaignId,
                             transactionId,
                         });

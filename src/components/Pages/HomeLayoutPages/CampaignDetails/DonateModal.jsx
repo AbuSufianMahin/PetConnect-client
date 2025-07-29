@@ -102,7 +102,7 @@ const DonateForm = ({ setOpenDonateModal, maxAmount, campaignData, refetch }) =>
 
                 // store data in mongoDB
                 try {
-                    await axiosSecure.post("/donations", donationData);
+                    await axiosSecure.post(`/donations?email=${user.email}`, donationData);
                 } catch (err) {
                     console.error("Failed to log donation:", err);
                 }

@@ -7,6 +7,8 @@ import CampaignCardSkeleton from './CampaignCardSkeleton';
 
 import noDataGirlAnimation from "../../../../assets/LottieAnimations/noDataGirlAnimation.json"
 import Lottie from 'lottie-react';
+import { Button } from '../../../ui/button';
+import { NavLink } from 'react-router';
 
 const DonationCampaigns = () => {
 
@@ -58,11 +60,20 @@ const DonationCampaigns = () => {
                                 campaignsData?.pages[0].campaigns.length === 0 ?
                                     <div className="flex flex-col items-center justify-center col-span-3 mt-5">
                                         <div className='w-fit border rounded-full overflow-hidden'>
-                                            <Lottie animationData={noDataGirlAnimation} loop={true}/>
+                                            <Lottie animationData={noDataGirlAnimation} loop={true} />
                                         </div>
                                         <h2 className="mt-6 text-lg font-semibold text-gray-600 dark:text-gray-300">
                                             No Active Donation Campaigns Found
                                         </h2>
+                                        <NavLink to="/dashboard/create-donation-campaign">
+                                            <Button
+                                                
+                                                className="mt-4 px-6 py-2 rounded bg-primary text-white hover:bg-primary-dark"
+                                            >
+                                                Create Donation Campaign
+                                            </Button>
+                                        </NavLink>
+
                                     </div>
                                     :
                                     campaignsData.pages.flatMap(page => page.campaigns).map((campaign) =>

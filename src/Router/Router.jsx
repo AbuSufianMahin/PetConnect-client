@@ -26,6 +26,8 @@ import AllPets from "../components/Pages/DashboardPages/AdminDashboard/AllPets/A
 import AllDonationCampaigns from "../components/Pages/DashboardPages/AdminDashboard/AllDonationCampaigns/AllDonationCampaigns";
 import AdminRoute from "../components/Routes/AdminRoute";
 import CampaignDetails from "../components/Pages/HomeLayoutPages/CampaignDetails/CampaignDetails";
+import Error404Page from "../components/Shared/Error404Page/Error404Page";
+import ForbiddenPage from "../components/Shared/ForbiddenPage/ForbiddenPage";
 
 
 
@@ -121,7 +123,11 @@ export const router = createBrowserRouter([
     ]
   },
   {
-    path: "/forbidden",
-    element: <h1>You do not have access to this path</h1>
+    path: "*",
+    Component: Error404Page
+  },
+  {
+    path: "/error/forbidden",
+    Component: ForbiddenPage
   }
 ]);

@@ -352,19 +352,26 @@ const ReceivedRequest = () => {
                         isLoading ?
                             <ReceivedReqTableSkeleton rows={3}></ReceivedReqTableSkeleton>
                             :
-                            <TableBody>
-                                {table.getRowModel().rows.map(row => (
-                                    <TableRow key={row.id} className="bg-white">
-                                        {row.getVisibleCells().map((cell, index) => (
-                                            <TableCell key={cell.id} className={`text-center md:p-6 ${index === 0 ? 'md:min-w-20' : 'md:min-w-32'}`}>
-                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                ))}
-                            </TableBody>
+                            incomingPetRequests.length === 0 ?
+                                <TableRow>
+                                    <TableCell colSpan={6} className="text-center py-6 text-gray-500 italic bg-white">
+                                        No Incoming Requests
+                                    </TableCell>
+                                </TableRow>
+                                :
+                                <TableBody>
+                                    {table.getRowModel().rows.map(row => (
+                                        <TableRow key={row.id} className="bg-white">
+                                            {row.getVisibleCells().map((cell, index) => (
+                                                <TableCell key={cell.id} className={`text-center md:p-6 ${index === 0 ? 'md:min-w-20' : 'md:min-w-32'}`}>
+                                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
                     }
-                    
+
                 </Table>
 
             </div>

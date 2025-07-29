@@ -15,6 +15,7 @@ import { ImagePlus } from "lucide-react";
 import LongDescriptionInput from "../../../../Shared/LongDescriptionInput/LongDescriptionInput";
 import DatePickerInput from "../../../../Shared/DatePickerInput/DatePickerInput";
 import AnimatedFormError from "../../../../Shared/AnimatedFormError/AnimatedFormError";
+import { format } from "date-fns";
 
 const EditCampaignModal = ({ openEditDialog, setOpenEditDialog, campaignDetails, refetch }) => {
     const { register, handleSubmit, watch, setValue, formState: { errors }, reset } = useForm({
@@ -30,7 +31,7 @@ const EditCampaignModal = ({ openEditDialog, setOpenEditDialog, campaignDetails,
         if (campaignDetails) {
             const updatedData = {
                 ...campaignDetails,
-                donationDeadline: campaignDetails?.deadline ? new Date(campaignDetails.deadline) : null,
+                donationDeadline: campaignDetails?.deadline ? format(new Date(campaignDetails.deadline), "MMMM dd, yyyy"): null,
             };
             reset(updatedData);
             setImagePreview(campaignDetails.photoURL);
@@ -69,7 +70,7 @@ const EditCampaignModal = ({ openEditDialog, setOpenEditDialog, campaignDetails,
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const handleCampaignFormSubmit = (data) => {
-        setResetDate(false);
+        // setResetDate(false);
         console.log(data);
     }
 
@@ -199,7 +200,7 @@ const EditCampaignModal = ({ openEditDialog, setOpenEditDialog, campaignDetails,
                     </div>
 
                     {/* Short Description */}
-                    <div className="">
+                    <div>
                         <Label className="mb-1 text-base font-medium">Short Description</Label>
                         <Input
                             type="text"

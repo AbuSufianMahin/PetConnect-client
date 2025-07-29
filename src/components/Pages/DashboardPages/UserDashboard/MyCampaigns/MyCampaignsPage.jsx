@@ -272,6 +272,7 @@ const MyCampaignsPage = () => {
             />
 
             <DonorModal
+                user={user}
                 selectedCampaign={selectedCampaign}
                 openDonorDialog={openDonorDialog}
                 setOpenDonorDialog={setOpenDonorDialog}

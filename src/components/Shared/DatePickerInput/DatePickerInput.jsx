@@ -10,6 +10,7 @@ import { Button } from '../../ui/button';
 import { CalendarIcon } from 'lucide-react';
 import { Calendar } from "../../ui/calendar"
 import AnimatedFormError from '../AnimatedFormError/AnimatedFormError';
+import { format } from 'date-fns';
 
 function formatDate(date) {
     if (!date) return ""
@@ -24,14 +25,11 @@ function isValidDate(date) {
     return date instanceof Date && !isNaN(date.getTime())
 }
 
-const DatePickerInput = ({ label = "Select Date", onDateChange, register, errors, resetDate}) => {
+const DatePickerInput = ({ label = "Select Date", onDateChange, register, errors, resetDate }) => {
     const [open, setOpen] = useState(false)
     const [date, setDate] = useState()
     const [month, setMonth] = useState()
     const [value, setValue] = useState(formatDate())
-
-
-
 
     useEffect(() => {
         if (resetDate) {
@@ -63,6 +61,7 @@ const DatePickerInput = ({ label = "Select Date", onDateChange, register, errors
             onDateChange(selectedDate)
         }
     }
+    console.log(value)
     return (
         <>
             <div className="flex flex-col">
@@ -72,6 +71,7 @@ const DatePickerInput = ({ label = "Select Date", onDateChange, register, errors
                 <div className="relative flex">
                     <Input
                         type="text"
+                        // value={format(value, "MMMM dd, yyyy")}
                         value={value}
                         placeholder="Select a date"
                         className="bg-background pr-10"

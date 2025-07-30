@@ -10,11 +10,15 @@ import useDebounce from '../../../../hooks/useDebounce';
 import PetCard from './PetCard';
 import useAuth from '../../../../hooks/useAuth';
 import NoPetFound from '../../../Shared/NoPetsFound/NoPetFound';
+import { useSearchParams } from 'react-router';
 
 const PetListing = () => {
+
+    const [searchParams] = useSearchParams();
+    const initialCategory = searchParams.get("category") || "";
     const axiosPublic = useAxiosPublic();
     const { user } = useAuth();
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState(initialCategory);
     const [isChangingCategory, setIsChangingCategory] = useState(false);
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -35,6 +39,7 @@ const PetListing = () => {
         },
     });
 
+    
     useEffect(() => {
         setIsChangingCategory(true);
     }, [selectedCategory, debouncedSearchTerm]);
@@ -68,7 +73,7 @@ const PetListing = () => {
 
 
 
-                <Select onValueChange={setSelectedCategory}>
+                <Select onValueChange={setSelectedCategory} defaultValue={initialCategory}>
                     <SelectTrigger className="w-full md:w-56 bg-white">
                         <SelectValue placeholder="Filter by category" />
                     </SelectTrigger>

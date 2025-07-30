@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../../../../hooks/useAxiosSecure';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../../ui/avatar';
+import Skeleton from 'react-loading-skeleton';
 
 const DonorModal = ({ user, openDonorDialog, setOpenDonorDialog, selectedCampaign: campaign }) => {
     const axiosSecure = useAxiosSecure();

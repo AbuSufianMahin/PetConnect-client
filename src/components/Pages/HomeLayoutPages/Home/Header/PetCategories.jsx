@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router';
 import { Card, CardContent } from '../../../../ui/card';
 
 const categories = [
-    { name: "Cats", icon: <Cat className="w-8 h-8" />, path: "/pets?category=cat" },
-    { name: "Dogs", icon: <Dog className="w-8 h-8" />, path: "/pets?category=dog" },
-    { name: "Rabbits", icon: <Rabbit className="w-8 h-8" />, path: "/pets?category=rabbit" },
-    { name: "Fish", icon: <Fish className="w-8 h-8" />, path: "/pets?category=fish" },
-    { name: "Others", icon: <PawPrint className="w-8 h-8" />, path: "/pets?category=others" },
+    { name: "Cats", icon: <Cat className="w-8 h-8" />, path: "/pet-listing?category=Cat" },
+    { name: "Dogs", icon: <Dog className="w-8 h-8" />, path: "/pet-listing?category=Dog" },
+    { name: "Rabbits", icon: <Rabbit className="w-8 h-8" />, path: "/pet-listing?category=Rabbit" },
+    { name: "Fish", icon: <Fish className="w-8 h-8" />, path: "/pet-listing?category=Fish" },
+    { name: "Others", icon: <PawPrint className="w-8 h-8" />, path: "/pet-listing?category=Others" },
 ];
 
 const PetCategories = () => {

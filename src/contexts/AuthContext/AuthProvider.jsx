@@ -3,14 +3,16 @@ import React, { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import { createUserWithEmailAndPassword, GithubAuthProvider, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { auth } from '../../Firebase/firebase.init';
+import { useQueryClient } from '@tanstack/react-query';
 
 const googleProvider = new GoogleAuthProvider();
 const githubProvider = new GithubAuthProvider();
 
+
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isAuthLoading, setIsAuthLoading] = useState(true);
-
+    const queryClient = useQueryClient();
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
@@ -31,7 +33,7 @@ const AuthProvider = ({ children }) => {
         return signInWithPopup(auth, googleProvider);
     }
 
-    const githubLogin = () =>{
+    const githubLogin = () => {
         setIsAuthLoading(true);
         return signInWithPopup(auth, githubProvider);
     }
@@ -57,6 +59,7 @@ const AuthProvider = ({ children }) => {
 
     const logOutUser = () => {
         setIsAuthLoading(true);
+        queryClient.clear();  
         return signOut(auth);
     }
 
@@ -68,7 +71,7 @@ const AuthProvider = ({ children }) => {
         createUserWithEmail,
 
         googleLogin,
-        githubLogin, 
+        githubLogin,
         signInEmailUser,
 
         updateUserInfo,

@@ -13,6 +13,7 @@ import { successToast } from '../../../../../Utilities/toastAlerts';
 import { Link } from 'react-router';
 import EditCampaignModal from './EditCampaignModal';
 import DonorModal from './DonorModal';
+import MyCampaignSkeleton from './MyCampaignSkeleton';
 
 const MyCampaignsPage = () => {
     const { user } = useAuth();
@@ -222,13 +223,14 @@ const MyCampaignsPage = () => {
                 </TableHeader>
                 {
                     isLoading ?
-                        <TableBody>
-                            <TableRow>
-                                <TableCell colSpan={6} className="text-center py-6 text-gray-500 italic bg-white">
-                                    Loadingggg
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
+                        // <TableBody>
+                        //     <TableRow>
+                        //         <TableCell colSpan={6} className="text-center py-6 text-gray-500 italic bg-white">
+                        //             Loading
+                        //         </TableCell>
+                        //     </TableRow>
+                        // </TableBody>
+                        <MyCampaignSkeleton count={3} />
                         :
                         <>
                             {
@@ -260,7 +262,6 @@ const MyCampaignsPage = () => {
                             }
                         </>
                 }
-
             </Table >
 
             <EditCampaignModal

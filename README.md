@@ -5,8 +5,8 @@ It offers an intuitive, responsive experience enabling users and administrators 
 
 ---
 ## 🔗 Links
-- **Backend (Server) Repository Link:** [https://github.com/AbuSufianMahin/PetConnect-server](https://github.com/AbuSufianMahin/PetConnect-server)
-- **Live website Link:** [Live Site URL](https://petconnect-adoption-platform.web.app)
+- <a href="https://github.com/AbuSufianMahin/PetConnect-server" target="_blank" rel="noopener noreferrer">Backend (Server) Repository Link</a>
+- <a href="https://petconnect-adoption-platform.web.app" target="_blank" rel="noopener noreferrer">Live website Link</a>
 
 ---
 

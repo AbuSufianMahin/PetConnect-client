@@ -4,8 +4,9 @@
 It offers an intuitive, responsive experience enabling users and administrators to effortlessly browse pets, manage adoption requests, handle donation campaigns, and oversee platform activities.
 
 ---
-## 🔗 Repositories
-- **Backend (Server):** [https://github.com/AbuSufianMahin/PetConnect-server](https://github.com/AbuSufianMahin/PetConnect-server)
+## 🔗 Links
+- **Backend (Server) Repository Link:** [https://github.com/AbuSufianMahin/PetConnect-server](https://github.com/AbuSufianMahin/PetConnect-server)
+- **Live website Link:** [Live Site URL](https://petconnect-adoption-platform.web.app)
 
 ---
 
@@ -46,14 +47,14 @@ It offers an intuitive, responsive experience enabling users and administrators 
 ### 🐾 Header  
 ![Header](https://github.com/AbuSufianMahin/PetConnect-client/raw/main/src/assets/sections%20screenshots/Header.png)
 
-### 📋 Dashboard  
-![Dashboard](https://github.com/AbuSufianMahin/PetConnect-client/raw/main/src/assets/sections%20screenshots/Dashboard.png)
-
 ### 🐕 Pet Listing  
 ![Pet Listing](https://github.com/AbuSufianMahin/PetConnect-client/raw/main/src/assets/sections%20screenshots/petListing.png)
 
 ### 💝 Campaigns  
 ![Campaigns](https://github.com/AbuSufianMahin/PetConnect-client/raw/main/src/assets/sections%20screenshots/Campaigns.png)
+
+### 📋 Dashboard  
+![Dashboard](https://github.com/AbuSufianMahin/PetConnect-client/raw/main/src/assets/sections%20screenshots/Dashboard.png)
 
 ---
 

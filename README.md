@@ -4,7 +4,7 @@
 It offers an intuitive, responsive experience enabling users and administrators to effortlessly browse pets, manage adoption requests, handle donation campaigns, and oversee platform activities.
 
 ---
-## 🔗 Links
+## 🔗 Repositories & Live Site
 - <a href="https://github.com/AbuSufianMahin/PetConnect-server" target="_blank" rel="noopener noreferrer">Backend (Server) Repository Link</a>
 - <a href="https://petconnect-adoption-platform.web.app" target="_blank" rel="noopener noreferrer">Live website Link</a>
 

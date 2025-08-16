@@ -13,9 +13,11 @@ const Home = () => {
             <CallToAction></CallToAction>
             <OurMissions></OurMissions>
             <TopContributors></TopContributors>
-            <div className='w-11/12 md:w-10/12 mx-auto pb-10 md:py-10'>
+
+            <div className='w-11/12 md:w-10/12 max-w-7xl mx-auto pb-10 md:py-10'>
                 <RecommendedCampaigns></RecommendedCampaigns>
             </div>
+            
         </div>
     );
 };

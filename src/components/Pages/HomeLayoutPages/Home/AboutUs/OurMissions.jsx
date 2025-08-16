@@ -26,7 +26,7 @@ const OurMissions = () => {
     ];
     return (
         <section id="missions" className="py-10 md:py-32 overflow-hidden">
-            <div className='w-11/12 md:w-8/12 lg:w-9/12 mx-auto'>
+            <div className='w-11/12 md:w-10/12 max-w-7xl mx-auto'>
                 <h2 className="text-4xl font-extrabold text-center mb-12 drop-shadow-md font-delius-regular">
                     About Our <span className='text-primary'>Mission</span>
                 </h2>

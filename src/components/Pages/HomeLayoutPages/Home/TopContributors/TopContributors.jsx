@@ -20,8 +20,8 @@ const TopContributors = () => {
     });
 
     return (
-        <section className="py-10 bg-gray-50 dark:bg-neutral-900">
-            <div className="w-11/12 md:w-10/12 mx-auto">
+        <section className="py-10 md:py-32 bg-gray-50 dark:bg-neutral-900">
+            <div className="w-11/12 md:w-10/12 max-w-7xl mx-auto">
                 <h2 className="text-4xl font-extrabold text-center mb-14 drop-shadow-md font-delius-regular text-gray-900 dark:text-gray-100">
                     Top 5 Contributors
                 </h2>

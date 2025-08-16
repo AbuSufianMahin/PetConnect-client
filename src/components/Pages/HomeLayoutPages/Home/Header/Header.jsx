@@ -6,7 +6,7 @@ import bannerImage from "../../../../../assets/images/petGroup.png"
 import { Link, NavLink } from 'react-router';
 const Header = () => {
     return (
-        <div className="w-11/12 md:w-10/12 mx-auto border my-5 xl:my-8 rounded-4xl overflow-hidden shadow-lg">
+        <section className="w-11/12 md:w-10/12 max-w-7xl mx-auto border my-5 xl:my-10 rounded-4xl overflow-hidden shadow-lg">
             <header className="relative">
                 <div className='bg-[#420D17] pt-8 pb-6 md:pt-12 md:pb-4 lg:pt-16 lg:pb-2 xl:pt-6 xl:pb-0'>
                     <div className='w-9/10 mx-auto xl:flex md:pb-0'>
@@ -68,7 +68,7 @@ const Header = () => {
             <div>
                 <PetCategories />
             </div>
-        </div>
+        </section>
     );
 };
 

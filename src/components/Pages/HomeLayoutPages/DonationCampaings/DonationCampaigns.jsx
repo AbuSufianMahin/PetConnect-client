@@ -36,7 +36,7 @@ const DonationCampaigns = () => {
     })
 
     return (
-        <section className="w-11/12 md:w-10/12 mx-auto py-10">
+        <section className="w-11/12 md:w-10/12 max-w-7xl mx-auto py-10">
             <h1 className="text-3xl font-extrabold text-center mb-10 font-delius-regular">
                 Ongoing Campaigns
             </h1>

@@ -58,10 +58,12 @@ const PetCard = ({ pet, user, refetch }) => {
                 </div>
             </div>
 
-            <div className='pb-5 px-10 lg:px-20 bg-white'>
+            <div className='pb-5 px-5 bg-white'>
                 <div className='flex flex-wrap gap-3'>
                     <Link to={`/pet-details/${pet._id}`} className='flex-1'>
-                        <Button className="w-full text-xs md:text-sm">View Details</Button>
+                        <Button className="w-full px-4 py-2 rounded-xl font-semibold text-sm bg-primary transition dark:text-white shadow-sm">
+                            View Details
+                        </Button>
                     </Link>
 
                     {

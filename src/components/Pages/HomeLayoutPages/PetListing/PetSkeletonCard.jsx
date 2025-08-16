@@ -20,7 +20,7 @@ const PetSkeletonCard = () => {
                 </div>
 
             </div>
-            <div className="grid pb-5 px-10 grid-cols-2 gap-3 text-center">
+            <div className="pb-5 px-10 flex flex-col gap-2 text-center">
                 <Skeleton height={30} width={"100%"} />
                 <Skeleton height={30} width={"100%"} />
             </div>

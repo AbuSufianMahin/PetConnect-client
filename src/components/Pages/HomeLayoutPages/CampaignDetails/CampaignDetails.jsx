@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
-import useAxiosSecure from '../../../../hooks/useAxiosSecure';
 import { Progress } from '../../../ui/progress';
 import { Button } from '../../../ui/button';
 import DOMPurify from "dompurify";
@@ -11,24 +10,26 @@ import { Elements } from '@stripe/react-stripe-js';
 import { DonateModal } from './DonateModal';
 import RecommendedCampaigns from '../../../Shared/RecommendedCampaigns/RecommendedCampaigns';
 import { CheckCircle, PauseCircle } from 'lucide-react';
-import useAuth from '../../../../hooks/useAuth';
+import useAxiosPublic from '../../../../hooks/useAxiosPublic';
 
 const stripePromise = loadStripe(import.meta.env.VITE_stripe_secret_key);
 
 const CampaignDetails = () => {
-    const {user} = useAuth();
+
     const { campaignId } = useParams();
-    const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
     const [openDonateModal, setOpenDonateModal] = useState(false);
 
     const { data: campaignData = {}, isLoading, refetch } = useQuery({
         queryKey: ["campaign", campaignId],
         queryFn: async () => {
-            const { data } = await axiosSecure.get(`/campaign-details/${campaignId}?email=${user.email}`);
+            const { data } = await axiosPublic.get(`/campaign-details/${campaignId}`);
             return data;
         },
     });
 
+
+    
     const { petName, shortDescription, longDescription, deadline, maxDonationAmount, donatedAmount, photoURL, status } = campaignData;
 
     const progress = (donatedAmount / maxDonationAmount) * 100;

@@ -5,7 +5,7 @@ import useAuth from '../../../../hooks/useAuth';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
 import DOMPurify from "dompurify";
 import { Separator } from '../../../ui/separator';
-import { ArrowLeft, BadgeCheck, CalendarIcon, ImagePlus, MapPinIcon, PawPrintIcon, UserRound } from 'lucide-react';
+import { ArrowLeft, BadgeCheck, CalendarIcon, MapPinIcon, PawPrintIcon, UserRound } from 'lucide-react';
 import { Button } from '../../../ui/button';
 import { Badge } from '../../../ui/badge';
 import PetDetailsSkeleton from './PetDetailsSkeleton';
@@ -13,6 +13,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../../../ui/tooltip';
 
 import PetAdoptionRequestDialogue from '../../../Shared/PetDialogues/PetAdoptionRequestDialogue';
 import PetEditDialogue from '../../../Shared/PetDialogues/PetEditDialogue';
+import { warningToast } from '../../../../Utilities/toastAlerts';
 
 
 const PetDetails = () => {
@@ -27,11 +28,19 @@ const PetDetails = () => {
             return res.data;
         }
     })
+    const { petName, petAge, petCategory, petLocation, shortDescription, longDescription, photoURL, adoption_status, createdAt, ownerEmail } = petDetails;
 
     const [openAdoptDialog, setOpenAdoptDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
-    const { petName, petAge, petCategory, petLocation, shortDescription, longDescription, photoURL, adoption_status, createdAt, ownerEmail } = petDetails;
 
+    const handleAdoption = () => {
+        if(user){
+            setOpenAdoptDialog(true)
+        }
+        else{
+            warningToast("You need to login first!", 2000)
+        }
+    }
 
     return (
         <div className="w-11/12 md:w-10/12 mx-auto mt-6 mb-12">
@@ -138,15 +147,15 @@ const PetDetails = () => {
                                             <Button
                                                 size="lg"
                                                 className="w-full text-base tracking-wide"
-                                                disabled={ownerEmail === user.email || adoption_status !== "not_adopted"}
-                                                onClick={() => setOpenAdoptDialog(true)}
+                                                disabled={ownerEmail === user?.email || adoption_status !== "not_adopted"}
+                                                onClick={handleAdoption}
                                             >
                                                 Adopt Now
                                             </Button>
                                         </div>
                                     </TooltipTrigger>
                                     {
-                                        ownerEmail === user.email ?
+                                        ownerEmail === user?.email ?
                                             <TooltipContent
                                                 side="bottom"
                                                 className="text-sm text-white text-center"
@@ -175,7 +184,7 @@ const PetDetails = () => {
 
 
                                     {
-                                        ownerEmail === user.email &&
+                                        ownerEmail === user?.email &&
                                         <TooltipTrigger asChild>
                                             <div className='flex-1 flex gap-2'>
                                                 <Button size="lg" variant={"outline"}

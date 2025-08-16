@@ -50,13 +50,13 @@ const PetListing = () => {
         onChange: (inView) => {
             if (inView && hasNextPage && !isFetchingNextPage) {
                 fetchNextPage();
-                console.log("fetch new");
+                // console.log("fetch new");
             }
         },
     });
 
     return (
-        <section className="w-11/12 lg:w-10/12 xl:w-9/12 mx-auto py-10 max-w-[1440px]">
+        <section className="w-11/12 lg:w-10/12 max-w-7xl mx-auto py-10">
             <h1 className="text-3xl font-extrabold text-center mb-8 font-delius-regular">Available Pets for Adoption</h1>
 
             {/* 🔍 Search + Filter */}
@@ -91,7 +91,7 @@ const PetListing = () => {
             </div>
 
             {/* 🐾 Pet Cards */}
-            <div className="grid gap-2 lg:gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-2 lg:gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
                 {
                     isLoading || isChangingCategory ?
                         <>
@@ -112,6 +112,7 @@ const PetListing = () => {
                                     )
                             }
                         </>
+                        
                 }
             </div>
             

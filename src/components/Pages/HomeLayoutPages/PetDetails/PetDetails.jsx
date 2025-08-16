@@ -38,7 +38,7 @@ const PetDetails = () => {
             setOpenAdoptDialog(true)
         }
         else{
-            warningToast("You need to login first!", 2000)
+            warningToast("You must be logged in to adopt!", 2000)
         }
     }
 

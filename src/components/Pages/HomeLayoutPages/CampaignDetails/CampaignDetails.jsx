@@ -11,11 +11,13 @@ import { DonateModal } from './DonateModal';
 import RecommendedCampaigns from '../../../Shared/RecommendedCampaigns/RecommendedCampaigns';
 import { CheckCircle, PauseCircle } from 'lucide-react';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
+import useAuth from '../../../../hooks/useAuth';
+import { warningToast } from '../../../../Utilities/toastAlerts';
 
 const stripePromise = loadStripe(import.meta.env.VITE_stripe_secret_key);
 
 const CampaignDetails = () => {
-
+    const {user} = useAuth();
     const { campaignId } = useParams();
     const axiosPublic = useAxiosPublic();
     const [openDonateModal, setOpenDonateModal] = useState(false);
@@ -33,6 +35,15 @@ const CampaignDetails = () => {
     const { petName, shortDescription, longDescription, deadline, maxDonationAmount, donatedAmount, photoURL, status } = campaignData;
 
     const progress = (donatedAmount / maxDonationAmount) * 100;
+
+    const handleDonation = () =>{
+        if(user){
+            setOpenDonateModal(true)
+        }
+        else{
+            warningToast("You must be logged in to donate!", 2000)
+        }
+    }
 
     return (
         <section className="w-11/12 md:w-10/12 mx-auto py-10 space-y-6">
@@ -99,7 +110,7 @@ const CampaignDetails = () => {
                                 {status === "active" ? (
                                     <Button
                                         className="w-full md:w-auto px-6 py-2 font-semibold text-sm bg-green-600 hover:bg-green-700 text-white rounded-xl shadow-md transition"
-                                        onClick={() => setOpenDonateModal(true)}
+                                        onClick={handleDonation}
                                     >
                                         Donate Now
                                     </Button>

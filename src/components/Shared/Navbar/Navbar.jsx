@@ -22,7 +22,7 @@ import { Avatar, AvatarImage } from '../../ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../../ui/dropdown-menu';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip';
 import { ChevronsUpDown } from 'lucide-react';
-import ThemeToggler from './ThemeToggler';
+import ThemeButton from '../ThemeButton/ThemeButton';
 
 const Navbar = () => {
     const { user, logOutUser } = useAuth();
@@ -130,7 +130,7 @@ const Navbar = () => {
                                                                     </DropdownMenuItem>
                                                                 </NavLink>
                                                                 <DropdownMenuItem className="w-full">
-                                                                    <ThemeToggler></ThemeToggler>
+                                                                    <ThemeButton></ThemeButton>
                                                                 </DropdownMenuItem>
                                                                 <DropdownMenuItem className={"w-full p-0 border"}>
                                                                     <Button className="text-xs w-full" onClick={handleLogout}>Logout</Button>
@@ -141,14 +141,14 @@ const Navbar = () => {
 
                                                 </div>
                                                 :
-                                                <div className='grid grid-cols-2 gap-2 '>
+                                                <div className='grid grid-cols-2 gap-2'>
+                                                    
                                                     <Link to="/login"><Button className="w-full">Login</Button></Link>
                                                     <Link to="/register"><Button className="w-full">Register</Button></Link>
                                                 </div>
                                         }
                                     </div>
                                 </NavigationMenu>
-
                                 <DrawerClose asChild>
                                     <button ref={drawerCloseRef} className="hidden" />
                                 </DrawerClose>
@@ -173,7 +173,8 @@ const Navbar = () => {
                 <div className="hidden md:flex gap-2 min-w-20">
                     {
                         user ?
-                            <div className='flex mx-auto'>
+                            <div className='flex items-center gap-5 mx-auto'>
+                                <ThemeButton></ThemeButton>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger>
                                         <Tooltip>
@@ -195,9 +196,6 @@ const Navbar = () => {
                                                 Dashboard
                                             </DropdownMenuItem>
                                         </NavLink>
-                                        <div className='mt-2'>
-                                            <ThemeToggler></ThemeToggler>
-                                        </div>
                                         <div className='text-center mt-2 pt-2 border-t-2'>
                                             <Button onClick={handleLogout} className="w-full">
                                                 Logout
@@ -207,7 +205,8 @@ const Navbar = () => {
                                 </DropdownMenu>
                             </div>
                             :
-                            <div className='flex gap-2 justify-center'>
+                            <div className='flex items-center gap-2 justify-center'>
+                                <ThemeButton></ThemeButton>
                                 <Link to="/login"><Button variant={"outline"} className="rounded-xl text-secondary border-primary hover:border-accent">Login</Button></Link>
                                 <Link to="/register"><Button className="rounded-xl">Register</Button></Link>
                             </div>

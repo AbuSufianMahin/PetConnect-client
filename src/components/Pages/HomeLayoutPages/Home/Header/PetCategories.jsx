@@ -17,7 +17,7 @@ const PetCategories = () => {
         <section className="pt-12 pb-8 xl:pt-16 xl:pb-12 bg-muted">
             <div className='px-8 xl:px-16'>
                 <h2 className="text-3xl font-bold text-center mb-8 font-delius-regular">Browse by Pet Category</h2>
-                <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-2">
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
                     {categories.map((category, index) => (
                         <Card
                             key={index}

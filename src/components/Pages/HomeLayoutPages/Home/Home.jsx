@@ -4,7 +4,7 @@ import CallToAction from './CallToAction/CallToAction';
 import Header from './Header/Header';
 import TopContributors from './TopContributors/TopContributors';
 import RecommendedCampaigns from '../../../Shared/RecommendedCampaigns/RecommendedCampaigns';
-import OurMissions from './AboutUs/OurMissions';
+import OurMissions from './OurMissions/OurMissions';
 
 const Home = () => {
     return (

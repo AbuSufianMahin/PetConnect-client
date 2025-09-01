@@ -36,13 +36,13 @@ const OurMissions = () => {
                             data-aos={`${index == 0 ? `fade-right` : index == 1 ? "flip-up" : "fade-left"}`}
                             data-aos-offset={window.innerHeight / 2}
                             key={index}
-                            className="bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl"
+                            className="bg-white dark:bg-gray-300 rounded-2xl p-8 shadow-md hover:shadow-2xl"
                         >
                             <div className="mb-6 flex justify-center">{icon}</div>
-                            <h3 className="text-2xl font-semibold text-center mb-4 text-gray-900 dark:text-gray-100">
+                            <h3 className="text-2xl font-semibold text-center mb-4 text-gray-900">
                                 {title}
                             </h3>
-                            <p className="text-center text-gray-600 dark:text-gray-400 leading-relaxed">
+                            <p className="text-center text-gray-600  leading-relaxed">
                                 {description}
                             </p>
                         </div>

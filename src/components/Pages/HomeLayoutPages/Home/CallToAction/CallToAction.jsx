@@ -4,7 +4,7 @@ import adoptPetImg from "../../../../../assets/images/adopt-pet.jpg"
 import { NavLink } from 'react-router';
 const CallToAction = () => {
     return (
-        <section id="about" className="bg-white py-10 md:py-32">
+        <section id="about" className="py-10 md:py-32 bg-gray-50 dark:bg-neutral-900">
             <div className="w-11/12 md:w-10/12 max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-6 md:gap-12">
                 {/* Text content */}
                 <div className="flex-1 text-center lg:text-left">

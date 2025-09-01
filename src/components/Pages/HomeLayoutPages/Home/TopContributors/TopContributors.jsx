@@ -57,7 +57,7 @@ const TopContributors = () => {
                         {topContributors.map((contributor, index) => (
                             <Card
                                 key={contributor.userEmail || contributor._id}
-                                className="shadow-lg bg-gradient-to-br from-white via-neutral-50 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800 transition-transform hover:scale-[1.03] cursor-pointer"
+                                className="bg-white dark:bg-gray-300 transition-transform hover:scale-[1.03] cursor-pointer"
                                 title={contributor.userEmail}
                             >
                                 <CardContent className="flex items-center gap-5 p-6">
@@ -71,10 +71,10 @@ const TopContributors = () => {
                                         loading="lazy"
                                     />
                                     <div className="flex-1 min-w-0">
-                                        <h3 className="text-lg font-semibold truncate text-gray-900 dark:text-gray-100">
+                                        <h3 className="text-lg font-semibold truncate text-gray-900">
                                             {contributor.name}
                                         </h3>
-                                        <h3 className="font-semibold truncate text-gray-500 dark:text-gray-100">
+                                        <h3 className="font-semibold truncate text-gray-500">
                                             {contributor.userEmail}
                                         </h3>
                                         <p className="text-green-600 font-semibold mt-1">

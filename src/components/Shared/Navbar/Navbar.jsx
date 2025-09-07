@@ -56,8 +56,8 @@ const Navbar = () => {
     }
 
     return (
-        <nav className="bg-accent border-b-2 border-primary sticky top-0 z-50">
-            <div className='w-11/12 md:w-10/12 max-w-7xl mx-auto rounded-2xl flex items-center justify-between py-2'>
+        <nav className="bg-secondary border-b-2 border-primary sticky top-0 z-50">
+            <div className='w-11/12 md:w-10/12 max-w-7xl mx-auto rounded-2xl flex items-center justify-between py-3'>
                 <div className='flex items-center gap-2'>
                     <div className='lg:hidden'>
                         <Drawer direction="left">

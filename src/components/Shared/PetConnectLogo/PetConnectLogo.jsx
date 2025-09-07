@@ -4,14 +4,18 @@ import { Link } from 'react-router';
 
 const PetConnectLogo = () => {
     return (
-        <Link to='/' >
-            <div className='flex items-center gap-2'>
-                <div className='w-10 md:w-12 lg:w-14'>
+
+        <div className='flex items-center gap-2'>
+            <Link to='/'>
+                <div className='w-10 md:w-11 lg:w-14'>
                     <img src={logo} alt="pet connect logo" />
                 </div>
-                <h1 className='md:text-2xl font-extrabold font-delius-regular'>PetConnect</h1>
-            </div>
-        </Link>
+            </Link>
+            <Link to='/'>
+                <h1 className='text-white md:text-2xl font-extrabold font-delius-regular'>PetConnect</h1>
+            </Link>
+
+        </div>
     );
 };
 

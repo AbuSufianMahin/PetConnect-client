@@ -30,14 +30,15 @@ const PetDetails = () => {
     })
     const { petName, petAge, petCategory, petLocation, shortDescription, longDescription, photoURL, adoption_status, createdAt, ownerEmail } = petDetails;
 
+    const [requesting, isRequesting] = useState(false);
     const [openAdoptDialog, setOpenAdoptDialog] = useState(false);
     const [openEditDialog, setOpenEditDialog] = useState(false);
 
     const handleAdoption = () => {
-        if(user){
+        if (user) {
             setOpenAdoptDialog(true)
         }
-        else{
+        else {
             warningToast("You must be logged in to adopt!", 2000)
         }
     }
@@ -55,7 +56,7 @@ const PetDetails = () => {
                 isLoading ?
                     <PetDetailsSkeleton />
                     :
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 items-center rounded-3xl overflow-hidden bg-white shadow-lg border">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 items-center rounded-3xl overflow-hidden bg-white dark:bg-accent shadow-lg border">
                         {/* Image */}
                         <div className=" overflow-hidden shadow-sm bg-muted/20 h-full">
                             <img
@@ -155,28 +156,31 @@ const PetDetails = () => {
                                         </div>
                                     </TooltipTrigger>
                                     {
-                                        ownerEmail === user?.email ?
-                                            <TooltipContent
-                                                side="bottom"
-                                                className="text-sm text-white text-center"
-                                            >
-                                                You cannot adopt your own pet listing.
-                                            </TooltipContent>
-                                            :
-                                            adoption_status === "requested" ?
-                                                <TooltipContent
-                                                    side="bottom"
-                                                    className="text-sm text-white text-center"
-                                                >
-                                                    This pet is already requested for adoption.
-                                                </TooltipContent>
-                                                :
-                                                <TooltipContent
-                                                    side="bottom"
-                                                    className="text-sm text-white text-center"
-                                                >
-                                                    This pet is already adopted.
-                                                </TooltipContent>
+                                        ownerEmail === user?.email &&
+                                        <TooltipContent
+                                            side="bottom"
+                                            className="text-sm text-white text-center"
+                                        >
+                                            You cannot adopt your own pet listing.
+                                        </TooltipContent>
+                                    }
+                                    {
+                                        adoption_status === "requested" &&
+                                        <TooltipContent
+                                            side="bottom"
+                                            className="text-sm text-white text-center"
+                                        >
+                                            This pet is already requested for adoption.
+                                        </TooltipContent>
+                                    }
+                                    {
+                                        adoption_status === "adopted" &&
+                                        <TooltipContent
+                                            side="bottom"
+                                            className="text-sm text-white text-center"
+                                        >
+                                            This pet is already adopted.
+                                        </TooltipContent>
                                     }
                                 </Tooltip>
 
